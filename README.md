@@ -1,2 +1,2 @@
 # Too-Many-Things
- Checklist manager for when you have too many things to remember.
+ Too many things (to remember!) A Checklist manager, as humans can't reasonably remember every single thing.

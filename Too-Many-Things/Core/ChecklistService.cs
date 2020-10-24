@@ -1,12 +1,15 @@
 ﻿using EntityFramework.DbContextScope.Interfaces;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Too_Many_Things.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Too_Many_Things.Core
 {
-    public class ChecklistService
+    public class ChecklistService : IChecklistService
     {
         /*
          * Despite that it could be argued that splitting up this service into
@@ -15,8 +18,8 @@ namespace Too_Many_Things.Core
          * seems appropriate enough.
          */
 
-        private readonly IDbContextScopeFactory _dbContextScopeFactory;
-        private readonly IAmbientDbContextLocator _ambientDbContextLocator;
+        //private readonly IDbContextScopeFactory _dbContextScopeFactory;
+        //private readonly IAmbientDbContextLocator _ambientDbContextLocator;
 
         //private TooManyThingsContext _dbContext
         //{
@@ -26,38 +29,69 @@ namespace Too_Many_Things.Core
         //    }
         //}
 
-        public ChecklistService(IDbContextScopeFactory dbContextScopeFactory, IAmbientDbContextLocator ambientDbContextLocator)
+        //public ChecklistService(IDbContextScopeFactory dbContextScopeFactory, IAmbientDbContextLocator ambientDbContextLocator)
+        //{
+        //    if (dbContextScopeFactory == null) throw new ArgumentNullException("dbContextScopeFactory");
+        //    if (ambientDbContextLocator == null) throw new ArgumentNullException("ambientDbContextLocator");
+        //    _dbContextScopeFactory = dbContextScopeFactory;
+        //    _ambientDbContextLocator = ambientDbContextLocator;
+        //}
+        private readonly TooManyThingsContext _dbContext;
+        private readonly ILogger _logger;
+
+        public ChecklistService(TooManyThingsContext dbContext, ILogger logger)
         {
-            if (dbContextScopeFactory == null) throw new ArgumentNullException("dbContextScopeFactory");
-            if (ambientDbContextLocator == null) throw new ArgumentNullException("ambientDbContextLocator");
-            _dbContextScopeFactory = dbContextScopeFactory;
-            _ambientDbContextLocator = ambientDbContextLocator;
+            _dbContext = dbContext ?? throw new ArgumentNullException("dbContext");
+            _logger = logger ?? throw new ArgumentNullException("logger");
         }
 
         #region Internal Read operations
-        private Checklist Get(int ChecklistID)
-        {
-            using (var scope = _dbContextScopeFactory.Create())
-            {
-                var dbcontext = scope.DbContexts.Get<TooManyThingsContext>();
-            }
-        }
+        private Checklist Get(int checklistID) => _dbContext.Set<Checklist>().FirstOrDefault(i => i.ChecklistId == checklistID);
+        private Checklist Get(string checklistName) => _dbContext.Set<Checklist>().FirstOrDefault(i => i.Name == checklistName);
+        //private Task<Checklist> GetAsync(int checklistID) => _dbContext.Set<Checklist>().FindAsync(checklistID);
         #endregion
 
+
+
         #region Services
-        public void MarkChecklistAsDeleted(int checklistID)
+
+        // TODO : Check data validation for all of these.
+
+        public void CreateChecklist(Checklist checklist)
         {
-            var selection = _checklistRepository.GetChecklistByID(checklistID);
-            selection.IsDeleted = true;
-            _checklistRepository.CompleteUnitOfWork();
+            _dbContext.Add(checklist);
+        }
+        public async Task CreateChecklistAsync(Checklist checklist)
+        {
+            await _dbContext.AddAsync(checklist);
         }
 
-        public void RenameChecklist(Checklist selectedChecklist, string newName)
+        public void RemoveChecklist(int checklistID)
         {
-            selectedChecklist.Name = newName;
-            _checklistRepository.CompleteUnitOfWork();
+            var checklist = Get(checklistID);
+            checklist.IsDeleted = true;
+        }
+        public async Task RemoveChecklistAsync(int checklistID)
+        {
+            throw new NotImplementedException();
         }
 
+        public void RenameChecklist(int checklistID, string newName)
+        {
+            var checklist = Get(checklistID);
+            checklist.Name = newName;
+        }
+
+        public async Task RenameChecklistAsync(int checklistID, string newName)
+        {
+            throw new NotImplementedException();
+        }
+
+        // TODO!! : Implement methods to re-order items.!!
+
+        #endregion
+
+        #region Data validation
         #endregion
     }
 }

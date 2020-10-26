@@ -10,6 +10,7 @@ namespace Too_Many_Things.Models
         public bool IsChecked { get; set; }
         public bool IsDeleted { get; set; }
         public int ChecklistId { get; set; }
+        public int? SortOrder { get; set; }
 
         public virtual Checklist Checklist { get; set; }
     }

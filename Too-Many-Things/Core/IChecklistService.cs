@@ -35,5 +35,9 @@ namespace Too_Many_Things.Core
 
         void GetLocalView();
         Task GetLocalViewAsync();
+
+
+        bool ValidateInput(Checklist checklist);
+        Task<bool> ValidateInputAsync(Checklist checklist);
     }
 }

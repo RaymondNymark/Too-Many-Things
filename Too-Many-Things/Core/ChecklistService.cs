@@ -33,57 +33,56 @@ namespace Too_Many_Things.Core
             _ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException("ambientDbContextLocator");
         }
 
-        #region Traditional 'repostory' services.
-        private Checklist Get(int checklistID)
+        #region Traditional 'repository' services.
+        public Checklist Get(int checklistID)
         {
             return DbContext.Checklist.Find(checklistID);
         }
-        private ValueTask<Checklist> GetAsync(int checklistID)
+        public ValueTask<Checklist> GetAsync(int checklistID)
         {
             return DbContext.Checklist.FindAsync(checklistID);
         }
-
         #endregion
 
+        //#region Services
 
-        #region Services
-        // TODO : Check data validation for all of these.
+        //// TODO : Check data validation for all of these.
 
-        public void CreateChecklist(Checklist checklist)
-        {
-            _dbContext.Add(checklist);
-        }
-        public async Task CreateChecklistAsync(Checklist checklist)
-        {
-            await _dbContext.AddAsync(checklist);
-        }
+        //public void CreateChecklist(Checklist checklist)
+        //{
+        //    //_dbContext.Add(checklist);
+        //}
+        //public async Task CreateChecklistAsync(Checklist checklist)
+        //{
+        //    //await _dbContext.AddAsync(checklist);
+        //}
 
-        public void RemoveChecklist(int checklistID)
-        {
-            var checklist = Get(checklistID);
-            checklist.IsDeleted = true;
-        }
-        public async Task RemoveChecklistAsync(int checklistID)
-        {
-            throw new NotImplementedException();
-        }
+        //public void RemoveChecklist(int checklistID)
+        //{
+        //    //var checklist = Get(checklistID);
+        //    //checklist.IsDeleted = true;
+        //}
+        //public async Task RemoveChecklistAsync(int checklistID)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void RenameChecklist(int checklistID, string newName)
-        {
-            var checklist = Get(checklistID);
-            checklist.Name = newName;
-        }
+        //public void RenameChecklist(int checklistID, string newName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public async Task RenameChecklistAsync(int checklistID, string newName)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task RenameChecklistAsync(int checklistID, string newName)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        // TODO!! : Implement methods to re-order items.!!
-        #endregion
+        //// TODO!! : Implement methods to re-order items.!!
+        //#endregion
 
 
         #region Updated Services
+        // Template:
         public void TestService(int checklistID)
         {
             using (var dbContextScope = _dbContextScopeFactory.Create())
@@ -93,10 +92,48 @@ namespace Too_Many_Things.Core
                 dbContextScope.SaveChanges();
             }
         }
+
+        /// <summary>
+        /// Adds a checklist to the Checklist database.
+        /// </summary>
+        /// <param name="checklist">Checklist to add</param>
+        public void CreateChecklist(Checklist checklist)
+        {
+            if (ValidateInput(checklist))
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    DbContext.Checklist.Add(checklist);
+                    dbContextScope.SaveChanges();
+                }
+            }
+        }
+
+        public async Task CreateChecklistAsync(Checklist checklist)
+        {
+            if (ValidateInput(checklist))
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    await DbContext.Checklist.AddAsync(checklist);
+                    dbContextScope.SaveChanges();
+                }
+            }
+        }
         #endregion
 
 
         #region Data validation
+        // TODO: implement this.
+        private bool ValidateInput(Checklist checklist)
+        {
+            return true;
+        }
+        
+        private Task<bool> ValidateInputAsync(Checklist checklist)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }

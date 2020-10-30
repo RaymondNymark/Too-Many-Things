@@ -5,4 +5,12 @@
     <RootNamespace>Too_Many_Things.Tests</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Too-Many-Things\Too-Many-Things.csproj" />
+  </ItemGroup>
+
 </Project>

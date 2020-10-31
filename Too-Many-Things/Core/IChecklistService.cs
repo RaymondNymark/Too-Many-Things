@@ -33,7 +33,7 @@ namespace Too_Many_Things.Core
         Task RenameChecklistAsync(int checklistID, string newName);
 
 
-        void GetLocalView();
+        Microsoft.EntityFrameworkCore.ChangeTracking.LocalView<Checklist> GetLocalView();
         Task GetLocalViewAsync();
     }
 }

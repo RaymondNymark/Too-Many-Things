@@ -236,9 +236,9 @@ namespace Too_Many_Things.Core
             throw new NotImplementedException();
         }
 
-        public void GetLocalView()
+        public Microsoft.EntityFrameworkCore.ChangeTracking.LocalView<Checklist> GetLocalView()
         {
-            throw new NotImplementedException();
+            return DbContext.Checklist.Local;
         }
 
         public Task GetLocalViewAsync()
@@ -279,12 +279,17 @@ namespace Too_Many_Things.Core
         private bool ValidateName(string name)
         {
             bool output = true;
+            char[] invalidCharacters = "[]".ToArray();
 
             if (name.Length > 100)
             {
                 output = false;
             }
 
+            if (name.IndexOfAny(invalidCharacters) >= 0)
+            {
+                output = false;
+            }
             return output;
         }
         #endregion

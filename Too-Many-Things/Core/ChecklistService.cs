@@ -99,7 +99,7 @@ namespace Too_Many_Things.Core
         /// <param name="checklist">Checklist to add</param>
         public void CreateChecklist(Checklist checklist)
         {
-            if (ValidateInput(checklist))
+            if (ValidateChecklist(checklist))
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
@@ -111,7 +111,7 @@ namespace Too_Many_Things.Core
 
         public async Task CreateChecklistAsync(Checklist checklist)
         {
-            if (ValidateInput(checklist))
+            if (ValidateChecklist(checklist))
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
@@ -124,15 +124,30 @@ namespace Too_Many_Things.Core
 
 
         #region Data validation
-        // TODO: implement this.
-        private bool ValidateInput(Checklist checklist)
+        /// <summary>
+        /// Validates a checklist's input parameters.
+        /// </summary>
+        /// <param name="checklist">Checklist to validate</param>
+        /// <returns>A boolean value whether or not checklist is valid.</returns>
+        private bool ValidateChecklist(Checklist checklist)
         {
-            return true;
-        }
-        
-        private Task<bool> ValidateInputAsync(Checklist checklist)
-        {
-            throw new NotImplementedException();
+            bool output = true;
+            // Array of invalid characters.  Due to EF's nature of passing data
+            // to the database via LINQ, it should be safe from sketchy
+            // characters.  However, this will be left in for future feature.
+            char[] invalidCharacters = "[]".ToArray();
+
+            if (checklist.Name.Length > 100)
+            {
+                output = false;
+            }
+
+            if (checklist.Name.IndexOfAny(invalidCharacters) >= 0)
+            {
+                output = false;
+            }
+
+            return output;
         }
         #endregion
     }

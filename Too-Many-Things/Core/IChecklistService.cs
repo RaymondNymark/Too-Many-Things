@@ -6,8 +6,8 @@ namespace Too_Many_Things.Core
 {
     public interface IChecklistService
     {
-        void Get(int checklistID);
-        Task GetAsync(int checklistID);
+        Checklist Get(int checklistID);
+        ValueTask<Checklist> GetAsync(int checklistID);
 
 
         void CreateChecklist(Checklist checklist);
@@ -35,9 +35,5 @@ namespace Too_Many_Things.Core
 
         void GetLocalView();
         Task GetLocalViewAsync();
-
-
-        bool ValidateInput(Checklist checklist);
-        Task<bool> ValidateInputAsync(Checklist checklist);
     }
 }

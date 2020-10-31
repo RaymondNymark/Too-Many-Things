@@ -18,7 +18,7 @@ namespace Too_Many_Things.Core
          * application is low and thus having a single Checklist service class
          * seems appropriate enough.
          */
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
         private readonly IAmbientDbContextLocator _ambientDbContextLocator;
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
         private TooManyThingsContext DbContext
@@ -26,9 +26,9 @@ namespace Too_Many_Things.Core
             get => _ambientDbContextLocator.Get<TooManyThingsContext>() ?? throw new ArgumentNullException("_ambientDbContextLocator");
         }
 
-        public ChecklistService(ILogger logger, IDbContextScopeFactory dbContextScopeFactory, IAmbientDbContextLocator ambientDbContextLocator)
+        public ChecklistService(IDbContextScopeFactory dbContextScopeFactory, IAmbientDbContextLocator ambientDbContextLocator)
         {
-            _logger = logger ?? throw new ArgumentNullException("logger");
+            //_logger = logger ?? throw new ArgumentNullException("logger");
             _dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException("dbContextScopeFactory");
             _ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException("ambientDbContextLocator");
         }
@@ -89,7 +89,14 @@ namespace Too_Many_Things.Core
             {
                 var checklist = Get(checklistID);
                 // [...}
-                dbContextScope.SaveChanges();
+                try
+                {
+                    dbContextScope.SaveChanges();
+                }
+                catch (DbUpdateException e)
+                {
+                    throw e;
+                }
             }
         }
 
@@ -115,10 +122,128 @@ namespace Too_Many_Things.Core
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
-                    await DbContext.Checklist.AddAsync(checklist);
+                    DbContext.Checklist.AddAsync(checklist);
+                    await dbContextScope.SaveChangesAsync();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a new default checklist and adds it to the database.
+        /// </summary>
+        public void CreateDefaultChecklist()
+        {
+            var defaultChecklist = new Checklist { Name = "New checklist" };
+            CreateChecklist(defaultChecklist);
+        }
+
+        /// <summary>
+        /// Creates a new default checklist and adds it to the database Asynchronously. 
+        /// </summary>
+        /// <returns></returns>
+        public async Task CreateDefaultChecklistAsync()
+        {
+            var defaultChecklist = new Checklist { Name = "New checklist" };
+            await CreateChecklistAsync(defaultChecklist);
+        }
+
+        /// <summary>
+        /// Marks a checklist as deleted by checklistID. Also known as
+        /// soft-deletion.
+        /// </summary>
+        /// <param name="checklistID">Checklist to mark as deleted.</param>
+        public void DeleteChecklist(int checklistID)
+        {
+            var target = Get(checklistID);
+
+            using (var dbContextScope = _dbContextScopeFactory.Create())
+            {
+                target.IsDeleted = true;
+                dbContextScope.SaveChanges();
+            }
+        }
+
+        public Task DeleteChecklistAsync(int checklistID)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Marks a list of checklist IDs as deleted. Also known as
+        /// soft-deletion.
+        /// </summary>
+        /// <param name="listOfChecklistIDs">List of checklistIDs</param>
+        public void DeleteChecklist(IList<int> listOfChecklistIDs)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.Create())
+            {
+                foreach (var id in listOfChecklistIDs)
+                {
+                    var target = Get(id);
+                    target.IsDeleted = true;
+                }
+                dbContextScope.SaveChanges();
+            }
+        }
+
+        public Task DeleteChecklistAsync(IList<int> listOfChecklistIDs)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Permanently deletes a checklist from database. Also known as
+        /// hard-deletion.
+        /// </summary>
+        /// <param name="checklistID">ChecklistID to remove.</param>
+        public void PermanentlyDeleteChecklist(int checklistID)
+        {
+            using (var dbContextScope = _dbContextScopeFactory.Create())
+            {
+                var target = Get(checklistID);
+                DbContext.Remove(target);
+
+                dbContextScope.SaveChanges();
+            }
+        }
+
+        public Task PermanentlyDeleteChecklistAsync(int checklistID)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Renames a checklist to a new name.
+        /// </summary>
+        /// <param name="checklistID">ChecklistID to rename.</param>
+        /// <param name="newName">New name for the checklist.</param>
+        public void RenameChecklist(int checklistID, string newName)
+        {
+            if (ValidateName(newName))
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    var target = Get(checklistID);
+                    target.Name = newName;
+
                     dbContextScope.SaveChanges();
                 }
             }
+        }
+
+        public Task RenameChecklistAsync(int checklistID, string newName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetLocalView()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetLocalViewAsync()
+        {
+            throw new NotImplementedException();
         }
         #endregion
 
@@ -143,6 +268,19 @@ namespace Too_Many_Things.Core
             }
 
             if (checklist.Name.IndexOfAny(invalidCharacters) >= 0)
+            {
+                output = false;
+            }
+
+            return output;
+        }
+
+
+        private bool ValidateName(string name)
+        {
+            bool output = true;
+
+            if (name.Length > 100)
             {
                 output = false;
             }

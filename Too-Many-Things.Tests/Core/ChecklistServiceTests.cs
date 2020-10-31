@@ -7,5 +7,13 @@ namespace Too_Many_Things.Tests
 {
     public class ChecklistServiceTests
     {
+        public void CreateChecklist_ChecklistShouldBeAddedToDB()
+        {
+            // Arrange
+
+            // Act
+
+            // Assert
+        }
     }
 }

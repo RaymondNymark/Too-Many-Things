@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Too_Many_Things.Models;
 
-namespace Too_Many_Things.Core
+namespace Too_Many_Things.Services
 {
     public interface IChecklistService
     {

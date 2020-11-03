@@ -9,7 +9,7 @@ namespace Too_Many_Things.ViewModels
          * quick, and easy property change handling for properties that belong
          * to individual viewModels
          */
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

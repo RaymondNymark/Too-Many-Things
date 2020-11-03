@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.DbContextScope;
 
-namespace Too_Many_Things.Core
+namespace Too_Many_Things.Services
 {
     public class ChecklistService : IChecklistService
     {

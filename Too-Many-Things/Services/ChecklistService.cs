@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.DbContextScope;
+using System.Collections.ObjectModel;
 
 namespace Too_Many_Things.Services
 {
@@ -236,9 +237,9 @@ namespace Too_Many_Things.Services
             throw new NotImplementedException();
         }
 
-        public Microsoft.EntityFrameworkCore.ChangeTracking.LocalView<Checklist> GetLocalView()
+        public ObservableCollection<Checklist> GetLocalView()
         {
-            return DbContext.Checklist.Local;
+            return DbContext.Checklist.Local.ToObservableCollection();
         }
 
         public Task GetLocalViewAsync()

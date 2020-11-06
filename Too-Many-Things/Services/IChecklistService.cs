@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Too_Many_Things.Models;
 
@@ -33,7 +34,7 @@ namespace Too_Many_Things.Services
         Task RenameChecklistAsync(int checklistID, string newName);
 
 
-        Microsoft.EntityFrameworkCore.ChangeTracking.LocalView<Checklist> GetLocalView();
-        Task GetLocalViewAsync();
+        ObservableCollection<Checklist> GetLocalView();
+        Task<ObservableCollection<Checklist>> GetLocalViewAsync();
     }
 }

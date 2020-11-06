@@ -31,7 +31,7 @@ namespace Too_Many_Things
                 // TODO2: Implement startup constructors. 
 
                 var window = new OuterView();
-                window.DataContext = new ViewModelController(_checklistService, new OuterViewModel());
+                window.DataContext = new ViewModelController(_checklistService, new OuterViewModel(_checklistService));
             }
         }
     }

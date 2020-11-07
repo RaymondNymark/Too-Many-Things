@@ -22,6 +22,7 @@ namespace Too_Many_Things.Services
         //private readonly ILogger _logger;
         private readonly IAmbientDbContextLocator _ambientDbContextLocator;
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
+
         private TooManyThingsContext DbContext
         {
             get => _ambientDbContextLocator.Get<TooManyThingsContext>() ?? throw new ArgumentNullException("_ambientDbContextLocator");
@@ -242,7 +243,7 @@ namespace Too_Many_Things.Services
             return DbContext.Checklist.Local.ToObservableCollection();
         }
 
-        public Task GetLocalViewAsync()
+        public Task<ObservableCollection<Checklist>> GetLocalViewAsync()
         {
             throw new NotImplementedException();
         }

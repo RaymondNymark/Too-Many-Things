@@ -59,62 +59,7 @@ namespace Too_Many_Things.Services
         }
         #endregion
 
-        //#region Services
-
-        //// TODO : Check data validation for all of these.
-
-        //public void CreateChecklist(Checklist checklist)
-        //{
-        //    //_dbContext.Add(checklist);
-        //}
-        //public async Task CreateChecklistAsync(Checklist checklist)
-        //{
-        //    //await _dbContext.AddAsync(checklist);
-        //}
-
-        //public void RemoveChecklist(int checklistID)
-        //{
-        //    //var checklist = Get(checklistID);
-        //    //checklist.IsDeleted = true;
-        //}
-        //public async Task RemoveChecklistAsync(int checklistID)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void RenameChecklist(int checklistID, string newName)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public async Task RenameChecklistAsync(int checklistID, string newName)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //// TODO!! : Implement methods to re-order items.!!
-        //#endregion
-
-
         #region Updated Services
-        // Template:
-        public void TestService(int checklistID)
-        {
-            using (var dbContextScope = _dbContextScopeFactory.Create())
-            {
-                var checklist = Get(checklistID);
-                // [...}
-                try
-                {
-                    dbContextScope.SaveChanges();
-                }
-                catch (DbUpdateException e)
-                {
-                    throw e;
-                }
-            }
-        }
-
         /// <summary>
         /// Adds a checklist to the Checklist database.
         /// </summary>
@@ -315,6 +260,12 @@ namespace Too_Many_Things.Services
             {
                 output = false;
             }
+
+            if (string.IsNullOrWhiteSpace(checklist.Name))
+            {
+                output = false;
+            }
+
             return output;
         }
         #endregion

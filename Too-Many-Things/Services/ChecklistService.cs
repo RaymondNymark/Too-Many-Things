@@ -261,7 +261,7 @@ namespace Too_Many_Things.Services
                 output = false;
             }
 
-            if (string.IsNullOrWhiteSpace(checklist.Name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 output = false;
             }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.DbContextScope;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
+using static Too_Many_Things.Enums.Enums;
 
 namespace Too_Many_Things.Services
 {
@@ -195,7 +197,9 @@ namespace Too_Many_Things.Services
         {
             throw new NotImplementedException();
         }
+        #endregion
 
+        #region Data-binding Source related things
         /// <summary>
         /// Automatically populates the local set with data and returns an
         /// observable collection.  This collection will stay in sync as
@@ -208,10 +212,40 @@ namespace Too_Many_Things.Services
             var localCollection = DbContext.Checklist.Local.ToObservableCollection();
 
             return localCollection;
+        } 
+
+        /// <summary>
+        /// Gets back a sorted collection to use for data binding.
+        /// </summary>
+        /// <param name="sortOrder">How to sort the collection. Possible sort
+        /// orders are: AscendingOrder, DescendingOrder, ByAscendingValue,
+        /// ByDescendingValue. Pass nothing in for default sort.</param>
+        /// <returns></returns>
+        public ObservableCollection<Checklist> GetSortedCollection(SortOrder sortOrder = SortOrder.Default)
+        {
+            var unsortedCollection = GetLocalCollectionSource();
+            var sortedCollection = new ObservableCollection<Checklist>();
+
+            switch (sortOrder)
+            {
+                case SortOrder.Default:
+                    sortedCollection.OrderBy(i => i.SortOrder);
+                    break;
+                case SortOrder.AscendingOrder:
+                    sortedCollection.OrderBy(i => i.Name);
+                    break;
+                case SortOrder.DescendingOrder:
+                    sortedCollection.OrderByDescending(i => i.Name);
+                    break;
+            }
+
+            return sortedCollection;
         }
 
-
         #endregion
+
+
+        
 
         #region Data validation
         /// <summary>

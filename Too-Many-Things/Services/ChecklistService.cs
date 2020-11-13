@@ -11,13 +11,13 @@ using System.Collections.ObjectModel;
 
 namespace Too_Many_Things.Services
 {
-    public class ChecklistService : IChecklistService
+    public partial class ChecklistService : IChecklistService
     {
         /*
-         * Despite that it could be argued that splitting up this service into
-         * multiple components could improve readability, the scope of this
-         * application is low and thus having a single Checklist service class
-         * seems appropriate enough.
+         * The full service class is split into two files. This class will hold
+         * onto everything related to the outer checklists, whilst
+         * EntryService.cs will hold onto everything related to the actual
+         * entries in Checklists.
          */
         private readonly IAmbientDbContextLocator _ambientDbContextLocator;
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
@@ -211,9 +211,6 @@ namespace Too_Many_Things.Services
         }
 
 
-        #endregion
-
-        #region Checklist's entries Related Services
         #endregion
 
         #region Data validation

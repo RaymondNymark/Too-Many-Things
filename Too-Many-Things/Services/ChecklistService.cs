@@ -59,7 +59,7 @@ namespace Too_Many_Things.Services
         }
         #endregion
 
-        #region Updated Services
+        #region Checklist Related Services
         /// <summary>
         /// Adds a checklist to the Checklist database.
         /// </summary>
@@ -213,6 +213,8 @@ namespace Too_Many_Things.Services
 
         #endregion
 
+        #region Checklist's entries Related Services
+        #endregion
 
         #region Data validation
         /// <summary>

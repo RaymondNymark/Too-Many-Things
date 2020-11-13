@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 using Too_Many_Things.Services;
+using Xunit;
+using Moq;
+using Too_Many_Things.Models;
 
 namespace Too_Many_Things.Tests
 {
     public class ChecklistServiceTests
     {
-        public void CreateChecklist_ChecklistShouldBeAddedToDB()
+        [Theory]
+        [InlineData("[c][h][e][c][k][l][i][s][t]")]
+        [InlineData("                           ")]
+        [InlineData("01234567890123456789012345678901234567890123456789012345678901234567890123456789")]
+        public void ValidateChecklist_InvalidInputShouldReturnFalse(string name)
         {
-            // Arrange
+            var input = new Checklist() { Name = name };
+            var actual = ChecklistService.ValidateChecklist(input);
 
-            // Act
-
-            // Assert
+            Assert.False(actual);
         }
     }
 }

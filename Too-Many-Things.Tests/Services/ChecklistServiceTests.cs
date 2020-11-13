@@ -5,6 +5,7 @@ using Too_Many_Things.Services;
 using Xunit;
 using Moq;
 using Too_Many_Things.Models;
+using Autofac.Extras.Moq;
 
 namespace Too_Many_Things.Tests
 {

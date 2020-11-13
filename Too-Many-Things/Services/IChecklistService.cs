@@ -33,8 +33,6 @@ namespace Too_Many_Things.Services
         void RenameChecklist(int checklistID, string newName);
         Task RenameChecklistAsync(int checklistID, string newName);
 
-
-        ObservableCollection<Checklist> GetLocalView();
-        Task<ObservableCollection<Checklist>> GetLocalViewAsync();
+        ObservableCollection<Checklist> GetLocalCollectionSource();
     }
 }

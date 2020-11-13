@@ -251,11 +251,6 @@ namespace Too_Many_Things.Services
             throw new NotImplementedException();
         }
 
-        public ObservableCollection<Checklist> GetLocalView()
-        {
-            return DbContext.Checklist.Local.ToObservableCollection();
-        }
-
         /// <summary>
         /// Automatically populates the local set with data and returns an
         /// observable collection.  This collection will stay in sync as

@@ -19,18 +19,31 @@ namespace Too_Many_Things.Services
          * application is low and thus having a single Checklist service class
          * seems appropriate enough.
          */
-        //private readonly ILogger _logger;
         private readonly IAmbientDbContextLocator _ambientDbContextLocator;
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
 
+        // Read-only property that returns a readonly-DbContext.
         private TooManyThingsContext DbContext
         {
-            get => _ambientDbContextLocator.Get<TooManyThingsContext>() ?? throw new ArgumentNullException("_ambientDbContextLocator");
+            get
+            {
+                using (var scope = _dbContextScopeFactory.Create())
+                {
+                    // This may cause a memory leak.
+                    var _dbContext = scope.DbContexts.Get<TooManyThingsContext>();
+
+                    if (_dbContext == null)
+                    {
+                        throw new ArgumentNullException("_dbContext");
+                    }
+
+                    return _dbContext;
+                }
+            }
         }
 
         public ChecklistService(IDbContextScopeFactory dbContextScopeFactory, IAmbientDbContextLocator ambientDbContextLocator)
         {
-            //_logger = logger ?? throw new ArgumentNullException("logger");
             _dbContextScopeFactory = dbContextScopeFactory ?? throw new ArgumentNullException("dbContextScopeFactory");
             _ambientDbContextLocator = ambientDbContextLocator ?? throw new ArgumentNullException("ambientDbContextLocator");
         }
@@ -243,10 +256,21 @@ namespace Too_Many_Things.Services
             return DbContext.Checklist.Local.ToObservableCollection();
         }
 
-        public Task<ObservableCollection<Checklist>> GetLocalViewAsync()
+        /// <summary>
+        /// Automatically populates the local set with data and returns an
+        /// observable collection.  This collection will stay in sync as
+        /// entities are added or removed from the context it belongs to. Useful
+        /// for data binding!
+        /// </summary>
+        public ObservableCollection<Checklist> GetLocalCollectionSource()
         {
-            throw new NotImplementedException();
+            DbContext.Checklist.Load<Checklist>();
+            var localCollection = DbContext.Checklist.Local.ToObservableCollection();
+
+            return localCollection;
         }
+
+
         #endregion
 
 
@@ -256,7 +280,7 @@ namespace Too_Many_Things.Services
         /// </summary>
         /// <param name="checklist">Checklist to validate</param>
         /// <returns>A boolean value whether or not checklist is valid.</returns>
-        private bool ValidateChecklist(Checklist checklist)
+        public static bool ValidateChecklist(Checklist checklist)
         {
             bool output = true;
             // Array of invalid characters.  Due to EF's nature of passing data
@@ -264,7 +288,7 @@ namespace Too_Many_Things.Services
             // characters.  However, this will be left in for future feature.
             char[] invalidCharacters = "[]".ToArray();
 
-            if (checklist.Name.Length > 100)
+            if (checklist.Name.Length > 50)
             {
                 output = false;
             }
@@ -274,16 +298,20 @@ namespace Too_Many_Things.Services
                 output = false;
             }
 
+            if (string.IsNullOrWhiteSpace(checklist.Name))
+            {
+                output = false;
+            }
+
             return output;
         }
 
-
-        private bool ValidateName(string name)
+        public static bool ValidateName(string name)
         {
             bool output = true;
             char[] invalidCharacters = "[]".ToArray();
 
-            if (name.Length > 100)
+            if (name.Length > 50)
             {
                 output = false;
             }

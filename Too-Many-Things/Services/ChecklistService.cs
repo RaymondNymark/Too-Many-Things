@@ -29,18 +29,16 @@ namespace Too_Many_Things.Services
         {
             get
             {
-                using (var scope = _dbContextScopeFactory.Create())
+                // This is causing a memory leak.
+                // TODO : Dispose of this
+                var _dbContext = _dbContextScopeFactory.Create().DbContexts.Get<TooManyThingsContext>();
+
+                if (_dbContext == null)
                 {
-                    // This may cause a memory leak.
-                    var _dbContext = scope.DbContexts.Get<TooManyThingsContext>();
-
-                    if (_dbContext == null)
-                    {
-                        throw new ArgumentNullException("_dbContext");
-                    }
-
-                    return _dbContext;
+                    throw new ArgumentNullException("_dbContext");
                 }
+
+                return _dbContext;
             }
         }
 
@@ -53,6 +51,7 @@ namespace Too_Many_Things.Services
         #region Traditional 'repository' services.
         public Checklist Get(int checklistID)
         {
+            // TODO : Exception handling incase this fails.
             return DbContext.Checklist.Find(checklistID);
         }
         public ValueTask<Checklist> GetAsync(int checklistID)

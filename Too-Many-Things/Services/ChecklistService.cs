@@ -49,22 +49,28 @@ namespace Too_Many_Things.Services
         }
 
         #region Traditional 'repository' services.
+        /// <summary>
+        /// Finds checklist in the database by checklistID.
+        /// </summary>
+        /// <returns>Returns checklist.  If not found, returns null.</returns>
         public Checklist Get(int checklistID)
         {
-            // TODO : Exception handling incase this fails.
-            return DbContext.Checklist.Find(checklistID);
+            var target = DbContext.Checklist.Find(checklistID);
+            return target;
         }
-        public ValueTask<Checklist> GetAsync(int checklistID)
+        public async ValueTask<Checklist> GetAsync(int checklistID)
         {
-            return DbContext.Checklist.FindAsync(checklistID);
+            var target = await DbContext.Checklist.FindAsync(checklistID);
+            return target;
         }
         #endregion
 
         #region Checklist Related Services
         /// <summary>
-        /// Adds a checklist to the Checklist database.
+        /// Adds a checklist to the Checklist database. Does nothing if
+        /// checklist fails to validate.
         /// </summary>
-        /// <param name="checklist">Checklist to add</param>
+        /// <param name="checklist">Checklist to add.</param>
         public void CreateChecklist(Checklist checklist)
         {
             if (ValidateChecklist(checklist))
@@ -77,13 +83,19 @@ namespace Too_Many_Things.Services
             }
         }
 
+        /// <summary>
+        /// Adds a checklist to the checklist database asynchronously. Does
+        /// nothing if checklist fails to validate.
+        /// </summary>
+        /// <param name="checklist">Checklist to add.</param>
+        /// <returns></returns>
         public async Task CreateChecklistAsync(Checklist checklist)
         {
             if (ValidateChecklist(checklist))
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
-                    DbContext.Checklist.AddAsync(checklist);
+                    DbContext.Checklist.Add(checklist);
                     await dbContextScope.SaveChangesAsync();
                 }
             }

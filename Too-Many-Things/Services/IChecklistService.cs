@@ -11,12 +11,12 @@ namespace Too_Many_Things.Services
         ValueTask<Checklist> GetAsync(int checklistID);
 
 
-        void CreateChecklist(Checklist checklist);
-        Task CreateChecklistAsync(Checklist checklist);
+        void AddNewChecklist(Checklist checklist);
+        Task AddNewChecklistAsync(Checklist checklist);
 
 
-        void CreateDefaultChecklist();
-        Task CreateDefaultChecklistAsync();
+        void AddNewDefaultChecklist();
+        Task AddNewDefaultChecklistAsync();
 
 
         void DeleteChecklist(int checklistID);

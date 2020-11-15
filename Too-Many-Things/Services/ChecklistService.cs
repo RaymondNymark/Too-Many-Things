@@ -71,7 +71,7 @@ namespace Too_Many_Things.Services
         /// checklist fails to validate.
         /// </summary>
         /// <param name="checklist">Checklist to add.</param>
-        public void CreateChecklist(Checklist checklist)
+        public void AddNewChecklist(Checklist checklist)
         {
             if (ValidateChecklist(checklist))
             {
@@ -88,8 +88,7 @@ namespace Too_Many_Things.Services
         /// nothing if checklist fails to validate.
         /// </summary>
         /// <param name="checklist">Checklist to add.</param>
-        /// <returns></returns>
-        public async Task CreateChecklistAsync(Checklist checklist)
+        public async Task AddNewChecklistAsync(Checklist checklist)
         {
             if (ValidateChecklist(checklist))
             {
@@ -104,20 +103,19 @@ namespace Too_Many_Things.Services
         /// <summary>
         /// Creates a new default checklist and adds it to the database.
         /// </summary>
-        public void CreateDefaultChecklist()
+        public void AddNewDefaultChecklist()
         {
             var defaultChecklist = new Checklist { Name = "New checklist" };
-            CreateChecklist(defaultChecklist);
+            AddNewChecklist(defaultChecklist);
         }
 
         /// <summary>
         /// Creates a new default checklist and adds it to the database Asynchronously. 
         /// </summary>
-        /// <returns></returns>
-        public async Task CreateDefaultChecklistAsync()
+        public async Task AddNewDefaultChecklistAsync()
         {
             var defaultChecklist = new Checklist { Name = "New checklist" };
-            await CreateChecklistAsync(defaultChecklist);
+            await AddNewChecklistAsync(defaultChecklist);
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Too_Many_Things.Services
         private readonly IDbContextScopeFactory _dbContextScopeFactory;
 
         // Read-only property that returns a readonly-DbContext.
-        private TooManyThingsContext DbContext
+        private TooManyThingsContext _dbContext
         {
             get
             {
@@ -55,12 +55,12 @@ namespace Too_Many_Things.Services
         /// <returns>Returns checklist.  If not found, returns null.</returns>
         public Checklist Get(int checklistID)
         {
-            var target = DbContext.Checklist.Find(checklistID);
+            var target = _dbContext.Checklist.Find(checklistID);
             return target;
         }
-        public async ValueTask<Checklist> GetAsync(int checklistID)
+        public async Task<Checklist> GetAsync(int checklistID)
         {
-            var target = await DbContext.Checklist.FindAsync(checklistID);
+            var target = await _dbContext.Checklist.FindAsync(checklistID);
             return target;
         }
         #endregion
@@ -77,7 +77,7 @@ namespace Too_Many_Things.Services
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
-                    DbContext.Checklist.Add(checklist);
+                    _dbContext.Checklist.Add(checklist);
                     dbContextScope.SaveChanges();
                 }
             }
@@ -94,7 +94,7 @@ namespace Too_Many_Things.Services
             {
                 using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
-                    DbContext.Checklist.Add(checklist);
+                    _dbContext.Checklist.Add(checklist);
                     await dbContextScope.SaveChangesAsync();
                 }
             }
@@ -127,39 +127,33 @@ namespace Too_Many_Things.Services
         {
             var target = Get(checklistID);
 
-            using (var dbContextScope = _dbContextScopeFactory.Create())
+            if (target != null)
             {
-                target.IsDeleted = true;
-                dbContextScope.SaveChanges();
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    target.IsDeleted = true;
+                    dbContextScope.SaveChanges();
+                }
             }
-        }
-
-        public Task DeleteChecklistAsync(int checklistID)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Marks a list of checklist IDs as deleted. Also known as
+        /// Marks a checklist as deleted by checklistID asynchronously. Also known as
         /// soft-deletion.
         /// </summary>
-        /// <param name="listOfChecklistIDs">List of checklistIDs</param>
-        public void DeleteChecklist(IList<int> listOfChecklistIDs)
+        /// <param name="checklistID">Checklist to mark as deleted.</param>
+        public async Task DeleteChecklistAsync(int checklistID)
         {
-            using (var dbContextScope = _dbContextScopeFactory.Create())
+            var target = await GetAsync(checklistID);
+            
+            if (target != null)
             {
-                foreach (var id in listOfChecklistIDs)
+                using (var dbContextScope = _dbContextScopeFactory.Create())
                 {
-                    var target = Get(id);
                     target.IsDeleted = true;
+                    await dbContextScope.SaveChangesAsync();
                 }
-                dbContextScope.SaveChanges();
             }
-        }
-
-        public Task DeleteChecklistAsync(IList<int> listOfChecklistIDs)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -169,18 +163,35 @@ namespace Too_Many_Things.Services
         /// <param name="checklistID">ChecklistID to remove.</param>
         public void PermanentlyDeleteChecklist(int checklistID)
         {
-            using (var dbContextScope = _dbContextScopeFactory.Create())
-            {
-                var target = Get(checklistID);
-                DbContext.Remove(target);
+            var target = Get(checklistID);
 
-                dbContextScope.SaveChanges();
+            if (target != null)
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    _dbContext.Remove(checklistID);
+                    dbContextScope.SaveChanges();
+                }
             }
         }
 
-        public Task PermanentlyDeleteChecklistAsync(int checklistID)
+        /// <summary>
+        /// Permanently deletes a checklist from database asynchronously. Also
+        /// known as hard-deletion.
+        /// </summary>
+        /// <param name="checklistID">ChecklistID to remove.</param>
+        public async Task PermanentlyDeleteChecklistAsync(int checklistID)
         {
-            throw new NotImplementedException();
+            var target = GetAsync(checklistID);
+
+            if (target != null)
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    _dbContext.Remove(checklistID);
+                    await dbContextScope.SaveChangesAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -202,11 +213,26 @@ namespace Too_Many_Things.Services
             }
         }
 
-        public Task RenameChecklistAsync(int checklistID, string newName)
+        /// <summary>
+        /// Renames a checklist to a new name asynchronously.
+        /// </summary>
+        /// <param name="checklistID">ChecklistID to rename.</param>
+        /// <param name="newName">New name for the checklist.</param>
+        public async Task RenameChecklistAsync(int checklistID, string newName)
         {
-            throw new NotImplementedException();
+            if (ValidateName(newName))
+            {
+                using (var dbContextScope = _dbContextScopeFactory.Create())
+                {
+                    var target = await GetAsync(checklistID);
+                    target.Name = newName;
+
+                    await dbContextScope.SaveChangesAsync();
+                }
+            }
         }
         #endregion
+
 
         #region Data-binding Source related things
         /// <summary>
@@ -217,8 +243,8 @@ namespace Too_Many_Things.Services
         /// </summary>
         public ObservableCollection<Checklist> GetLocalCollectionSource()
         {
-            DbContext.Checklist.Load<Checklist>();
-            var localCollection = DbContext.Checklist.Local.ToObservableCollection();
+            _dbContext.Checklist.Load<Checklist>();
+            var localCollection = _dbContext.Checklist.Local.ToObservableCollection();
 
             return localCollection;
         } 
@@ -252,9 +278,6 @@ namespace Too_Many_Things.Services
         }
 
         #endregion
-
-
-        
 
         #region Data validation
         /// <summary>

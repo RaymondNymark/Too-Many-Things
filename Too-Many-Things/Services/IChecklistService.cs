@@ -8,7 +8,7 @@ namespace Too_Many_Things.Services
     public interface IChecklistService
     {
         Checklist Get(int checklistID);
-        ValueTask<Checklist> GetAsync(int checklistID);
+        Task<Checklist> GetAsync(int checklistID);
 
 
         void AddNewChecklist(Checklist checklist);
@@ -21,9 +21,6 @@ namespace Too_Many_Things.Services
 
         void DeleteChecklist(int checklistID);
         Task DeleteChecklistAsync(int checklistID);
-
-        void DeleteChecklist(IList<int> listOfChecklistIDs);
-        Task DeleteChecklistAsync(IList<int> listOfChecklistIDs);
 
 
         void PermanentlyDeleteChecklist(int checklistID);

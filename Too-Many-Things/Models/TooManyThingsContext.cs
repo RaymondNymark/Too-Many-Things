@@ -16,7 +16,9 @@ namespace Too_Many_Things.Models
         }
 
         public virtual DbSet<Checklist> Checklist { get; set; }
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
         public virtual DbSet<Entry> Entry { get; set; }
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,11 +34,13 @@ namespace Too_Many_Things.Models
             modelBuilder.Entity<Checklist>(entity =>
             {
                 entity.Property(e => e.ChecklistId).HasColumnName("ChecklistID");
+                entity.HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
             });
 
             modelBuilder.Entity<Entry>(entity =>
             {
                 entity.Property(e => e.ChecklistId).HasColumnName("ChecklistID");
+                entity.HasQueryFilter(m => EF.Property<bool>(m, "IsDeleted") == false);
 
                 entity.HasOne(d => d.Checklist)
                     .WithMany(p => p.Entry)

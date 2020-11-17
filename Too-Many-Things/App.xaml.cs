@@ -27,11 +27,11 @@ namespace Too_Many_Things
             using (var scope = container.BeginLifetimeScope())
             {
                 _checklistService = scope.Resolve<IChecklistService>();
-                // TODO1: Resolve DbContextScopeFactory.
-                // TODO2: Implement startup constructors. 
 
                 var window = new OuterView();
                 window.DataContext = new ViewModelController(_checklistService, new OuterViewModel(_checklistService));
+
+                window.Show();
             }
         }
     }

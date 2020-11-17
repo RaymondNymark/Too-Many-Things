@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Autofac;
-using Too_Many_Things.Core;
+using EntityFrameworkCore.DbContextScope;
+using Microsoft.Extensions.Logging;
+using Too_Many_Things.Services;
 using Too_Many_Things.Models;
 
 namespace Too_Many_Things
@@ -14,8 +16,9 @@ namespace Too_Many_Things
         {
             var builder = new ContainerBuilder();
             builder.RegisterType<ChecklistService>().As<IChecklistService>();
-
-            //builder.RegisterType<TooManyThingsContext>().
+            //builder.RegisterType<Logger>().As<ILogger>();
+            builder.RegisterType<DbContextScopeFactory>().As<IDbContextScopeFactory>();
+            builder.RegisterType<AmbientDbContextLocator>().As<IAmbientDbContextLocator>();
             return builder.Build();
         }
     }

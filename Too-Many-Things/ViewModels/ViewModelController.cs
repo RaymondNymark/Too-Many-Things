@@ -4,6 +4,7 @@ using System.Text;
 using Too_Many_Things.Services;
 using Too_Many_Things.Models;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace Too_Many_Things.ViewModels
 {
@@ -30,6 +31,11 @@ namespace Too_Many_Things.ViewModels
         }
         #endregion
 
+        // Retrieves collection of checklist to bind to local ItemSource.
+        public ObservableCollection<Checklist> ItemSource
+        {
+            get => _checklistService.GetLocalCollectionSource();
+        }
 
         #region Delegate + ICommands
         /// <summary>

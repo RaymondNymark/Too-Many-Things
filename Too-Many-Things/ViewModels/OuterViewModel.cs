@@ -20,12 +20,6 @@ namespace Too_Many_Things.ViewModels
 
         #region Data-Binding properties
 
-        // Retrieves collection of checklist to bind to local ItemSource.
-        public ObservableCollection<Checklist> ItemSource
-        {
-            get => _checklistService.GetLocalView();
-        }
-
         // Keeps track of which checklist is 'selected' or 'clicked' or 'focused'.
         public Checklist SelectedChecklist
         {

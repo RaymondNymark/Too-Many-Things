@@ -24,7 +24,19 @@ namespace Too_Many_Things.Tests
             Assert.False(actual);
         }
 
-        public ObservableCollection<Checklist> GetSampleChecklistList()
+        [Fact]
+        public void RenameChecklistAsync_IsActuallyAsync()
+        {
+            using (var mock = AutoMock.GetLoose())
+            {
+                mock.Mock<IChecklistService>()
+                    .Setup(x => x.GetLocalCollectionSource())
+                    .Returns(GetSampleChecklistList());
+            }
+        }
+
+
+        private ObservableCollection<Checklist> GetSampleChecklistList()
         {
             var itemOne = (new Checklist { Name = "Groceries", SortOrder = 1, ChecklistId = 0});
             var itemTwo = (new Checklist { Name = "Chores", SortOrder = 2, ChecklistId = 1 });

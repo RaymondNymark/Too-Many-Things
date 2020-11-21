@@ -11,7 +11,7 @@ using EntityFrameworkCore.DbContextScope;
 
 namespace Too_Many_Things.ViewModels
 {
-    public class AppBootstrapper : ReactiveObject
+    public class AppBootstrapper : ReactiveObject, IScreen
     {
         public RoutingState Router { get; private set; }
         private IMutableDependencyResolver _mutableDependencyResolver { get; set; }
@@ -21,11 +21,10 @@ namespace Too_Many_Things.ViewModels
             Router = router ?? new RoutingState();
             _mutableDependencyResolver = dependencyResolver ?? Locator.CurrentMutable;
 
-            // Should probably put any other startup tasks here:
+            // Should *probably* put any other startup tasks here:
             RegisterComponets(_mutableDependencyResolver);
-
-            // TODO: Resolve this
-            //Router.Navigate.Execute(new OuterViewModel());
+            
+            Router.Navigate.Execute(new OuterViewModel(this, Locator.Current.GetService<IChecklistService>()));
         }
 
 

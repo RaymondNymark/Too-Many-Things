@@ -13,4 +13,8 @@
     <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Too-Many-Things\Too-Many-Things.csproj" />
+  </ItemGroup>
+
 </Project>

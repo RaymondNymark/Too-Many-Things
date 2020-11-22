@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ReactiveUI;
+using Splat;
+using System.Reflection;
 using System.Windows;
 
 namespace Too_Many_Things.Wpf
@@ -13,5 +10,6 @@ namespace Too_Many_Things.Wpf
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

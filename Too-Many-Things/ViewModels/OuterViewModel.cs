@@ -38,6 +38,11 @@ namespace Too_Many_Things.ViewModels
             get => _selectedChecklist;
             set => this.RaiseAndSetIfChanged(ref _selectedChecklist, value);
         }
+
+        public ObservableCollection<Checklist> ItemSource
+        {
+            get => _checklistService.GetLocalCollectionSource();
+        }
         #endregion
     }
 }

@@ -8,8 +8,9 @@ using System.Collections;
 using System.Linq;
 using Too_Many_Things.Wpf.Views;
 using EntityFrameworkCore.DbContextScope;
+using Too_Many_Things.ViewModels;
 
-namespace Too_Many_Things.ViewModels
+namespace Too_Many_Things.Wpf
 {
     public class AppBootstrapper : ReactiveObject, IScreen
     {
@@ -23,7 +24,7 @@ namespace Too_Many_Things.ViewModels
 
             // Should *probably* put any other startup tasks here:
             RegisterComponets(_mutableDependencyResolver);
-            
+
             Router.Navigate.Execute(new OuterViewModel(this, Locator.Current.GetService<IChecklistService>()));
         }
 

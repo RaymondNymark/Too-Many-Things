@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Too_Many_Things.Enums
+namespace Too_Many_Things.Core.Enums
 {
     public static class Enums
     {

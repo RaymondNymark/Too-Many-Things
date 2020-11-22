@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Too_Many_Things.Models;
+using Too_Many_Things.Core.Models;
 
-namespace Too_Many_Things.Services
+namespace Too_Many_Things.Core.Services
 {
     public interface IChecklistService
     {

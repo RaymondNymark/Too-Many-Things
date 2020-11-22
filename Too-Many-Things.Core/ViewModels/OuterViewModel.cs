@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Too_Many_Things.Services;
-using Too_Many_Things.Models;
-using Too_Many_Things.ViewModels;
+using Too_Many_Things.Core.Services;
+using Too_Many_Things.Core.Models;
+using Too_Many_Things.Core.ViewModels;
 using System.Collections.ObjectModel;
 using ReactiveUI;
 
-namespace Too_Many_Things.ViewModels
+namespace Too_Many_Things.Core.ViewModels
 {
     public interface IOuterViewModel : IRoutableViewModel
     {

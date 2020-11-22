@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Too_Many_Things.Services;
+using Too_Many_Things.Core.Services;
 using Xunit;
 using Moq;
-using Too_Many_Things.Models;
+using Too_Many_Things.Core.Models;
 using Autofac.Extras.Moq;
 using System.Collections.ObjectModel;
 

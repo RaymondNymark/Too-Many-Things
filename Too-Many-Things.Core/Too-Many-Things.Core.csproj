@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Too_Many_Things</RootNamespace>
+    <RootNamespace>Too_Many_Things.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

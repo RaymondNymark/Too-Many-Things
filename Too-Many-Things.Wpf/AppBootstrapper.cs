@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using ReactiveUI;
-using Too_Many_Things.Services;
+using Too_Many_Things.Core.Services;
 using Splat;
 using System.Collections;
 using System.Linq;
 using Too_Many_Things.Wpf.Views;
 using EntityFrameworkCore.DbContextScope;
-using Too_Many_Things.ViewModels;
+using Too_Many_Things.Core.ViewModels;
 
 namespace Too_Many_Things.Wpf
 {

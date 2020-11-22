@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Too_Many_Things.Models;
+using Too_Many_Things.Core.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkCore.DbContextScope;
 using System.Collections.ObjectModel;
 
-namespace Too_Many_Things.Services
+namespace Too_Many_Things.Core.Services
 {
     public partial class ChecklistService : IChecklistService
     {

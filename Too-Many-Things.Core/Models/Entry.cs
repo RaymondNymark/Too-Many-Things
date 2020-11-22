@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Too_Many_Things.Models
+namespace Too_Many_Things.Core.Models
 {
     public partial class Entry
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Too_Many_Things.Models
+namespace Too_Many_Things.Core.Models
 {
     public partial class TooManyThingsContext : DbContext
     {

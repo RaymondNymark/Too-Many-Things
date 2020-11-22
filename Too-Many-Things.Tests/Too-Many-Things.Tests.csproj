@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Too-Many-Things\Too-Many-Things.csproj" />
+    <ProjectReference Include="..\Too-Many-Things.Core\Too-Many-Things.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

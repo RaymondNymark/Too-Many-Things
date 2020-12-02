@@ -22,9 +22,10 @@ namespace Too_Many_Things.Wpf
         {   // Views + ViewModels
             dependencyResolver.Register(() => new OuterView(), typeof(IViewFor<OuterViewModel>));
             dependencyResolver.Register(() => new InnerView(), typeof(IViewFor<InnerViewModel>));
+            dependencyResolver.Register(() => new ChecklistBagView(), typeof(IViewFor<ChecklistBagViewModel>));
 
             // TODO : Figure out if this needs to actually be here.
-            //dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
+            dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 
             // Services + Misc
             dependencyResolver.Register(() => new DbContextScopeFactory(), typeof(IDbContextScopeFactory));

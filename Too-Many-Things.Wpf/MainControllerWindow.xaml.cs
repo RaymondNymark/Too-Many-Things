@@ -1,6 +1,7 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,10 +30,11 @@ namespace Too_Many_Things.Wpf
             ViewModel = new AppViewModel();
 
 
-            //this.WhenActivated(disposables =>
-            //{
-
-            //});
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, x => x.Router, x => x.RoutedViewHost.Router)
+                    .DisposeWith(disposables);
+            });
         }
     }
 }

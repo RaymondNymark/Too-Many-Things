@@ -9,6 +9,7 @@
 
     <Grid UseLayoutRounding="True">
         <rxui:RoutedViewHost
+            x:Name="RoutedViewHost"
             Router="{Binding Router}"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"/>

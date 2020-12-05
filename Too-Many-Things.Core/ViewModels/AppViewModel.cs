@@ -16,7 +16,7 @@ namespace Too_Many_Things.Core.ViewModels
 
             // All other startup tasks go here:
 
-
+            Router.Navigate.Execute(new ChecklistBagViewModel());
 
             // Router.Navigate.Execute(new anyViewModel()) to fire off first default viewModel.
             OpenView = ReactiveCommand.CreateFromObservable(() => Router.Navigate.Execute(new ChecklistBagViewModel()));

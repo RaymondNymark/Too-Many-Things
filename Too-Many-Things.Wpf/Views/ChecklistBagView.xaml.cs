@@ -24,7 +24,7 @@ namespace Too_Many_Things.Wpf.Views
     /// <summary>
     /// Interaction logic for ChecklistBagView.xaml
     /// </summary>
-    public partial class ChecklistBagView : ReactiveUserControl<ChecklistBagViewModel>
+    public partial class ChecklistBagView : ReactiveUserControl<IChecklistBagViewModel>
     {
         public ChecklistBagView()
         {
@@ -49,7 +49,7 @@ namespace Too_Many_Things.Wpf.Views
             {
                 // ItemSource
                 this.OneWayBind(ViewModel,
-                    viewModel => viewModel.TestItemSource,
+                    viewModel => viewModel.ChecklistList,
                     view => view.ChecklistListBox.ItemsSource)
                     .DisposeWith(disposables);
             });

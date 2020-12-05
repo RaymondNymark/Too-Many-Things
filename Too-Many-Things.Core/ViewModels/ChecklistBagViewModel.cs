@@ -9,24 +9,35 @@ using ReactiveUI;
 using Splat;
 using DynamicData;
 using DynamicData.Binding;
+using System.Reactive;
+using System.Diagnostics;
 
 namespace Too_Many_Things.Core.ViewModels
 {
-    public class ChecklistBagViewModel : ReactiveObject, IRoutableViewModel
+    public interface IChecklistBagViewModel
+    {
+        ObservableCollection<Checklist> ChecklistList { get; set; }
+    }
+
+    public class ChecklistBagViewModel : ReactiveObject, IRoutableViewModel, IChecklistBagViewModel
     {
         public string UrlPathSegment => "ChecklistBag";
         public IScreen HostScreen { get; }
         private IChecklistService _checklistService;
 
+        public ObservableCollection<Checklist> TestItemSource = new ObservableCollection<Checklist>();
+        public string PublicFreeString = "String from space";
+
         // List of checklists that should be bound to.
-        private IObservableList<Checklist> _checklistList;
-        public IObservableList<Checklist> ChecklistList
+        // TODO : USE DYNAMIC DATA!!!
+        private ObservableCollection<Checklist> _checklistList;
+        public ObservableCollection<Checklist> ChecklistList
         {
             get => _checklistList;
             set => this.RaiseAndSetIfChanged(ref _checklistList, value);
         }
 
-        public Checklist SelectedChecklist;
+        //public Checklist SelectedChecklist;
 
         public ChecklistBagViewModel(IScreen screen = null, IChecklistService checklistService = null)
         {
@@ -34,12 +45,10 @@ namespace Too_Many_Things.Core.ViewModels
             _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
             // Makes Selected checklist into an observable property.
-            IObservable<Checklist> selectedChecklist = this.WhenAnyValue(x => x.SelectedChecklist);
+            //IObservable<Checklist> selectedChecklist = this.WhenAnyValue(x => x.SelectedChecklist);
 
             // TODO : Is this pointless?
-            var baseList = _checklistService.GetLocalCollectionSource();
-            _checklistList = baseList.ToObservableChangeSet()
-                .AsObservableList();
+            _checklistList = _checklistService.GetLocalCollectionSource();
         }
     }
 }

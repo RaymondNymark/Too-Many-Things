@@ -23,12 +23,22 @@ namespace Too_Many_Things.Core.ViewModels
         public IScreen HostScreen { get; }
         private IChecklistService _checklistService;
 
+        // Main Checklist
+        private Checklist _headChecklist;
+        public Checklist HeadChecklist
+        {
+            get => _headChecklist;
+            set => this.RaiseAndSetIfChanged(ref _headChecklist, value);
+        }
+
         // ItemCollection to bind to.
-        private ObservableCollection<Entry> _entryList;
+        private ObservableCollection<Entry> _entryList
+        {
+            get => HeadChecklist.Entry;
+        }
         public ObservableCollection<Entry> EntryListBindable
         {
             get => _entryList;
-            set => this.RaiseAndSetIfChanged(ref _entryList, value);
         }
 
         public EntryViewModel(Checklist checklist, IScreen screen = null, IChecklistService checklistService = null)
@@ -36,7 +46,7 @@ namespace Too_Many_Things.Core.ViewModels
            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
-            _entryList = checklist.Entry;
+            _headChecklist = checklist;
         }
     }
 }

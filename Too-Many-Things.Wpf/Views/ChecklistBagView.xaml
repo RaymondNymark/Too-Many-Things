@@ -10,7 +10,7 @@
              xmlns:local="clr-namespace:Too_Many_Things.Wpf.Views"
              xmlns:template="clr-namespace:Too_Many_Things.Wpf.Templates"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="700" d:DesignWidth="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
@@ -29,5 +29,6 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
+        <Button x:Name="NewDefaultChecklistBtn" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn text"/>
     </Grid>
 </rxui:ReactiveUserControl>

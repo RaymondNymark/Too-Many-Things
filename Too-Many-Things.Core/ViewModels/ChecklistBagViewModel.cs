@@ -17,6 +17,7 @@ namespace Too_Many_Things.Core.ViewModels
     public interface IChecklistBagViewModel
     {
         ObservableCollection<Checklist> ChecklistList { get; set; }
+        Checklist SelectedChecklist { get; set; }
     }
 
     public class ChecklistBagViewModel : ReactiveObject, IRoutableViewModel, IChecklistBagViewModel
@@ -37,7 +38,14 @@ namespace Too_Many_Things.Core.ViewModels
             set => this.RaiseAndSetIfChanged(ref _checklistList, value);
         }
 
-        //public Checklist SelectedChecklist;
+        private Checklist _selectedChecklist;
+
+        public Checklist SelectedChecklist
+        {
+            get => _selectedChecklist;
+            set => this.RaiseAndSetIfChanged(ref _selectedChecklist, value);
+        }
+
 
         public ChecklistBagViewModel(IScreen screen = null, IChecklistService checklistService = null)
         {

@@ -47,12 +47,22 @@ namespace Too_Many_Things.Wpf.Views
             // Love this
             this.WhenActivated(disposables =>
             {
-                // ItemSource
                 this.OneWayBind(ViewModel,
                     viewModel => viewModel.ChecklistList,
                     view => view.ChecklistListBox.ItemsSource)
                     .DisposeWith(disposables);
+
+                // Binds TopViewText to selectedChecklist, purely for debugging.
+                // Quicker than to write up unit test. TODO : Remove
+                this.OneWayBind(ViewModel,
+                    viewModel => viewModel.SelectedChecklist.Name,
+                    view => view.TopViewText.Text)
+                    .DisposeWith(disposables);
             });
+
+            // Binds the View's SelectedItem to the ViewModel.
+            this.WhenAnyValue(View => View.ChecklistListBox.SelectedItem)
+                    .BindTo(this, x => x.ViewModel.SelectedChecklist);
         }
     }
 }

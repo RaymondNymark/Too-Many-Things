@@ -29,6 +29,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button x:Name="NewDefaultChecklistBtn" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn text"/>
+        <Button x:Name="NewDefaultChecklistBtn" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn"/>
+        <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
     </Grid>
 </rxui:ReactiveUserControl>

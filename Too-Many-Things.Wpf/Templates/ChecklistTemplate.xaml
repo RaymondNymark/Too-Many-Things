@@ -10,8 +10,7 @@
              x:TypeArguments="vm:ChecklistBagViewModel"
              d:DesignHeight="450" d:DesignWidth="800">
 
-
-            <StackPanel>
+    <StackPanel>
                 <TextBlock x:Name="ChecklistName" Text="{Binding Name}"/>
                 <TextBlock x:Name="EntryCount" Text="{Binding EntryCountString}"/>
             </StackPanel>

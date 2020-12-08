@@ -30,6 +30,7 @@ namespace Too_Many_Things.Wpf.Views
         {
             InitializeComponent();
 
+            // Dbl click code.
             //var mouseUp = Observable.FromEventPattern<MouseButtonEventHandler,
             //    MouseButtonEventArgs>
             //    (h => MouseLeftButtonUp += h, h => MouseLeftButtonUp -= h);

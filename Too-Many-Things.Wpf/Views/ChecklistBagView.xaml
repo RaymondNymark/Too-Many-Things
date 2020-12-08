@@ -30,6 +30,7 @@
         </ListBox>
 
         <Button x:Name="NewDefaultChecklistBtn" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn"/>
+        <Button x:Name="OpenChecklistBtn" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="Temp Open Checklist Btn"/>
         <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
     </Grid>
 </rxui:ReactiveUserControl>

@@ -1,0 +1,23 @@
+﻿<rxui:ReactiveUserControl x:Class="Too_Many_Things.Wpf.Templates.EntryTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Too_Many_Things.Wpf.Templates"
+             mc:Ignorable="d"
+             xmlns:rxui="http://reactiveui.net"
+             xmlns:vm="clr-namespace:Too_Many_Things.Core.ViewModels;assembly=Too-Many-Things.Core"
+             x:TypeArguments="vm:EntryViewModel"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="EntryName" Grid.Column="0" Text="Entry_name_designTime"/>
+                    <CheckBox x:Name="EntryCheckBox" Grid.Column="1"/>
+                </StackPanel>
+            </Grid>
+</rxui:ReactiveUserControl>

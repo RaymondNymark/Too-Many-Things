@@ -23,6 +23,7 @@ namespace Too_Many_Things.Wpf
             dependencyResolver.Register(() => new OuterView(), typeof(IViewFor<OuterViewModel>));
             dependencyResolver.Register(() => new InnerView(), typeof(IViewFor<InnerViewModel>));
             dependencyResolver.Register(() => new ChecklistBagView(), typeof(IViewFor<ChecklistBagViewModel>));
+            dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntryViewModel>));
 
             // TODO : Figure out if this needs to actually be here.
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));

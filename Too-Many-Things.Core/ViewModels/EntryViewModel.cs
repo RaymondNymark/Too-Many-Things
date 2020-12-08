@@ -15,7 +15,8 @@ namespace Too_Many_Things.Core.ViewModels
 {
     public interface IEntryViewModel
     {
-
+        ReactiveCommand<Unit, IRoutableViewModel> CloseChecklist { get; }
+        ObservableCollection<Entry> EntryList { get; }
     }
     public class EntryViewModel : ReactiveObject, IRoutableViewModel, IEntryViewModel
     {
@@ -32,21 +33,23 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         // ItemCollection to bind to.
-        private ObservableCollection<Entry> _entryList
+        public ObservableCollection<Entry> EntryList
         {
-            get => HeadChecklist.Entry;
-        }
-        public ObservableCollection<Entry> EntryListBindable
-        {
-            get => _entryList;
+            get => _headChecklist.Entry;
         }
 
-        public EntryViewModel(Checklist checklist, IScreen screen = null, IChecklistService checklistService = null)
+        public EntryViewModel(Checklist checklist = null, IScreen screen = null, IChecklistService checklistService = null)
         {
            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
-            _headChecklist = checklist;
+           _headChecklist = checklist;
+
+            CloseChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new ChecklistBagViewModel(HostScreen, null)));
         }
+
+        #region Command-region
+        public ReactiveCommand<Unit, IRoutableViewModel> CloseChecklist { get; }
+        #endregion
     }
 }

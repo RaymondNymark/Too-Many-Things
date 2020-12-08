@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock x:Name="EntryName" Grid.Column="0" Text="Entry_name_designTime"/>
+                    <TextBlock x:Name="Name" Grid.Column="0" Text="{Binding Name}"/>
                     <CheckBox x:Name="EntryCheckBox" Grid.Column="1"/>
                 </StackPanel>
             </Grid>

@@ -17,17 +17,21 @@ namespace Too_Many_Things.Core.ViewModels
     public interface IChecklistBagViewModel
     {
         ObservableCollection<Checklist> ChecklistList { get; set; }
+        IScreen HostScreen { get; }
+        ReactiveCommand<Unit, IRoutableViewModel> OpenChecklist { get; }
         Checklist SelectedChecklist { get; set; }
+        string UrlPathSegment { get; }
     }
 
     public class ChecklistBagViewModel : ReactiveObject, IRoutableViewModel, IChecklistBagViewModel
     {
         public string UrlPathSegment => "ChecklistBag";
         public IScreen HostScreen { get; }
+
         private IChecklistService _checklistService;
 
         public ObservableCollection<Checklist> TestItemSource = new ObservableCollection<Checklist>();
-        public string PublicFreeString = "String from space";
+
 
         // List of checklists that should be bound to.
         // TODO : USE DYNAMIC DATA!!!
@@ -52,11 +56,14 @@ namespace Too_Many_Things.Core.ViewModels
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
-            // Makes Selected checklist into an observable property.
-            //IObservable<Checklist> selectedChecklist = this.WhenAnyValue(x => x.SelectedChecklist);
-
             // TODO : Is this pointless?
             _checklistList = _checklistService.GetLocalCollectionSource();
+
+            OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist, HostScreen)));
         }
+
+        #region Command-region
+        public ReactiveCommand<Unit, IRoutableViewModel> OpenChecklist { get; }
+        #endregion
     }
 }

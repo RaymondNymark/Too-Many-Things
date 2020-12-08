@@ -59,11 +59,20 @@ namespace Too_Many_Things.Wpf.Views
                     viewModel => viewModel.SelectedChecklist.Name,
                     view => view.TopViewText.Text)
                     .DisposeWith(disposables);
+
+                // Binds the View's SelectedItem to the ViewModel.
+                this.WhenAnyValue(View => View.ChecklistListBox.SelectedItem)
+                        .BindTo(this, x => x.ViewModel.SelectedChecklist)
+                        .DisposeWith(disposables);
+
+                // Binds OpenChecklist command to OpenChecklistButton.
+                this.BindCommand(ViewModel,
+                    viewModel => viewModel.OpenChecklist,
+                    view => view.OpenChecklistButton)
+                    .DisposeWith(disposables);
             });
 
-            // Binds the View's SelectedItem to the ViewModel.
-            this.WhenAnyValue(View => View.ChecklistListBox.SelectedItem)
-                    .BindTo(this, x => x.ViewModel.SelectedChecklist);
+            
         }
     }
 }

@@ -31,10 +31,10 @@
 
 
         <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text"/>
-        <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="←Go_back_btn"/>
-        <Button x:Name="EditEntryButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit_entry_btn"/>
+        <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="←Go_back_btn" Margin="15"/>
+        <Button x:Name="EditEntryButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit_entry_btn" Margin="15"/>
 
-        <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn"/>
-        <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn"/>
+        <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn" Margin="15"/>
+        <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn" Margin="15"/>
     </Grid>
 </rxui:ReactiveUserControl>

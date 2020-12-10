@@ -30,19 +30,7 @@ namespace Too_Many_Things.Wpf.Views
         {
             InitializeComponent();
 
-            // Dbl click code.
-            //var mouseUp = Observable.FromEventPattern<MouseButtonEventHandler,
-            //    MouseButtonEventArgs>
-            //    (h => MouseLeftButtonUp += h, h => MouseLeftButtonUp -= h);
-
-            //var doubleClick = mouseUp.SelectMany(
-            //    e => mouseUp.Take(1).Timeout(
-            //        TimeSpan.FromMilliseconds(500),
-            //        Observable.Empty<EventPattern<MouseButtonEventArgs>>()));
-
-            //doubleClick.Select(_ => this.ChecklistListBox.SelectedItem)
-            //    .Where(x => x != null)
-            //    .Subscribe(x => ((MyViewModel)DataContext).MyCommand.Execute(null));
+            
 
 
             // Love this
@@ -70,6 +58,23 @@ namespace Too_Many_Things.Wpf.Views
                     viewModel => viewModel.OpenChecklist,
                     view => view.OpenChecklistButton)
                     .DisposeWith(disposables);
+
+
+                // These three sections implement ability to double click on a
+                // checklist to open it. Executes OpenChecklist command when an
+                // item in item collection is double clicked.  
+                var mouseUp = Observable.FromEventPattern<MouseButtonEventHandler,
+                    MouseButtonEventArgs>
+                    (h => MouseLeftButtonUp += h, h => MouseLeftButtonUp -= h);
+
+                var doubleClick = mouseUp.SelectMany(
+                    e => mouseUp.Take(1).Timeout(
+                         TimeSpan.FromMilliseconds(500),
+                        Observable.Empty<EventPattern<MouseButtonEventArgs>>()));
+
+                doubleClick.Select(_ => this.ChecklistListBox.SelectedItem)
+                   .Where(x => x != null)
+                   .Subscribe(x => ViewModel.OpenChecklist.Execute());
             });
 
             

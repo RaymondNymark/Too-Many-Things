@@ -24,6 +24,8 @@ namespace Too_Many_Things.Core.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // Enables lazy loading of EF-core entities
+                optionsBuilder.UseLazyLoadingProxies();
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TooManyThings;Trusted_Connection=True;");
             }

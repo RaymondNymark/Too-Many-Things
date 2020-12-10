@@ -33,17 +33,23 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         // ItemCollection to bind to.
+        private ObservableCollection<Entry> _entryList;
+
         public ObservableCollection<Entry> EntryList
         {
-            get => _headChecklist.Entry;
+            get => _entryList;
+            set => this.RaiseAndSetIfChanged(ref _entryList, value);
         }
 
-        public EntryViewModel(Checklist checklist = null, IScreen screen = null, IChecklistService checklistService = null)
+        public EntryViewModel(int checklistID, IScreen screen = null, IChecklistService checklistService = null)
         {
            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
-           _headChecklist = checklist;
+            //var currentChecklist = _checklistService.Get(checklistID);
+
+
+            EntryList = _checklistService.GetEntriesFromChecklist(checklistID);
 
             CloseChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new ChecklistBagViewModel(HostScreen, null)));
         }

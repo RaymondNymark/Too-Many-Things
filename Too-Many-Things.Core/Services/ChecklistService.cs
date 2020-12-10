@@ -10,6 +10,7 @@ using EntityFrameworkCore.DbContextScope;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using static Too_Many_Things.Core.Enums.Enums;
+using System.Diagnostics;
 
 namespace Too_Many_Things.Core.Services
 {
@@ -75,11 +76,8 @@ namespace Too_Many_Things.Core.Services
         {
             if (ValidateChecklist(checklist))
             {
-                using (var dbContextScope = _dbContextScopeFactory.Create())
-                {
                     _dbContext.Checklist.Add(checklist);
-                    dbContextScope.SaveChanges();
-                }
+                    _dbContext.SaveChanges();
             }
         }
 
@@ -332,6 +330,67 @@ namespace Too_Many_Things.Core.Services
             }
 
             return output;
+        }
+        #endregion
+
+
+        #region Debug TODO : Remove this
+        public void DebugTest()
+        {
+            //var EntryList = new ObservableCollection<Entry>();
+
+
+            //var newChecklistToAdd1 = new Checklist() { Name = "My_1st_Checklist" };
+            //var newChecklistToAdd2 = new Checklist() { Name = "My_2nd_Checklist" };
+            //var newChecklistToAdd3 = new Checklist() { Name = "My_3rd_Checklist" };
+
+            //AddNewChecklist(newChecklistToAdd1);
+            //AddNewChecklist(newChecklistToAdd2);
+            //AddNewChecklist(newChecklistToAdd3);
+
+            //var newEntryToAdd1 = new Entry() { Name = "My_1st_Entry" };
+            //var newEntryToAdd2 = new Entry() { Name = "My_2nd_Entry" };
+            //var newEntryToAdd3 = new Entry() { Name = "My_3rd_Entry" };
+
+            //EntryList.Add(newEntryToAdd1);
+            //EntryList.Add(newEntryToAdd2);
+            //EntryList.Add(newEntryToAdd3);
+
+            //var target = Get(2016);
+
+            
+                //target.Entry = EntryList;
+                //_dbContext.SaveChanges();
+            
+
+
+            //AddNewEntryToChecklist(newChecklistToAdd1.ChecklistId, newEntryToAdd1);
+            //AddNewEntryToChecklist(newChecklistToAdd1.ChecklistId, newEntryToAdd2);
+            //AddNewEntryToChecklist(newChecklistToAdd1.ChecklistId, newEntryToAdd3);
+
+            //var newChecklist = new Checklist() { Name = "My_1st_Checklist" };
+            //var newEntry1 = new Entry() { Name = "My_1st_Entry" };
+            //var newEntry2 = new Entry() { Name = "My_2nd_Entry" };
+
+            //newChecklist.Entry.Add(newEntry1);
+            //newChecklist.Entry.Add(newEntry2);
+
+            //_dbContext.Checklist.Add(newChecklist);
+            //_dbContext.SaveChanges();
+
+
+            Debug.WriteLine("DEBUG TEST HAS BEEN CALLED");
+            foreach (Checklist checklist in _dbContext.Checklist)
+            {
+                Debug.WriteLine($"Debug for: '{checklist.Name}' of ID: '{checklist.ChecklistId}'.");
+                foreach (Entry entry in checklist.Entry)
+                {
+                    Debug.WriteLine("All entries: ");
+                    Debug.Write(entry.Name.ToString() + " ");
+                    Debug.Write(entry.EntryId.ToString() + " ");
+                    Debug.Write(entry.ChecklistId.ToString() + " ");
+                }
+            }
         }
         #endregion
     }

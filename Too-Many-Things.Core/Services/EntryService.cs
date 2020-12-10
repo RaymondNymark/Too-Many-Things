@@ -31,6 +31,16 @@ namespace Too_Many_Things.Core.Services
             throw new NotImplementedException();
         }
 
+        public void AddNewEntryToChecklist(int checklistID, Entry entryToAdd)
+        {
+            
+                var target = Get(checklistID);
+                target.Entry.Add(entryToAdd);
+
+            _dbContext.SaveChanges();
+                           
+        }
+
         public Task AddNewEntryAsync(Entry entry)
         {
             throw new NotImplementedException();

@@ -59,7 +59,9 @@ namespace Too_Many_Things.Core.ViewModels
             // TODO : Is this pointless?
             _checklistList = _checklistService.GetLocalCollectionSource();
 
-            OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist, HostScreen)));
+            _checklistService.DebugTest();
+
+            OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist.ChecklistId, HostScreen, _checklistService)));
         }
 
         #region Command-region

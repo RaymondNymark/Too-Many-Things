@@ -36,5 +36,10 @@ namespace Too_Many_Things.Core.Services
         Task RenameEntryAsync(int entryID, string newName);
 
         ObservableCollection<Checklist> GetLocalCollectionSource();
+        void DebugTest();
+
+        void AddNewEntryToChecklist(int checklistID, Entry entryToAdd);
+
+        ObservableCollection<Entry> GetEntriesFromChecklist(int checklistID);
     }
 }

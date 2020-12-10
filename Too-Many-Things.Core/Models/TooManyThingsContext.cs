@@ -6,6 +6,8 @@ namespace Too_Many_Things.Core.Models
 {
     public partial class TooManyThingsContext : DbContext
     {
+        // TODO : Re-make this entire class and models in order to make it more
+        // flexible and add ability to have private database access.
         public TooManyThingsContext()
         {
         }

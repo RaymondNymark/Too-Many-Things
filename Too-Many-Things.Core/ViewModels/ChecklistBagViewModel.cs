@@ -55,11 +55,8 @@ namespace Too_Many_Things.Core.ViewModels
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
-
-            // TODO : Is this pointless?
             _checklistList = _checklistService.GetLocalCollectionSource();
 
-            _checklistService.DebugTest();
 
             OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist.ChecklistId, HostScreen, _checklistService)));
         }

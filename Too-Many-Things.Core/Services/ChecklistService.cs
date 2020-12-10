@@ -380,17 +380,20 @@ namespace Too_Many_Things.Core.Services
 
 
             Debug.WriteLine("DEBUG TEST HAS BEEN CALLED");
-            foreach (Checklist checklist in _dbContext.Checklist)
-            {
-                Debug.WriteLine($"Debug for: '{checklist.Name}' of ID: '{checklist.ChecklistId}'.");
-                foreach (Entry entry in checklist.Entry)
+            //foreach (Checklist checklist in _dbContext.Checklist)
+            //{
+            //Debug.WriteLine($"Debug for: '{checklist.Name}' of ID: '{checklist.ChecklistId}'.");
+
+            var target = Get(2016);
+
+                foreach (Entry entry in target.Entry)
                 {
                     Debug.WriteLine("All entries: ");
                     Debug.Write(entry.Name.ToString() + " ");
                     Debug.Write(entry.EntryId.ToString() + " ");
                     Debug.Write(entry.ChecklistId.ToString() + " ");
                 }
-            }
+            //}
         }
         #endregion
     }

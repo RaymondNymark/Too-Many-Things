@@ -69,7 +69,7 @@ namespace Too_Many_Things.Wpf.Views
 
                 var doubleClick = mouseUp.SelectMany(
                     e => mouseUp.Take(1).Timeout(
-                         TimeSpan.FromMilliseconds(500),
+                         TimeSpan.FromMilliseconds(350),
                         Observable.Empty<EventPattern<MouseButtonEventArgs>>()));
 
                 doubleClick.Select(_ => this.ChecklistListBox.SelectedItem)

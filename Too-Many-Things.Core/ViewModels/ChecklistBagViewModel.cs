@@ -58,7 +58,7 @@ namespace Too_Many_Things.Core.ViewModels
             _checklistList = _checklistService.GetLocalCollectionSource();
 
 
-            OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist.ChecklistId, HostScreen, _checklistService)));
+            OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist, HostScreen, _checklistService)));
         }
 
         #region Command-region

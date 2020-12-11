@@ -30,9 +30,6 @@ namespace Too_Many_Things.Wpf.Views
         {
             InitializeComponent();
 
-            
-
-
             // Love this
             this.WhenActivated(disposables =>
             {

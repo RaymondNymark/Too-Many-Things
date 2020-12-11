@@ -41,15 +41,16 @@ namespace Too_Many_Things.Core.ViewModels
             set => this.RaiseAndSetIfChanged(ref _entryList, value);
         }
 
-        public EntryViewModel(int checklistID, IScreen screen = null, IChecklistService checklistService = null)
+        public EntryViewModel(Checklist selectedChecklist, IScreen screen = null, IChecklistService checklistService = null)
         {
            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistService>();
 
             //var currentChecklist = _checklistService.Get(checklistID);
 
+            EntryList = selectedChecklist.Entry;
 
-            EntryList = _checklistService.GetEntriesFromChecklist(checklistID);
+            //EntryList = _checklistService.GetEntriesFromChecklist(checklistID);
 
             CloseChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new ChecklistBagViewModel(HostScreen, null)));
         }

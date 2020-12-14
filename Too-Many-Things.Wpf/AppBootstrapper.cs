@@ -4,6 +4,7 @@ using Splat;
 using Too_Many_Things.Wpf.Views;
 using EntityFrameworkCore.DbContextScope;
 using Too_Many_Things.Core.ViewModels;
+using Too_Many_Things.Core.DataAccess;
 
 namespace Too_Many_Things.Wpf
 {
@@ -25,6 +26,9 @@ namespace Too_Many_Things.Wpf
 
             // TODO : Figure out if this needs to actually be here.
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
+
+            // DbContexto
+            dependencyResolver.Register(() => new ChecklistContext(), typeof(ChecklistContext));
 
             // Services + Misc
             dependencyResolver.Register(() => new DbContextScopeFactory(), typeof(IDbContextScopeFactory));

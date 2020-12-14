@@ -25,8 +25,14 @@ namespace Too_Many_Things.Wpf
         public MainControllerWindow()
         {
             InitializeComponent();
-            // This does all of the IoC configuring. 
+
+            // This does all of the IoC configuring and creates a local DB if it doesn't exist.
             AppBootStrapper = new AppBootstrapper();
+            AppBootStrapper.ConfigureIOC();
+
+            // This creates a DB if one currently doesn't exist, but it's disabled for now.
+            //AppBootStrapper.ConfigureDB();
+
             ViewModel = new AppViewModel();
 
 

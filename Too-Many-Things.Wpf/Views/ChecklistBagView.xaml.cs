@@ -57,6 +57,12 @@ namespace Too_Many_Things.Wpf.Views
                     .DisposeWith(disposables);
 
 
+                // Binds Setting button to OpenSettingCommand.
+                this.BindCommand(ViewModel,
+                    viewModel => viewModel.OpenSettings,
+                    view => view.OpenSettingsButton)
+                    .DisposeWith(disposables);
+
                 // These three sections implement ability to double click on a
                 // checklist to open it. Executes OpenChecklist command when an
                 // item in item collection is double clicked.  

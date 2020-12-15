@@ -8,5 +8,67 @@
         ResizeMode="CanMinimize"
         Title="Settings" Height="400" Width="400">
 
+    <Grid>
+        <TabControl>
+            <TabItem x:Name="MainTab" Header="_Main">
 
+            </TabItem>
+            
+            <TabItem x:Name="ConnectionTab" Header="_Connection">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.15*"/>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="0.2*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label x:Name="EnableConnectingText" Grid.Row="0" Grid.Column="0" Content="      DT-enable_connect" VerticalAlignment="Center"/>
+                    <CheckBox x:Name="EnableConnectingCheckbox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5"/>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label x:Name="ServerNameText" Grid.Row="0" Grid.Column="0" Content="DT-Server-name:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ServerNameInput" Grid.Row="0" Grid.Column="1" Text="DT-127.0.0.1" VerticalAlignment="Center" Margin="5"/>
+
+                        <Label x:Name="AuthenticationSelection" Grid.Row="1" Grid.Column="0" Content="DT-Authentication:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="AuthenticationInput" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5"/>
+
+                        <Label x:Name="UserNameText" Grid.Row="2" Grid.Column="0" Content="DT-User-name:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="UserNameInput" Grid.Row="2" Grid.Column="1" Text="DT-Simon_Twenty20" VerticalAlignment="Center" Margin="5"/>
+
+                        <Label x:Name="PasswordText" Grid.Row="3" Grid.Column="0" Content="DT-Password:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="PasswordInput" Grid.Row="3" Grid.Column="1" Text="************" VerticalAlignment="Center" Margin="5"/>
+
+                        <CheckBox x:Name="ShowPasswordCheckbox" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
+                        <Label x:Name="ShowPasswordText" Grid.Row="4" Grid.Column="1" Content="      DT-Show-Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+                        <Label x:Name="RememberLoginText" Grid.Row="5" Grid.Column="0" Content="DT-Remember login:" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="RememberLoginCheckbox" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="5"/>
+                    </Grid>
+
+                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Left" Content="Test Connection"/>
+                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Center" Content="Connect and Save"/>
+                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Right" Content="       Cancel       "/>
+                </Grid>
+                
+            </TabItem>
+        </TabControl>
+    </Grid>
 </rxui:ReactiveWindow>

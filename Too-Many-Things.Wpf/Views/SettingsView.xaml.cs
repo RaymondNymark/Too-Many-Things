@@ -23,12 +23,10 @@ namespace Too_Many_Things.Wpf.Views
         {
             InitializeComponent();
             ViewModel = new SettingsViewModel();
-            // TODO : this.
 
-            this.WhenActivated(disposables =>
-            {
-
-            });
+            //this.WhenActivated(disposables =>
+            //{
+            //});
         }
     }
 }

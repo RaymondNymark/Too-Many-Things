@@ -19,6 +19,7 @@ namespace Too_Many_Things.Wpf.Views
     /// </summary>
     public partial class SettingsView : ReactiveWindow<SettingsViewModel>
     {
+        // TODO : Add hint / example text to boxes.
         public SettingsView()
         {
             InitializeComponent();

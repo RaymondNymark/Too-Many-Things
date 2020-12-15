@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -27,9 +28,12 @@ namespace Too_Many_Things.Wpf.Views
     /// </summary>
     public partial class ChecklistBagView : ReactiveUserControl<IChecklistBagViewModel>
     {
+        public ReactiveCommand<Unit, Unit> OpenSettingsCommand { get; set; }
+
         public ChecklistBagView()
         {
             InitializeComponent();
+            OpenSettingsCommand = ReactiveCommand.Create(() => Debug.WriteLine("It ran"));
 
             // Love this
             this.WhenActivated(disposables =>
@@ -72,7 +76,16 @@ namespace Too_Many_Things.Wpf.Views
                 doubleClick.Select(_ => this.ChecklistListBox.SelectedItem)
                    .Where(x => x != null)
                    .Subscribe(x => ViewModel.OpenChecklist.Execute());
+
+                //this.WhenAnyValue(x => x.OpenSettingsButton.Command)
+                //    .BindTo(this, view => view.OpenSettingsCommand);
             });  
+        }
+
+        private void OpenSettingsWindow()
+        {
+            var SettingsView = new SettingsView();
+            SettingsView.Show();
         }
 
         // This opens the setting window. This is a gross temporary work-around

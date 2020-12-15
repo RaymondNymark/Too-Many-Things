@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -56,13 +57,6 @@ namespace Too_Many_Things.Wpf.Views
                     view => view.OpenChecklistButton)
                     .DisposeWith(disposables);
 
-
-                // Binds Setting button to OpenSettingCommand.
-                this.BindCommand(ViewModel,
-                    viewModel => viewModel.OpenSettings,
-                    view => view.OpenSettingsButton)
-                    .DisposeWith(disposables);
-
                 // These three sections implement ability to double click on a
                 // checklist to open it. Executes OpenChecklist command when an
                 // item in item collection is double clicked.  
@@ -78,9 +72,17 @@ namespace Too_Many_Things.Wpf.Views
                 doubleClick.Select(_ => this.ChecklistListBox.SelectedItem)
                    .Where(x => x != null)
                    .Subscribe(x => ViewModel.OpenChecklist.Execute());
-            });
+            });  
+        }
 
-            
+        // This opens the setting window. This is a gross temporary work-around
+        // because reactiveUI doesn't seem to like multiple windows at all, and
+        // this has to be done view first.
+        private void OpenSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO : Not this.
+            var SettingsView = new SettingsView();
+            SettingsView.Show();
         }
     }
 }

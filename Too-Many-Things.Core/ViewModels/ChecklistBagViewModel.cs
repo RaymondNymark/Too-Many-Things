@@ -19,7 +19,6 @@ namespace Too_Many_Things.Core.ViewModels
         ObservableCollection<Checklist> ChecklistList { get; set; }
         IScreen HostScreen { get; }
         ReactiveCommand<Unit, IRoutableViewModel> OpenChecklist { get; }
-        ReactiveCommand<Unit, SettingsViewModel> OpenSettings { get; }
         Checklist SelectedChecklist { get; set; }
         string UrlPathSegment { get; }
     }
@@ -60,12 +59,11 @@ namespace Too_Many_Things.Core.ViewModels
 
 
             OpenChecklist = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedChecklist, HostScreen, _checklistService)));
-            OpenSettings = ReactiveCommand.Create(() => new SettingsViewModel());
         }
 
         #region Command-region
         public ReactiveCommand<Unit, IRoutableViewModel> OpenChecklist { get; }
-        public ReactiveCommand<Unit, SettingsViewModel> OpenSettings { get; }
+
         #endregion
     }
 }

@@ -12,5 +12,11 @@ namespace Too_Many_Things.Core.Enums
             AscendingOrder,
             DescendingOrder
         }
+
+        public enum AuthenticationType
+        {
+            SqlServerAuthentication,
+            MSServerAuthentication
+        }
     }
 }

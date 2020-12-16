@@ -8,7 +8,7 @@ namespace Too_Many_Things.Core.Services
     /// <summary>
     /// This class saves and retrieves ConnectionString saved on a txt file.
     /// Because this is not a public connectionString, encrypting it or storing
-    /// it safely is not needed.
+    /// it overly safely is not needed.
     /// </summary>
     public static class ConnectionStringManager
     {

@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ReactiveUI.WPF" Version="12.1.5" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Splat;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess;
 using Too_Many_Things.Core.DataAccess.Structs;
-using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.Services
 {

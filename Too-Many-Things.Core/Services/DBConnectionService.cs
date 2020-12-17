@@ -26,7 +26,7 @@ namespace Too_Many_Things.Core.Services
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static (string pingConnectionString, string connectionString) CreateConnectionString(ConnectionLogin input)
+        public static (string pingConnectionString, string connectionString) CreateConnectionString(ConnectionLogin input)
         {
             string PingConnectionString;
             string ConnectionString;
@@ -54,7 +54,7 @@ namespace Too_Many_Things.Core.Services
         /// </summary>
         /// <param name="connectionString">Connection string</param>
         /// <returns>True if connection is opened / valid.</returns>
-        private static bool IsServerConnected(string connectionString)
+        public static bool IsServerConnected(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -127,7 +127,7 @@ namespace Too_Many_Things.Core.Services
 
         #endregion
         #region Asynchronous methods
-        private static async Task<bool> IsServerConnectedAsync(string connectionString)
+        public static async Task<bool> IsServerConnectedAsync(string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

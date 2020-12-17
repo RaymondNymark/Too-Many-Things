@@ -13,7 +13,7 @@
             <TabItem x:Name="MainTab" Header="_Main">
 
             </TabItem>
-            
+
             <TabItem x:Name="ConnectionTab" Header="_Connection">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -23,7 +23,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.15*"/>
                         <RowDefinition Height="0.9*"/>
-                        <RowDefinition Height="0.2*"/>
+                        <RowDefinition Height="0.3*"/>
                     </Grid.RowDefinitions>
 
                     <Label x:Name="EnableConnectingText" Grid.Row="0" Grid.Column="0" Content="      DT-enable_connect" VerticalAlignment="Center"/>
@@ -49,7 +49,7 @@
 
                         <Label x:Name="DatabaseNameText" Grid.Row="1" Grid.Column="0" Content="DT-Database-Name" VerticalAlignment="Center"/>
                         <TextBox x:Name="DatabaseNameInput" Grid.Row="1" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
-                        
+
                         <Label x:Name="AuthenticationSelection" Grid.Row="2" Grid.Column="0" Content="DT-Authentication:" VerticalAlignment="Center"/>
                         <ComboBox x:Name="AuthenticationInput" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5">
                             <ComboBoxItem>
@@ -68,11 +68,13 @@
                         <Label x:Name="ShowPasswordText" Grid.Row="5" Grid.Column="1" Content="      DT-Show-Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
 
-                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Left" Content="Test Connection"/>
-                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Center" Content="Connect and Save"/>
-                    <Button Grid.Row="2" Margin="15" HorizontalAlignment="Right" Content="       Cancel       "/>
+                    <Button x:Name="TestConnectionBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Left" Content="Test Connection" VerticalAlignment="Bottom"/>
+                    <Button Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Center" Content="Connect and Save" VerticalAlignment="Bottom"/>
+                    <Button Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Cancel       " VerticalAlignment="Bottom"/>
+
+                    <Label x:Name="ConnectionStatusText" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
-                
+
             </TabItem>
         </TabControl>
     </Grid>

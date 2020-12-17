@@ -1,4 +1,6 @@
 ﻿using ReactiveUI;
+using System.Reactive.Disposables;
+using Too_Many_Things.Core.DataAccess.Structs;
 using Too_Many_Things.Core.ViewModels;
 
 namespace Too_Many_Things.Wpf.Views
@@ -14,9 +16,18 @@ namespace Too_Many_Things.Wpf.Views
             InitializeComponent();
             ViewModel = new SettingsViewModel();
 
-            //this.WhenActivated(disposables =>
-            //{
-            //});
+            this.WhenActivated(disposables =>
+            {
+                // Binds the inputs to ConnectionLogin object in the VM.
+                this.WhenAnyValue(
+                x => x.ServerNameInput.Text,
+                x => x.DatabaseNameInput.Text,
+                x => x.UserNameInput.Text,
+                x => x.PasswordInput.Text,
+                (a, b, c, d) => new ConnectionLogin(a, b, c, d))
+                .BindTo(ViewModel, x => x.ConnectionLogin)
+                .DisposeWith(disposables);
+            });
         }
     }
 }

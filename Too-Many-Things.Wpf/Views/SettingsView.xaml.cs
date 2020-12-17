@@ -27,6 +27,21 @@ namespace Too_Many_Things.Wpf.Views
                 (a, b, c, d) => new ConnectionLogin(a, b, c, d))
                 .BindTo(ViewModel, x => x.ConnectionLogin)
                 .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.TestConnectionCommand,
+                    v => v.TestConnectionBtn)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ConnectionStatus,
+                    v => v.ConnectionStatusText.Content)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ConnectionStatusBrush,
+                    v => v.ConnectionStatusText.Foreground)
+                    .DisposeWith(disposables);
             });
         }
     }

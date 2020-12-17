@@ -12,12 +12,18 @@ using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.Services
 {
-    public class DBConnectionService
+    public interface IDBConnectionService
+    {
+        bool InitializeDB(string connectionString);
+    }
+
+    public class DBConnectionService : IDBConnectionService
     {
         public DBConnectionService()
         {
 
         }
+
         /// <summary>
         /// Creates connection strings from ConnectionLogin object. This does
         /// nothing to verify if the connection strings are valid or working.
@@ -91,7 +97,7 @@ namespace Too_Many_Things.Core.Services
             {
                 // Saves the connectionString.
                 ConnectionStringManager.SetConnectionString(connectionString);
-                completion = false;
+                completion = true;
             }
 
             return completion;
@@ -117,7 +123,7 @@ namespace Too_Many_Things.Core.Services
                 {
                     throw ex;
                 }
-                
+
             }
         }
     }

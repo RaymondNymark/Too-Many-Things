@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess;
+using Too_Many_Things.Core.DataAccess.Structs;
 using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.Services
@@ -17,45 +18,31 @@ namespace Too_Many_Things.Core.Services
         // TODO : Check for Authentication type in overloaded
         // CreateConnectionString method.  MSAuth may be useless anyways, so it
         // defaults to SQL auth.
-        private static string CreateConnectionString(string serverName, string userName = null, string password = null)
+
+        /// <summary>
+        /// Creates connection strings from ConnectionLogin object.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static (string pingConnectionString, string connectionString) CreateConnectionString(ConnectionLogin input)
         {
-            string result;
-            bool usingLogin = false;
+            string PingConnectionString;
+            string ConnectionString;
 
-            if (userName != null && password != null)
+            if (input.UserName != null && input.Password != null)
             {
-                usingLogin = true;
-            }
-
-            if (usingLogin)
-            {
-                result = string.Format("Server={0}; User Id={1}; Password={2};", serverName, userName, password);
+                // Using login
+                PingConnectionString = string.Format("Server={0}; User Id={1}; Password={2};", input.ServerName, input.UserName, input.Password);
+                ConnectionString = string.Format("Server={0}; InitialCatlog={1}; User Id={2}; Password={3};", input.ServerName, input.DatabaseName, input.UserName, input.Password);
             }
             else
             {
-                result = string.Format("Server={0}; Trusted_Connection=True;", serverName);
-            }
-            return result;
-        }
-        private static string CreateConnectionString(string serverName, string dataBase, string userName = null, string password = null)
-        {
-            string result;
-            bool usingLogin = false;
-
-            if (userName != null && password != null)
-            {
-                usingLogin = true;
+                // Not using login
+                PingConnectionString = string.Format("Server={0};Trusted_Connection=True;", input.ServerName);
+                ConnectionString = string.Format("Server={0}; InitialCatlog={1};Trusted_Connection=True;", input.ServerName, input.DatabaseName);
             }
 
-            if (usingLogin)
-            {
-                result = string.Format("Server={0}; InitialCatlog={3}; User Id={1}; Password={2};", serverName, userName, password, dataBase);
-            }
-            else
-            {
-                result = string.Format("Server={0}; InitialCatlog={1};Trusted_Connection=True;", serverName, dataBase);
-            }
-            return result;
+            return (PingConnectionString, ConnectionString);
         }
 
         /// <summary>
@@ -81,20 +68,51 @@ namespace Too_Many_Things.Core.Services
             }
         }
 
-        public static bool InitializeDB(string initialConnectionString, string dataBaseName = "testDB69")
+        private static bool InitializeDB(string connectionString)
         {
-            
+            // 1: Create new DB if it doesn't exist.  Then ensure the DB is made.
+            // 2: Create new connection string with new database name. 
+            // 3: Save this connection string safely for WPF.
+            // 4: profit
+
             var options = new DbContextOptionsBuilder<ChecklistContext>()
-                .UseSqlServer(initialConnectionString)
+                .UseSqlServer(connectionString)
                 .Options;
 
-            using (var context = new ChecklistContext(options))
+            // Task 1:
+            CreateDbIfNotExist(options);
+
+            // Task 2: Somehow save mainConnectionString safely on wpf.
+            if (IsServerConnected(connectionString))
             {
-                context.Database.Migrate();
+                ConnectionStringManager.SetConnectionString(connectionString);
             }
-            //ChecklistContext Context = context ?? Locator.Current.GetService<ChecklistContext>();
 
             return false;
+        }
+        /// <summary>
+        /// Creates DB if it doesn't already exist.
+        /// </summary>
+        /// <param name="options">DbContextOption parameter</param>
+        /// <returns>True if it was successfully created or already exists.</returns>
+        private static bool CreateDbIfNotExist(DbContextOptions options)
+        {
+            // Intentionally avoiding DI here for now just to make sure DI isn't
+            // doing bad things here.
+            using (var context = new ChecklistContext(options))
+            {
+                // TODO : Logging + exception catching
+                try
+                {
+                    context.Database.Migrate();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                
+            }
         }
     }
 }

@@ -15,13 +15,13 @@ namespace Too_Many_Things.Core.Services
     public interface IDBConnectionService
     {
         bool InitializeDB(string connectionString);
+        Task<bool> InitializeDBAsync(string connectionString);
     }
 
     public class DBConnectionService : IDBConnectionService
     {
         public DBConnectionService()
         {
-
         }
 
         /// <summary>
@@ -50,6 +50,8 @@ namespace Too_Many_Things.Core.Services
 
             return (PingConnectionString, ConnectionString);
         }
+
+        #region Synchronous methods.
 
         /// <summary>
         /// Tests if a server is connected.
@@ -126,5 +128,63 @@ namespace Too_Many_Things.Core.Services
 
             }
         }
+
+        #endregion
+        #region Asynchronous methods
+        private static async Task<bool> IsServerConnectedAsync(string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    return true;
+                }
+                catch (SqlException ex)
+                {
+                    // TODO : Log. Splat logger method is deprecated.
+                    Debug.WriteLine($"Failed to connect. Exception: {ex}");
+                    return false;
+                }
+            }
+        }
+        private static async Task<bool> CreateDbIfNotExistsAsync(DbContextOptions options)
+        {
+            using (var context = new ChecklistContext(options))
+            {
+                try
+                {
+                    await context.Database.MigrateAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+        public async Task<bool> InitializeDBAsync(string connectionString)
+        {
+            bool completion = false;
+            bool isDBCreated = false;
+            bool isDBConnectable = false;
+
+            var options = new DbContextOptionsBuilder<ChecklistContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            isDBCreated = await CreateDbIfNotExistsAsync(options);
+            isDBConnectable = await IsServerConnectedAsync(connectionString);
+
+            if (isDBCreated == true && isDBConnectable == true)
+            {
+                // Saves the connectionString.
+                await ConnectionStringManager.SetConnectionStringAsync(connectionString);
+                completion = true;
+            }
+
+            return completion;
+        }
+        #endregion
     }
 }

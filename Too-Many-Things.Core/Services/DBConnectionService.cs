@@ -12,15 +12,15 @@ using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.Services
 {
-    // Everything related to setting up custom connection strings go here.
-    public partial class DataAccessService
+    public class DBConnectionService
     {
-        // TODO : Check for Authentication type in overloaded
-        // CreateConnectionString method.  MSAuth may be useless anyways, so it
-        // defaults to SQL auth.
+        public DBConnectionService()
+        {
 
+        }
         /// <summary>
-        /// Creates connection strings from ConnectionLogin object.
+        /// Creates connection strings from ConnectionLogin object. This does
+        /// nothing to verify if the connection strings are valid or working.
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -68,27 +68,33 @@ namespace Too_Many_Things.Core.Services
             }
         }
 
-        private static bool InitializeDB(string connectionString)
+        /// <summary>
+        /// Initializes the dataBase by creating one if it doesn't exist and
+        /// verifying that it is working.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns>True if successfully initialized</returns>
+        public bool InitializeDB(string connectionString)
         {
-            // 1: Create new DB if it doesn't exist.  Then ensure the DB is made.
-            // 2: Create new connection string with new database name. 
-            // 3: Save this connection string safely for WPF.
-            // 4: profit
+            bool completion = false;
+            bool isDBCreated = false;
+            bool isDBConnectable = false;
 
             var options = new DbContextOptionsBuilder<ChecklistContext>()
                 .UseSqlServer(connectionString)
                 .Options;
 
-            // Task 1:
-            CreateDbIfNotExist(options);
+            isDBCreated = CreateDbIfNotExist(options);
+            isDBConnectable = IsServerConnected(connectionString);
 
-            // Task 2: Somehow save mainConnectionString safely on wpf.
-            if (IsServerConnected(connectionString))
+            if (isDBCreated == true && isDBConnectable == true)
             {
+                // Saves the connectionString.
                 ConnectionStringManager.SetConnectionString(connectionString);
+                completion = false;
             }
 
-            return false;
+            return completion;
         }
         /// <summary>
         /// Creates DB if it doesn't already exist.

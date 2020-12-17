@@ -47,20 +47,25 @@
                         <Label x:Name="ServerNameText" Grid.Row="0" Grid.Column="0" Content="DT-Server-name:" VerticalAlignment="Center"/>
                         <TextBox x:Name="ServerNameInput" Grid.Row="0" Grid.Column="1" Text="DT-127.0.0.1" VerticalAlignment="Center" Margin="5"/>
 
-                        <Label x:Name="AuthenticationSelection" Grid.Row="1" Grid.Column="0" Content="DT-Authentication:" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="AuthenticationInput" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="5"/>
+                        <Label x:Name="DatabaseNameText" Grid.Row="1" Grid.Column="0" Content="DT-Database-Name" VerticalAlignment="Center"/>
+                        <TextBox x:Name="DatabaseNameInput" Grid.Row="1" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
+                        
+                        <Label x:Name="AuthenticationSelection" Grid.Row="2" Grid.Column="0" Content="DT-Authentication:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="AuthenticationInput" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5">
+                            <ComboBoxItem>
+                                <TextBlock Text="SQL Server Authentication"/>
+                                <!--TODO : Default item-->
+                            </ComboBoxItem>
+                        </ComboBox>
 
-                        <Label x:Name="UserNameText" Grid.Row="2" Grid.Column="0" Content="DT-User-name:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="UserNameInput" Grid.Row="2" Grid.Column="1" Text="DT-Simon_Twenty20" VerticalAlignment="Center" Margin="5"/>
+                        <Label x:Name="UserNameText" Grid.Row="3" Grid.Column="0" Content="DT-User-name:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="UserNameInput" Grid.Row="3" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
 
-                        <Label x:Name="PasswordText" Grid.Row="3" Grid.Column="0" Content="DT-Password:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="PasswordInput" Grid.Row="3" Grid.Column="1" Text="************" VerticalAlignment="Center" Margin="5"/>
+                        <Label x:Name="PasswordText" Grid.Row="4" Grid.Column="0" Content="DT-Password:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="PasswordInput" Grid.Row="4" Grid.Column="1" Text="************" VerticalAlignment="Center" Margin="5"/>
 
-                        <CheckBox x:Name="ShowPasswordCheckbox" Grid.Row="4" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
-                        <Label x:Name="ShowPasswordText" Grid.Row="4" Grid.Column="1" Content="      DT-Show-Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-
-                        <Label x:Name="RememberLoginText" Grid.Row="5" Grid.Column="0" Content="DT-Remember login:" VerticalAlignment="Center"/>
-                        <CheckBox x:Name="RememberLoginCheckbox" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="5"/>
+                        <CheckBox x:Name="ShowPasswordCheckbox" Grid.Row="5" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
+                        <Label x:Name="ShowPasswordText" Grid.Row="5" Grid.Column="1" Content="      DT-Show-Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
 
                     <Button Grid.Row="2" Margin="15" HorizontalAlignment="Left" Content="Test Connection"/>

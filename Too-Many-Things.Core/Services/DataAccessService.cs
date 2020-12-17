@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Too_Many_Things.Core.Services
 {
-    public partial class DataAccessService : IEnableLogger
+    public class DataAccessService : IEnableLogger
     {
         public DataAccessService()
         {

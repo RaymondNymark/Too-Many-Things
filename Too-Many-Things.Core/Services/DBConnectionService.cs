@@ -155,11 +155,17 @@ namespace Too_Many_Things.Core.Services
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Exception has been thrown. Execption: {ex}");
                     throw ex;
                 }
             }
         }
+
+        /// <summary>
+        /// Initializes the dataBase by creating one if it doesn't exist and
+        /// verifying that it is working.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns>True if successfully initialized</returns>
         public async Task<bool> InitializeDBAsync(string connectionString)
         {
             bool completion = false;

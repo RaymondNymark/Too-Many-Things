@@ -35,13 +35,13 @@ namespace Too_Many_Things.Core.Services
             {
                 // Using login
                 PingConnectionString = string.Format("Server={0}; User Id={1}; Password={2};", input.ServerName, input.UserName, input.Password);
-                ConnectionString = string.Format("Server={0}; InitialCatlog={1}; User Id={2}; Password={3};", input.ServerName, input.DatabaseName, input.UserName, input.Password);
+                ConnectionString = string.Format("Server={0}; Database={1}; User Id={2}; Password={3};", input.ServerName, input.DatabaseName, input.UserName, input.Password);
             }
             else
             {
                 // Not using login
                 PingConnectionString = string.Format("Server={0};Trusted_Connection=True;", input.ServerName);
-                ConnectionString = string.Format("Server={0}; InitialCatlog={1};Trusted_Connection=True;", input.ServerName, input.DatabaseName);
+                ConnectionString = string.Format("Server={0}; Database={1};Trusted_Connection=True;", input.ServerName, input.DatabaseName);
             }
 
             return (PingConnectionString, ConnectionString);

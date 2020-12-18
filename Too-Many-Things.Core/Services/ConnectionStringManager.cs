@@ -40,5 +40,27 @@ namespace Too_Many_Things.Core.Services
             var connectionString = await File.ReadAllTextAsync("ConnectionString.txt");
             return connectionString;
         }
+
+        /// <summary>
+        /// Returns bool if connectionString is saved to system. Implies the DB
+        /// has been configured.
+        /// </summary>
+        /// <returns>True if connectionString exists.</returns>
+        public static async Task<bool> ConnectionIsConfigured()
+        {
+            var result = false;
+            var fileExists = await Task.Run(() => File.Exists("ConnectionString.txt"));
+
+            if (fileExists)
+            {
+                var content = await File.ReadAllTextAsync("ConnectionString.txt");
+                
+                if (content.Length > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }

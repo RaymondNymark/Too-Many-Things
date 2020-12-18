@@ -32,6 +32,6 @@
         <Button x:Name="NewDefaultChecklistButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn"/>
         <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="Temp Open Checklist Btn"/>
         <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
-        <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧" Click="OpenSettingsButton_Click"/>
+        <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
     </Grid>
 </rxui:ReactiveUserControl>

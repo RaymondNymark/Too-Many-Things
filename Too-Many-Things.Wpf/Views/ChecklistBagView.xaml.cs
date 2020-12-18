@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Too_Many_Things.Core.ViewModels;
+using Too_Many_Things.Core.Services;
 
 namespace Too_Many_Things.Wpf.Views
 {
@@ -17,13 +18,14 @@ namespace Too_Many_Things.Wpf.Views
     public partial class ChecklistBagView : ReactiveUserControl<IChecklistBagViewModel>
     {
         public ReactiveCommand<Unit, Unit> OpenSettingsCommand { get; set; }
+        public ICommand OpenSettingsICommand { get; set; }
 
         public ChecklistBagView()
         {
             InitializeComponent();
-            OpenSettingsCommand = ReactiveCommand.Create(() => Debug.WriteLine("It ran"));
-
-
+            OpenSettingsCommand = ReactiveCommand.Create(() => OpenSettingsWindow());
+            OpenSettingsICommand = OpenSettingsCommand;
+            
             // This is great.
             this.WhenActivated(disposables =>
             {
@@ -66,23 +68,16 @@ namespace Too_Many_Things.Wpf.Views
                    .Where(x => x != null)
                    .Subscribe(x => ViewModel.OpenChecklist.Execute());
 
-                //this.WhenAnyValue(x => x.OpenSettingsButton.Command)
-                //    .BindTo(this, view => view.OpenSettingsCommand);
+                this.WhenAnyValue(x => x.OpenSettingsCommand)
+                    .BindTo(this, view => view.OpenSettingsButton.Command);
             });
         }
 
+        /// <summary>
+        /// Opens the settings window.
+        /// </summary>
         private void OpenSettingsWindow()
         {
-            var SettingsView = new SettingsView();
-            SettingsView.Show();
-        }
-
-        // This opens the setting window. This is a gross temporary work-around
-        // because reactiveUI doesn't seem to like multiple windows at all, and
-        // this has to be done view first.
-        private void OpenSettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO : Not this.
             var SettingsView = new SettingsView();
             SettingsView.Show();
         }

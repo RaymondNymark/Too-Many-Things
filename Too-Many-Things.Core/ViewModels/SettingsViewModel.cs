@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Too_Many_Things.Core.DataAccess.Structs;
@@ -97,45 +98,52 @@ namespace Too_Many_Things.Core.ViewModels
         {
             ConnectionStrings = DBConnectionService.CreateConnectionString(connectionLogin);
         }
-
-        // For color of connection status.
-        public Brush GetColor()
-        {
-            switch (ConnectionStatus)
-            {
-                case "Successfully connected to the server.":
-                    return Brushes.Green;
-                case "Failed to connect. Please try again.":
-                    return Brushes.Red;
-                default:
-                    return Brushes.Black;
-            }
-        }
  
         private async Task PingConnectionStringAsync()
         {
             ConnectionStatus = "Attempting to establish a connection...";
-            ConnectionStatusBrush = GetColor();
+            ConnectionStatusBrush = Brushes.Black;
 
             var status = await DBConnectionService.IsServerConnectedAsync(ConnectionStrings.pingConnectionString);
 
             if (status == true)
             {
                 ConnectionStatus = "Successfully connected to the server.";
-                ConnectionStatusBrush = GetColor();
+                ConnectionStatusBrush = Brushes.Green;
                 TestConnectionWasSuccess = true;
             }
             else
             {
                 ConnectionStatus = "Failed to connect. Please try again.";
-                ConnectionStatusBrush = GetColor();
+                ConnectionStatusBrush = Brushes.Red;
                 TestConnectionWasSuccess = false;
             }
         }
 
         private async Task ConnectAndSaveAsync()
         {
-            await Task.Run(() => Debug.WriteLine("Nothing"));
+            var success = false;
+            ConnectionStatusBrush = Brushes.Black;
+            ConnectionStatus = "Trying to initialize and save the connection...";
+            try
+            {
+                success = await _dbConectionService.InitializeDBAsync(ConnectionStrings.connectionString);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+            if (success == true)
+            {
+                ConnectionStatusBrush = Brushes.Blue;
+                ConnectionStatus = "Connection has been initialized and saved!";
+            }
+            else
+            {
+                ConnectionStatusBrush = Brushes.Red;
+                ConnectionStatus = "Saving has catastrophically failed.";
+            }
         }
         #endregion
 

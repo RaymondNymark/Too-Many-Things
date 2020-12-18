@@ -23,7 +23,7 @@ namespace Too_Many_Things.Wpf.Views
                 x => x.ServerNameInput.Text,
                 x => x.DatabaseNameInput.Text,
                 x => x.UserNameInput.Text,
-                x => x.PasswordInput.Text,
+                x => x.PasswordInput.Password,
                 (a, b, c, d) => new ConnectionLogin(a, b, c, d))
                 .BindTo(ViewModel, x => x.ConnectionLogin)
                 .DisposeWith(disposables);

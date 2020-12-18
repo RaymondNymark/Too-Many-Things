@@ -26,7 +26,7 @@
                         <RowDefinition Height="0.3*"/>
                     </Grid.RowDefinitions>
 
-                    <Label x:Name="EnableConnectingText" Grid.Row="0" Grid.Column="0" Content="      DT-enable_connect" VerticalAlignment="Center"/>
+                    <Label x:Name="EnableConnectingText" Grid.Row="0" Grid.Column="0" Content="      Enable connecting to a database" VerticalAlignment="Center"/>
                     <CheckBox x:Name="EnableConnectingCheckbox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" IsChecked="True"/>
 
                     <Grid Grid.Row="1">
@@ -44,33 +44,34 @@
                             <ColumnDefinition Width="0.7*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label x:Name="ServerNameText" Grid.Row="0" Grid.Column="0" Content="DT-Server-name:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="ServerNameInput" Grid.Row="0" Grid.Column="1" Text="DT-127.0.0.1" VerticalAlignment="Center" Margin="5"/>
+                        <Label x:Name="ServerNameText" Grid.Row="0" Grid.Column="0" Content="Server name:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ServerNameInput" Grid.Row="0" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
 
-                        <Label x:Name="DatabaseNameText" Grid.Row="1" Grid.Column="0" Content="DT-Database-Name" VerticalAlignment="Center"/>
+                        <Label x:Name="DatabaseNameText" Grid.Row="1" Grid.Column="0" Content="Database name" VerticalAlignment="Center"/>
                         <TextBox x:Name="DatabaseNameInput" Grid.Row="1" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
 
-                        <Label x:Name="AuthenticationSelection" Grid.Row="2" Grid.Column="0" Content="DT-Authentication:" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="AuthenticationInput" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5">
+                        <Label x:Name="AuthenticationSelection" Grid.Row="2" Grid.Column="0" Content="Authentication:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="AuthenticationInput" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5" SelectedIndex="0">
                             <ComboBoxItem>
                                 <TextBlock Text="SQL Server Authentication"/>
                                 <!--TODO : Default item-->
                             </ComboBoxItem>
                         </ComboBox>
 
-                        <Label x:Name="UserNameText" Grid.Row="3" Grid.Column="0" Content="DT-User-name:" VerticalAlignment="Center"/>
+                        <Label x:Name="UserNameText" Grid.Row="3" Grid.Column="0" Content="User name:" VerticalAlignment="Center"/>
                         <TextBox x:Name="UserNameInput" Grid.Row="3" Grid.Column="1" Text="" VerticalAlignment="Center" Margin="5"/>
 
-                        <Label x:Name="PasswordText" Grid.Row="4" Grid.Column="0" Content="DT-Password:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="PasswordInput" Grid.Row="4" Grid.Column="1" Text="************" VerticalAlignment="Center" Margin="5"/>
+                        <Label x:Name="PasswordText" Grid.Row="4" Grid.Column="0" Content="Password:" VerticalAlignment="Center"/>
+                        <PasswordBox x:Name="PasswordInput" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin="5" PasswordChar="・"/>
 
+                        <!-- There's no simple elegant solution to this in WPF.  Password will just have to be hidden. -->
                         <CheckBox x:Name="ShowPasswordCheckbox" Grid.Row="5" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
-                        <Label x:Name="ShowPasswordText" Grid.Row="5" Grid.Column="1" Content="      DT-Show-Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Label x:Name="ShowPasswordText" Grid.Row="5" Grid.Column="1" Content="      Show Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
 
-                    <Button x:Name="TestConnectionBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Left" Content="Test Connection" VerticalAlignment="Bottom"/>
-                    <Button x:Name="ConnectAndSaveBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Center" Content="Connect and Save" VerticalAlignment="Bottom"/>
-                    <Button x:Name="CancelConnectionBtn" Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Cancel       " VerticalAlignment="Bottom"/>
+                    <Button x:Name="TestConnectionBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Left" Content=" Test Connection " VerticalAlignment="Bottom"/>
+                    <Button x:Name="ConnectAndSaveBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Center" Content=" Connect and Save " VerticalAlignment="Bottom"/>
+                    <Button x:Name="CancelConnectionBtn" Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Close       " VerticalAlignment="Bottom" IsEnabled="False"/>
 
                     <Label x:Name="ConnectionStatusText" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>

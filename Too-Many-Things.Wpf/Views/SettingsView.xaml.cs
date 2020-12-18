@@ -33,6 +33,11 @@ namespace Too_Many_Things.Wpf.Views
                     v => v.TestConnectionBtn)
                     .DisposeWith(disposables);
 
+                this.BindCommand(ViewModel,
+                    vm => vm.ConnectSaveCommand,
+                    v => v.ConnectAndSaveBtn)
+                    .DisposeWith(disposables);
+
                 this.OneWayBind(ViewModel,
                     vm => vm.ConnectionStatus,
                     v => v.ConnectionStatusText.Content)

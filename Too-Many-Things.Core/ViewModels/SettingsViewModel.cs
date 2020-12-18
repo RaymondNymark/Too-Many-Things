@@ -18,11 +18,15 @@ namespace Too_Many_Things.Core.ViewModels
         public RoutingState Router { get; private set; }
         private IDBConnectionService _dbConectionService;
         public ReactiveCommand<Unit, Unit> TestConnectionCommand;
+        public ReactiveCommand<Unit, Unit> ConnectSaveCommand;
+
+        private bool _testConnectionWasSuccess;
 
         public SettingsViewModel(RoutingState router = null, IDBConnectionService DBConnectionService = null)
         {
             Router = router ?? new RoutingState();
             _dbConectionService = DBConnectionService ?? Locator.Current.GetService<IDBConnectionService>();
+            _testConnectionWasSuccess = false;
 
             // Updates connection strings with a 1000ms throttle when anything is entered into settings.
             this.WhenAnyValue(x => x.ConnectionLogin)
@@ -37,10 +41,18 @@ namespace Too_Many_Things.Core.ViewModels
                     !string.IsNullOrEmpty(serverName) &&
                     !string.IsNullOrEmpty(databaseName));
 
+            var connectSaveCanExecute = this.WhenAnyValue(
+                x => x.TestConnectionWasSuccess,
+                (flag) => flag == true);
+            // ↑ TODO : Only stay active if LoginDetails haven't changed. Actually, it doesn't matter
+
+
+            // Commands
             TestConnectionCommand = ReactiveCommand.CreateFromTask(PingConnectionStringAsync, testConnectionCanExecute);
+            ConnectSaveCommand = ReactiveCommand.CreateFromTask(ConnectAndSaveAsync, connectSaveCanExecute);
 
             // Debug-only TODO : Remove this.
-            //this.WhenAnyValue(x => x.ConnectionStrings).Subscribe(x => Debug.WriteLine($"{ConnectionStrings.pingConnectionString} and {ConnectionStrings.connectionString}"));
+            // this.WhenAnyValue(x => x.ConnectionStrings).Subscribe(x => Debug.WriteLine($"{ConnectionStrings.pingConnectionString} and {ConnectionStrings.connectionString}"));
         }
 
         #region Properties
@@ -64,6 +76,12 @@ namespace Too_Many_Things.Core.ViewModels
         {
             get => _connectionStatus;
             set => this.RaiseAndSetIfChanged(ref _connectionStatus, value);
+        }
+
+        public bool TestConnectionWasSuccess
+        {
+            get => _testConnectionWasSuccess;
+            set => this.RaiseAndSetIfChanged(ref _testConnectionWasSuccess, value);
         }
 
         public Brush ConnectionStatusBrush
@@ -105,25 +123,20 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 ConnectionStatus = "Successfully connected to the server.";
                 ConnectionStatusBrush = GetColor();
+                TestConnectionWasSuccess = true;
             }
             else
             {
                 ConnectionStatus = "Failed to connect. Please try again.";
                 ConnectionStatusBrush = GetColor();
+                TestConnectionWasSuccess = false;
             }
         }
 
-        //private async Task<bool> TestConnectionAsync()
-        //{
-        //    var connectionLogin = new ConnectionLogin(ServerName, DatabaseName, UserName, Password);
-        //    var conStrings = DBConnectionService.CreateConnectionString(connectionLogin);
-
-        //    ConnectionString = conStrings.connectionString;
-        //    MiniConnectionString = conStrings.pingConnectionString;
-
-        //    return await DBConnectionService.IsServerConnectedAsync(MiniConnectionString);
-        //}
-
+        private async Task ConnectAndSaveAsync()
+        {
+            await Task.Run(() => Debug.WriteLine("Nothing"));
+        }
         #endregion
 
 

@@ -31,7 +31,7 @@ namespace Too_Many_Things.Core.Services
             string PingConnectionString;
             string ConnectionString;
 
-            if (input.UserName != null && input.Password != null)
+            if (string.IsNullOrEmpty(input.UserName) != true && string.IsNullOrEmpty(input.Password) != true)
             {
                 // Using login
                 PingConnectionString = string.Format("Server={0}; User Id={1}; Password={2};", input.ServerName, input.UserName, input.Password);
@@ -155,6 +155,7 @@ namespace Too_Many_Things.Core.Services
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine($"Exception has been thrown. Execption: {ex}");
                     throw ex;
                 }
             }

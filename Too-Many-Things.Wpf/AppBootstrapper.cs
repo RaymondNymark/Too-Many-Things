@@ -45,6 +45,7 @@ namespace Too_Many_Things.Wpf
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
             dependencyResolver.Register(() => new ChecklistBagView(), typeof(IViewFor<ChecklistBagViewModel>));
+            dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
             dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntryViewModel>));
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
 

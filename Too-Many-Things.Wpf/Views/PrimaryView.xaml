@@ -1,0 +1,37 @@
+﻿<rxui:ReactiveUserControl 
+             xmlns:rxui="http://reactiveui.net"
+             x:Class="Too_Many_Things.Wpf.Views.PrimaryView"
+             xmlns:vm="clr-namespace:Too_Many_Things.Core.ViewModels;assembly=Too-Many-Things.Core"
+             x:TypeArguments="vm:PrimaryViewModel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Too_Many_Things.Wpf.Views"
+             xmlns:template="clr-namespace:Too_Many_Things.Wpf.Templates"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <template:ChecklistTemplate/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>
+        <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton"/>
+        <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
+        <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
+    </Grid>
+</rxui:ReactiveUserControl>

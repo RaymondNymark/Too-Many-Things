@@ -46,7 +46,7 @@ namespace Too_Many_Things.Core.Services
         /// has been configured.
         /// </summary>
         /// <returns>True if connectionString exists.</returns>
-        public static async Task<bool> ConnectionIsConfigured()
+        public static async Task<bool> ConnectionIsConfiguredAsync()
         {
             var result = false;
             var fileExists = await Task.Run(() => File.Exists("ConnectionString.txt"));
@@ -55,6 +55,23 @@ namespace Too_Many_Things.Core.Services
             {
                 var content = await File.ReadAllTextAsync("ConnectionString.txt");
                 
+                if (content.Length > 0)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        public static bool ConnectionIsConfigured()
+        {
+            var result = false;
+            var fileExists = File.Exists("ConnectionString.txt");
+
+            if (fileExists)
+            {
+                var content = File.ReadAllText("ConnectionString.txt");
+
                 if (content.Length > 0)
                 {
                     result = true;

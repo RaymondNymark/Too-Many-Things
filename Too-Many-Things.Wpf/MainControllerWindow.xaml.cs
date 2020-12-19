@@ -19,9 +19,6 @@ namespace Too_Many_Things.Wpf
             AppBootStrapper = new AppBootstrapper();
             AppBootStrapper.ConfigureIOC();
 
-            // This creates a DB if one currently doesn't exist, but it's disabled for now.
-            //AppBootStrapper.ConfigureDB();
-
             ViewModel = new AppViewModel();
 
 

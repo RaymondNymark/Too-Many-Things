@@ -52,8 +52,8 @@ namespace Too_Many_Things.Wpf
             // TODO : Figure out if this needs to actually be here.
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 
-            // DbContexto
-            dependencyResolver.Register(() => new ChecklistContext(), typeof(ChecklistContext));
+            //// DbContexto
+            dependencyResolver.Register(() => new ChecklistContextFactory(), typeof(IChecklistContextFactory));
 
             // Services + Misc
             dependencyResolver.Register(() => new DBConnectionService(), typeof(IDBConnectionService));

@@ -24,11 +24,20 @@ namespace Too_Many_Things.Wpf.Views
             InitializeComponent();
             OpenSettingsCommand = ReactiveCommand.Create(() => OpenSettingsWindow());
 
-            // This is great.
             this.WhenActivated(disposables =>
             {
                 this.WhenAnyValue(x => x.OpenSettingsCommand)
                     .BindTo(this, view => view.OpenSettingsButton.Command);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ConfigurationStatus,
+                    v => v.ConfigurationStatusText.Text)
+                    .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.RefreshCommand,
+                    v => v.RefreshButton)
+                    .DisposeWith(disposables);
             });
         }
 

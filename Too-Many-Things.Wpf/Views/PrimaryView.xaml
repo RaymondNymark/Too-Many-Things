@@ -33,5 +33,8 @@
         <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton"/>
         <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
         <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
+        <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
+
+        <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
     </Grid>
 </rxui:ReactiveUserControl>

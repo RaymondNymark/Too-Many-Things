@@ -38,6 +38,11 @@ namespace Too_Many_Things.Wpf.Views
                     vm => vm.RefreshCommand,
                     v => v.RefreshButton)
                     .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ChecklistCache,
+                    v => v.PrimaryListBox.ItemsSource)
+                    .DisposeWith(disposables);
             });
         }
 

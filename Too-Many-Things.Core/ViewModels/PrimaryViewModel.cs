@@ -12,6 +12,8 @@ using DynamicData.Binding;
 using System.Reactive;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Reactive.Linq;
+using Too_Many_Things.Core.DataAccess.Models;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -20,13 +22,15 @@ namespace Too_Many_Things.Core.ViewModels
         public string UrlPathSegment => "Primary";
         public IScreen HostScreen { get; }
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
+        private ChecklistDataService _checklistService;
 
-        public PrimaryViewModel(IScreen screen = null, IChecklistService checklistService = null)
+        public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            RefreshCommand = ReactiveCommand.Create(()=> InitializeApp());
+            InitializeApp(checklistService);
 
-            InitializeApp();
+            // TODO : Cleaner way to automatically refresh when settings is closed or once it's connected?
+            RefreshCommand = ReactiveCommand.Create(()=> InitializeApp(null));
         }
 
         #region Properties
@@ -37,6 +41,13 @@ namespace Too_Many_Things.Core.ViewModels
             set => this.RaiseAndSetIfChanged(ref _configurationStatus, value);
         }
 
+        private ObservableCollection<List> _checklistCache;
+        public ObservableCollection<List> ChecklistCache
+        {
+            get => _checklistCache;
+            set => this.RaiseAndSetIfChanged(ref _checklistCache, value);
+        }
+
         #endregion
 
         #region Asynchronous Tasks & Methods
@@ -45,14 +56,17 @@ namespace Too_Many_Things.Core.ViewModels
         /// connection has been configured. Otherwise it asks user to configure
         /// it.
         /// </summary>
-        private void InitializeApp()
+        private void InitializeApp(ChecklistDataService checklistService)
         {
             var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
             if (isConfigured)
             {
-                // Big guns
-                // Bring DB data into a collection<t> from service and do things. 
+                // Big guns - Retrieves the service from DI.
+                ConfigurationStatus = string.Empty;
+
+                _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
+                ChecklistCache = RetrieveLocalSource();
             }
             else
             {
@@ -61,6 +75,11 @@ namespace Too_Many_Things.Core.ViewModels
                 // database hasn't been initialized.
                 ConfigurationStatus = "A database has not been configured. Please configure one in the settings. :)";
             }
+        }
+
+        private ObservableCollection<List> RetrieveLocalSource()
+        {
+            return _checklistService.GetLocal();
         }
         #endregion
     }

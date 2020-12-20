@@ -71,7 +71,7 @@
 
                     <Button x:Name="TestConnectionBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Left" Content=" Test Connection " VerticalAlignment="Bottom"/>
                     <Button x:Name="ConnectAndSaveBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Center" Content=" Connect and Save " VerticalAlignment="Bottom"/>
-                    <Button x:Name="CancelConnectionBtn" Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Close       " VerticalAlignment="Bottom" IsEnabled="False"/>
+                    <Button x:Name="CancelConnectionBtn" Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Continue      " VerticalAlignment="Bottom" IsEnabled="False"/>
 
                     <Label x:Name="ConnectionStatusText" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>

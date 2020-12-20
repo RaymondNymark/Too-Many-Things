@@ -17,6 +17,7 @@ namespace Too_Many_Things.Core.Services
     {
         private IChecklistContextFactory _checklistContextFactory;
 
+        // Connection string has to be initialized before this class is created.
         public ChecklistDataService(IChecklistContextFactory checklistContextFactory = null)
         {
             _checklistContextFactory = checklistContextFactory ?? Locator.Current.GetService<IChecklistContextFactory>();
@@ -34,10 +35,16 @@ namespace Too_Many_Things.Core.Services
                 return checklists;
             }
         }
-
-        public ObservableCollection<List> LocalSource
+        
+        public ObservableCollection<List> GetLocal()
         {
-            get => _checklistContextFactory.CreateDbContext().Lists.Local.ToObservableCollection();
+            using (var context = _checklistContextFactory.CreateDbContext())
+            {
+                context.Lists.Load();
+                context.Entries.Load();
+
+                return context.Lists.Local.ToObservableCollection();
+            }
         }
     }
 }

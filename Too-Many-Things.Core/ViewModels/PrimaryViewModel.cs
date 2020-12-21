@@ -28,6 +28,7 @@ namespace Too_Many_Things.Core.ViewModels
         #region Reactive Commands
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
         public ReactiveCommand<Unit, Unit> NewDefaultChecklistCommand { get; }
+        public ReactiveCommand<Unit, Unit> RenameChecklistCommand { get; }
         #endregion
 
         public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
@@ -43,6 +44,9 @@ namespace Too_Many_Things.Core.ViewModels
                 x => x.IsConfigured,
                 (flag) => flag == true);
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
+
+            // Renamechecklist contextMenu command:
+            RenameChecklistCommand = ReactiveCommand.Create(() => Debug.WriteLine("Testing a bunchhj"));
         }
 
         #region Properties
@@ -52,6 +56,8 @@ namespace Too_Many_Things.Core.ViewModels
         public string ConfigurationStatus { get; set; }
         [Reactive]
         public ObservableCollection<List> ChecklistCache { get; set; }
+        [Reactive]
+        public List SelectedChecklist { get; set; }
         #endregion
 
         #region Asynchronous Tasks & Methods

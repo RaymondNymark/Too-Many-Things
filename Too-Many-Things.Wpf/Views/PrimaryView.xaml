@@ -23,10 +23,16 @@
 
         <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:Name="ItemTemplate">
                     <template:ChecklistTemplate/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
+                    <MenuItem x:Name="DeleteMenuItem" Header="Delete"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
         </ListBox>
 
         <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>

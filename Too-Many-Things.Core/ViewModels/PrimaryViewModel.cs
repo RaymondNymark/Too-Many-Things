@@ -22,7 +22,7 @@ namespace Too_Many_Things.Core.ViewModels
     {
         public string UrlPathSegment => "Primary";
         public IScreen HostScreen { get; }
-        
+
         private ChecklistDataService _checklistService;
 
         #region Reactive Commands
@@ -36,7 +36,7 @@ namespace Too_Many_Things.Core.ViewModels
             InitializeApp(checklistService);
 
             // TODO : Cleaner way to automatically refresh when settings is closed or once it's connected?
-            RefreshCommand = ReactiveCommand.Create(()=> InitializeApp(null));
+            RefreshCommand = ReactiveCommand.Create(() => InitializeApp(null));
 
             // New Default Checklist command:
             var connectSaveCanExecute = this.WhenAnyValue(
@@ -48,21 +48,10 @@ namespace Too_Many_Things.Core.ViewModels
         #region Properties
         [Reactive]
         public bool IsConfigured { get; set; }
-
-        private string _configurationStatus;
-        public string ConfigurationStatus
-        {
-            get => _configurationStatus;
-            set => this.RaiseAndSetIfChanged(ref _configurationStatus, value);
-        }
-
-        private ObservableCollection<List> _checklistCache;
-        public ObservableCollection<List> ChecklistCache
-        {
-            get => _checklistCache;
-            set => this.RaiseAndSetIfChanged(ref _checklistCache, value);
-        }
-
+        [Reactive]
+        public string ConfigurationStatus { get; set; }
+        [Reactive]
+        public ObservableCollection<List> ChecklistCache { get; set; }
         #endregion
 
         #region Asynchronous Tasks & Methods

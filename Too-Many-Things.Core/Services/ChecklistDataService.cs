@@ -16,6 +16,10 @@ namespace Too_Many_Things.Core.Services
     public partial class ChecklistDataService : IEnableLogger
     {
         private IChecklistContextFactory _checklistContextFactory;
+        private ChecklistContext _context
+        {
+            get => _checklistContextFactory.CreateDbContext();
+        }
 
         // Connection string has to be initialized before this class is created.
         public ChecklistDataService(IChecklistContextFactory checklistContextFactory = null)
@@ -46,5 +50,20 @@ namespace Too_Many_Things.Core.Services
                 return context.Lists.Local.ToObservableCollection();
             }
         }
+
+        #region Data-base operations
+        public async Task AddDefaultChecklist()
+        {
+            using (var context = _context)
+            {
+                this.Log().Info($"Attempting to add defaultChecklist to the database at: {DateTime.UtcNow}.");
+
+                var defaultChecklist = new List { Name = "Unnamed Checklist!", IsDeleted = false, SortOrder = 0 };
+                await context.AddAsync(defaultChecklist);
+                await context.SaveChangesAsync();
+            }
+        }
+        #endregion
+
     }
 }

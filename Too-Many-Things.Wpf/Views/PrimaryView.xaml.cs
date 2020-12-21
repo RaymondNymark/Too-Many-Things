@@ -43,6 +43,12 @@ namespace Too_Many_Things.Wpf.Views
                     vm => vm.ChecklistCache,
                     v => v.PrimaryListBox.ItemsSource)
                     .DisposeWith(disposables);
+
+                // Binds NewDefaultchecklistCommand to NewDefaltListButton button.
+                this.BindCommand(ViewModel,
+                    vm => vm.NewDefaultChecklistCommand,
+                    v => v.NewDefaultListButton)
+                    .DisposeWith(disposables);
             });
         }
 

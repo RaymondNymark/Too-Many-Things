@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 using Too_Many_Things.Core.DataAccess.Models;
+using ReactiveUI.Fody.Helpers;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -21,8 +22,13 @@ namespace Too_Many_Things.Core.ViewModels
     {
         public string UrlPathSegment => "Primary";
         public IScreen HostScreen { get; }
-        public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
+        
         private ChecklistDataService _checklistService;
+
+        #region Reactive Commands
+        public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
+        public ReactiveCommand<Unit, Unit> NewDefaultChecklistCommand { get; }
+        #endregion
 
         public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
         {
@@ -31,9 +37,18 @@ namespace Too_Many_Things.Core.ViewModels
 
             // TODO : Cleaner way to automatically refresh when settings is closed or once it's connected?
             RefreshCommand = ReactiveCommand.Create(()=> InitializeApp(null));
+
+            // New Default Checklist command:
+            var connectSaveCanExecute = this.WhenAnyValue(
+                x => x.IsConfigured,
+                (flag) => flag == true);
+            NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
         }
 
         #region Properties
+        [Reactive]
+        public bool IsConfigured { get; set; }
+
         private string _configurationStatus;
         public string ConfigurationStatus
         {
@@ -67,6 +82,9 @@ namespace Too_Many_Things.Core.ViewModels
 
                 _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
                 ChecklistCache = RetrieveLocalSource();
+
+                // Flips IsConfigured flag.
+                IsConfigured = true;
             }
             else
             {
@@ -74,6 +92,9 @@ namespace Too_Many_Things.Core.ViewModels
                 // Changes configuration Status text to inform user that the
                 // database hasn't been initialized.
                 ConfigurationStatus = "A database has not been configured. Please configure one in the settings. :)";
+
+                // Unflips flag.
+                IsConfigured = false;
             }
         }
 

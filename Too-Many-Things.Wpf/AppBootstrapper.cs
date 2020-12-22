@@ -35,14 +35,6 @@ namespace Too_Many_Things.Wpf
             }
         }
 
-        /// <summary>
-        /// Configures the DataBase. Creates new DataBase is it doesn't exist.
-        /// </summary>
-        public void ConfigureDB()
-        {
-            CreateDBIfNotExists();
-        }
-
         // Registers the dependencies all in one place. 
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
@@ -53,7 +45,6 @@ namespace Too_Many_Things.Wpf
 
             dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
 
-            // TODO : Figure out if this needs to actually be here.
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 
             //// DbContexto
@@ -69,19 +60,6 @@ namespace Too_Many_Things.Wpf
             var dbContextScopeFactory = Locator.Current.GetService<IDbContextScopeFactory>();
             var ambientDbContextLocator = Locator.Current.GetService<IAmbientDbContextLocator>();
             dependencyResolver.Register(() => new ChecklistService(dbContextScopeFactory, ambientDbContextLocator), typeof(IChecklistService));
-        }
-
-        private void CreateDBIfNotExists()
-        {
-            try
-            {
-                var context = Locator.Current.GetService<ChecklistContext>();
-                context.Database.EnsureCreated();
-            }
-            catch (Exception ex)
-            {
-                this.Log().Error(ex, "An error occurred in creating the local DataBase");
-            }
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
         public ReactiveCommand<Unit, Unit> NewDefaultChecklistCommand { get; }
         public ReactiveCommand<Unit, Unit> RenameChecklistCommand { get; }
+        public ReactiveCommand<Unit, IRoutableViewModel> OpenList { get; }
         #endregion
 
         public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
@@ -45,8 +46,9 @@ namespace Too_Many_Things.Core.ViewModels
                 (flag) => flag == true);
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
 
-            // Renamechecklist contextMenu command:
-            RenameChecklistCommand = ReactiveCommand.Create(() => Debug.WriteLine("Testing a bunchhj"));
+            // Renamechecklist contextMenu command: TODO
+            RenameChecklistCommand = ReactiveCommand.Create(() => Debug.WriteLine(""));
+            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedList, HostScreen, _checklistService)));
         }
 
         #region Properties
@@ -57,7 +59,7 @@ namespace Too_Many_Things.Core.ViewModels
         [Reactive]
         public ObservableCollection<List> ChecklistCache { get; set; }
         [Reactive]
-        public List SelectedChecklist { get; set; }
+        public List SelectedList { get; set; }
         #endregion
 
         #region Asynchronous Tasks & Methods

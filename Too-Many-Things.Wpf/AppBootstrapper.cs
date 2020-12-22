@@ -38,12 +38,12 @@ namespace Too_Many_Things.Wpf
         // Registers the dependencies all in one place. 
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
-            dependencyResolver.Register(() => new ChecklistBagView(), typeof(IViewFor<ChecklistBagViewModel>));
             dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
             dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntryViewModel>));
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
 
             dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
+            dependencyResolver.Register(() => new EntryTemplate(), typeof(IViewFor<Entry>));
 
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 

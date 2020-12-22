@@ -12,35 +12,57 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.9*"/>
-            <RowDefinition Height="0.1*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Grid Opacity="0.25" IsHitTestVisible="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <template:ListTemplate/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
-                    <MenuItem x:Name="DeleteMenuItem" Header="Delete"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-        </ListBox>
+            <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <template:ListTemplate/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
+                        <MenuItem x:Name="DeleteMenuItem" Header="Delete"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
 
-        <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>
-        <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton"/>
-        <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
-        <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
-        <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
+            <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>
+            <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton"/>
+            <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
+            <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
+            <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
 
-        <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
+            <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
+        </Grid>
+
+        <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Visibility="Visible" Background="#FFFDFDFD">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="ChangeName_text" Content="Change the name of a checklist" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#FF2C2C2C"/>
+            <TextBox x:Name="ChangeName_box" Grid.Row="1" Margin="20,13,20,13" TextAlignment="Center" TextWrapping="Wrap" FontSize="14"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Cancel" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+                <Button Grid.Column="1" Content="Edit" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+            </Grid>
+
+        </Grid>
     </Grid>
 </rxui:ReactiveUserControl>

@@ -22,11 +22,11 @@
         </Grid.ColumnDefinitions>
 
         <ListBox x:Name="ChecklistListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
+            <!--<ListBox.ItemTemplate>
+                --><!--<DataTemplate>
                     <template:ChecklistTemplate/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                </DataTemplate>--><!--
+            </ListBox.ItemTemplate>-->
         </ListBox>
 
         <Button x:Name="NewDefaultChecklistButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="Design time btn"/>

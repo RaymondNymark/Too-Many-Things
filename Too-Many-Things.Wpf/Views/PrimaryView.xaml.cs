@@ -55,11 +55,6 @@ namespace Too_Many_Things.Wpf.Views
                         .BindTo(this, x => x.ViewModel.SelectedChecklist)
                         .DisposeWith(disposables);
 
-
-                //this.BindCommand(ViewModel,
-                //    vm => vm.RenameChecklistCommand,
-                //    v => v.Primar)
-
                 // Binds TopViewText to selectedChecklist, purely for debugging.
                 // Quicker than to write up unit test. TODO : Remove
                 this.OneWayBind(ViewModel,

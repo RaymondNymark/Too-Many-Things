@@ -6,6 +6,8 @@ using EntityFrameworkCore.DbContextScope;
 using Too_Many_Things.Core.ViewModels;
 using Too_Many_Things.Core.DataAccess;
 using System;
+using Too_Many_Things.Wpf.Templates;
+using Too_Many_Things.Core.DataAccess.Models;
 
 namespace Too_Many_Things.Wpf
 {
@@ -48,6 +50,8 @@ namespace Too_Many_Things.Wpf
             dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
             dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntryViewModel>));
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
+
+            dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
 
             // TODO : Figure out if this needs to actually be here.
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));

@@ -23,8 +23,8 @@
 
         <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
-                <DataTemplate x:Name="ItemTemplate">
-                    <template:ChecklistTemplate/>
+                <DataTemplate>
+                    <template:ListTemplate/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>

@@ -74,7 +74,6 @@ namespace Too_Many_Things.Core.ViewModels
         public List SelectedList { get; set; }
         [Reactive]
         public string RenameListInput { get; set; } = string.Empty;
-
         // Quick hacks
         [Reactive]
         public bool IsRenaming { get; set; } = false;
@@ -126,8 +125,8 @@ namespace Too_Many_Things.Core.ViewModels
 
         public async Task RenameListAsync()
         {
-            // Renames file if confirmation is valid.
-            Debug.WriteLine($"Rename Has Executed {RenameListInput}");
+            // Ra-naming the checklist.
+            await _checklistService.UpdateChecklistNameAsync(SelectedList, RenameListInput);
 
             IsRenaming = false;
             GridOppacity = 1.0;

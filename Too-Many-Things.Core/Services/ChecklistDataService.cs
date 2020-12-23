@@ -63,6 +63,31 @@ namespace Too_Many_Things.Core.Services
                 await context.SaveChangesAsync();
             }
         }
+
+        /// <summary>
+        /// Updates the name of a checklist asynchronously.
+        /// </summary>
+        /// <param name="list">List to update</param>
+        /// <param name="newName">new name to update to</param>
+        public async Task UpdateChecklistNameAsync(List list, string newName)
+        {
+            using (var context = _context)
+            {
+                var target = await context.Lists.FindAsync(list.ListID);
+                this.Log().Info($"Attempting to change the name of '{target.Name}' to '{newName}' at: {DateTime.UtcNow}.");
+
+                try
+                {
+                    target.Name = newName;
+                    await context.SaveChangesAsync();
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+                
+            }
+        }
         #endregion
 
     }

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Reactive.Linq;
 using Too_Many_Things.Core.DataAccess.Models;
 using ReactiveUI.Fody.Helpers;
+using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -28,10 +29,11 @@ namespace Too_Many_Things.Core.ViewModels
         #region Reactive Commands & Interactions
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
         public ReactiveCommand<Unit, Unit> NewDefaultChecklistCommand { get; }
-        public ReactiveCommand<Unit, Unit> EnableRenamingCommand { get; }
         public ReactiveCommand<Unit, IRoutableViewModel> OpenList { get; }
         public ReactiveCommand<Unit, Unit> ConfirmRenameCommand { get; }
         public ReactiveCommand<Unit, Unit> CancelRenameCommand { get; }
+
+        public ReactiveCommand<InterfaceState, Unit> EnableEditCommand { get; }
         #endregion
 
         public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
@@ -48,7 +50,6 @@ namespace Too_Many_Things.Core.ViewModels
                 (flag) => flag == true);
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
 
-            // Renamechecklist contextMenu command: TODO
             OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedList, HostScreen, _checklistService)));
 
             var renameCanExecute = this.WhenAnyValue(
@@ -57,10 +58,13 @@ namespace Too_Many_Things.Core.ViewModels
             // Change button template style so it looks obvious to user that
             // they can click a button. input.Length > 0 <- true
 
+            #region Edit mode (Mainly re-name and deletion)
             // TODO : Make more elegant
-            EnableRenamingCommand = ReactiveCommand.Create(() => EnableRenaming());
+            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
+
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             CancelRenameCommand = ReactiveCommand.Create(() => CancelRename());
+            #endregion
         }
 
         #region Properties
@@ -77,8 +81,43 @@ namespace Too_Many_Things.Core.ViewModels
         // Quick hacks
         [Reactive]
         public bool IsRenaming { get; set; } = false;
+        public bool IsDeleting { get; set; } = false;
         [Reactive]
         public double GridOppacity { get; set; } = 1;
+
+        // Silly properties because of how command params work.
+        public InterfaceState RenamingState = InterfaceState.Renaming;
+        public InterfaceState DeletingState = InterfaceState.Deleting;
+
+        // Property for InterfaceState.
+        private InterfaceState _interfaceState;
+        public InterfaceState InterfaceState
+        {
+            get => _interfaceState;
+            set
+            {
+                switch (value)
+                {
+                    case InterfaceState.Default:
+                        IsRenaming = false;
+                        IsDeleting = false;
+                        GridOppacity = 1.0;
+                        break;
+                    case InterfaceState.Renaming:
+                        IsRenaming = true;
+                        IsDeleting = false;
+                        RenameListInput = "";
+                        GridOppacity = 0.3;
+                        break;
+                    case InterfaceState.Deleting:
+                        IsRenaming = false;
+                        IsDeleting = true;
+                        GridOppacity = 0.3;
+                        break;
+                }
+                this.RaiseAndSetIfChanged(ref _interfaceState, value);
+            }
+        } 
         #endregion
 
         #region Asynchronous Tasks & Methods
@@ -114,13 +153,17 @@ namespace Too_Many_Things.Core.ViewModels
             }
         }
 
-        // Can make this a lot more elegant by using enum property. : TODO
-        private void EnableRenaming()
+        private void EnableEdit(InterfaceState state)
         {
-            RenameListInput = "";
-
-            IsRenaming = true;
-            GridOppacity = 0.3;
+            switch (state)
+            {
+                case InterfaceState.Renaming:
+                    InterfaceState = InterfaceState.Renaming;
+                    break;
+                case InterfaceState.Deleting:
+                    InterfaceState = InterfaceState.Deleting;
+                    break;
+            }
         }
 
         public async Task RenameListAsync()
@@ -134,8 +177,7 @@ namespace Too_Many_Things.Core.ViewModels
 
         public void CancelRename()
         {
-            IsRenaming = false;
-            GridOppacity = 1.0;
+            InterfaceState = InterfaceState.Default;
         }
 
         private ObservableCollection<List> RetrieveLocalSource()

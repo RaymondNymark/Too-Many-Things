@@ -18,5 +18,12 @@ namespace Too_Many_Things.Core.Enums
             SqlServerAuthentication,
             MSServerAuthentication
         }
+
+        public enum InterfaceState
+        {
+            Default,
+            Renaming,
+            Deleting
+        }
     }
 }

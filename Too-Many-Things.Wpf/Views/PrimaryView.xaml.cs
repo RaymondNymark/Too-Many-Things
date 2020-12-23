@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using Too_Many_Things.Core.ViewModels;
 using Too_Many_Things.Core.Services;
+using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Wpf.Views
 {
@@ -83,10 +84,17 @@ namespace Too_Many_Things.Wpf.Views
                    .Subscribe(x => ViewModel.OpenList.Execute());
                 #endregion
 
-                #region Rename functionality
+                #region Context-Menu functionality
                 this.BindCommand(ViewModel,
-                    vm => vm.EnableRenamingCommand,
-                    v => v.RenameMenuItem)
+                    vm => vm.EnableEditCommand,
+                    v => v.RenameMenuItem,
+                    vm => vm.RenamingState)
+                    .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.EnableEditCommand,
+                    v => v.DeleteMenuItem,
+                    vm => vm.DeletingState)
                     .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
@@ -124,10 +132,10 @@ namespace Too_Many_Things.Wpf.Views
                 .DisposeWith(disposables);
 
                 // TODO : Add selected checklist name.
-                this.OneWayBind(ViewModel,
-                    vm => "Change the name of a checklist",
-                    v => v.ChangeName_text.Content)
-                .DisposeWith(disposables);
+                //this.OneWayBind(ViewModel,
+                //    vm => "Change the name of a checklist",
+                //    v => v.ChangeName_text.Content)
+                //.DisposeWith(disposables);
                 #endregion
             });
         }

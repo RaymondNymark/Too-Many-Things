@@ -82,6 +82,53 @@ namespace Too_Many_Things.Wpf.Views
                    .Where(x => x != null)
                    .Subscribe(x => ViewModel.OpenList.Execute());
                 #endregion
+
+                #region Rename functionality
+                this.BindCommand(ViewModel,
+                    vm => vm.EnableRenamingCommand,
+                    v => v.RenameMenuItem)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.GridOppacity,
+                    v => v.PrimaryGrid.Opacity)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsRenaming,
+                    v => v.RenameConfirmationGrid.Visibility)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsRenaming,
+                    v => v.PrimaryGrid.IsHitTestVisible,
+                    boolValue => !boolValue)
+                    .DisposeWith(disposables);
+
+                // Two-way bind between ChangeName_box.text and RenameListInput
+                // so it can be cleared when re-opened.
+                this.Bind(ViewModel,
+                    vm => vm.RenameListInput,
+                    v => v.ChangeName_box.Text)
+                .DisposeWith(disposables);
+
+                // Binds RenameCommands to button.
+                this.BindCommand(ViewModel,
+                    vm => vm.CancelRenameCommand,
+                    v => v.CancelRenameButton)
+                .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.ConfirmRenameCommand,
+                    v => v.ConfirmRenameButton)
+                .DisposeWith(disposables);
+
+                // TODO : Add selected checklist name.
+                this.OneWayBind(ViewModel,
+                    vm => "Change the name of a checklist",
+                    v => v.ChangeName_text.Content)
+                .DisposeWith(disposables);
+                #endregion
             });
         }
 

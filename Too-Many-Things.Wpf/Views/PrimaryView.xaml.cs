@@ -108,7 +108,18 @@ namespace Too_Many_Things.Wpf.Views
                     .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
+                    vm => vm.IsDeleting,
+                    v => v.DeleteConfirmationGrid.Visibility)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
                     vm => vm.IsRenaming,
+                    v => v.PrimaryGrid.IsHitTestVisible,
+                    boolValue => !boolValue)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsDeleting,
                     v => v.PrimaryGrid.IsHitTestVisible,
                     boolValue => !boolValue)
                     .DisposeWith(disposables);
@@ -120,15 +131,26 @@ namespace Too_Many_Things.Wpf.Views
                     v => v.ChangeName_box.Text)
                 .DisposeWith(disposables);
 
-                // Binds RenameCommands to button.
+                // Binds CancelEditCommand to cancel buttons:
                 this.BindCommand(ViewModel,
-                    vm => vm.CancelRenameCommand,
+                    vm => vm.CancelEditCommand,
                     v => v.CancelRenameButton)
                 .DisposeWith(disposables);
 
                 this.BindCommand(ViewModel,
+                    vm => vm.CancelEditCommand,
+                    v => v.CancelDeletionButton)
+                .DisposeWith(disposables);
+
+                // Binds confirmation buttons:
+                this.BindCommand(ViewModel,
                     vm => vm.ConfirmRenameCommand,
                     v => v.ConfirmRenameButton)
+                .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.ConfirmDeletionCommand,
+                    v => v.ConfirmDeletionButton)
                 .DisposeWith(disposables);
 
                 // TODO : Add selected checklist name.

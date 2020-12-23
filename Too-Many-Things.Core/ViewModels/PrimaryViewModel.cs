@@ -31,7 +31,9 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, Unit> NewDefaultChecklistCommand { get; }
         public ReactiveCommand<Unit, IRoutableViewModel> OpenList { get; }
         public ReactiveCommand<Unit, Unit> ConfirmRenameCommand { get; }
-        public ReactiveCommand<Unit, Unit> CancelRenameCommand { get; }
+        public ReactiveCommand<Unit, Unit> ConfirmDeletionCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> CancelEditCommand { get; }
 
         public ReactiveCommand<InterfaceState, Unit> EnableEditCommand { get; }
         #endregion
@@ -59,11 +61,12 @@ namespace Too_Many_Things.Core.ViewModels
             // they can click a button. input.Length > 0 <- true
 
             #region Edit mode (Mainly re-name and deletion)
-            // TODO : Make more elegant
             EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
 
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
-            CancelRenameCommand = ReactiveCommand.Create(() => CancelRename());
+            ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
+            CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
+            
             #endregion
         }
 
@@ -81,6 +84,7 @@ namespace Too_Many_Things.Core.ViewModels
         // Quick hacks
         [Reactive]
         public bool IsRenaming { get; set; } = false;
+        [Reactive]
         public bool IsDeleting { get; set; } = false;
         [Reactive]
         public double GridOppacity { get; set; } = 1;
@@ -170,12 +174,16 @@ namespace Too_Many_Things.Core.ViewModels
         {
             // Ra-naming the checklist.
             await _checklistService.UpdateChecklistNameAsync(SelectedList, RenameListInput);
-
-            IsRenaming = false;
-            GridOppacity = 1.0;
+            InterfaceState = InterfaceState.Default;
         }
 
-        public void CancelRename()
+        public async Task DeleteListAsync()
+        {
+            // Soft Deleting the checklist:
+            await _checklistService.SoftDeleteChecklist(SelectedList);
+            InterfaceState = InterfaceState.Default;
+        }
+        public void CancelEdit()
         {
             InterfaceState = InterfaceState.Default;
         }

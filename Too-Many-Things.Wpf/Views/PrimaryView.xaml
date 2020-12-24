@@ -25,9 +25,10 @@
             <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <template:ListTemplate/>
+                        <template:ListTemplate ViewModel="{Binding .}"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="RenameMenuItem" Header="Rename"/>

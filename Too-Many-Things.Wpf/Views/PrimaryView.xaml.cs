@@ -27,6 +27,11 @@ namespace Too_Many_Things.Wpf.Views
 
             this.WhenActivated(disposables =>
             {
+                this.OneWayBind(ViewModel,
+                    vm => vm.ChecklistCache,
+                    v => v.PrimaryListBox.ItemsSource)
+                    .DisposeWith(disposables);
+
                 this.WhenAnyValue(x => x.OpenSettingsCommand)
                     .BindTo(this, view => view.OpenSettingsButton.Command);
 
@@ -38,11 +43,6 @@ namespace Too_Many_Things.Wpf.Views
                 this.BindCommand(ViewModel,
                     vm => vm.RefreshCommand,
                     v => v.RefreshButton)
-                    .DisposeWith(disposables);
-
-                this.OneWayBind(ViewModel,
-                    vm => vm.ChecklistCache,
-                    v => v.PrimaryListBox.ItemsSource)
                     .DisposeWith(disposables);
 
                 // Binds NewDefaultchecklistCommand to NewDefaltListButton button.

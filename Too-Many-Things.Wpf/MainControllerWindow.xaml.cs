@@ -15,7 +15,7 @@ namespace Too_Many_Things.Wpf
         {
             InitializeComponent();
 
-            // This does all of the IoC configuring and creates a local DB if it doesn't exist.
+            // This configures IoC.
             AppBootStrapper = new AppBootstrapper();
             AppBootStrapper.ConfigureIOC();
 

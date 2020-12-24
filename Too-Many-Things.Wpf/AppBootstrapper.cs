@@ -43,7 +43,6 @@ namespace Too_Many_Things.Wpf
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
 
             dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
-            dependencyResolver.Register(() => new ListEditModeTemplate(), typeof(IViewFor<List>));
             dependencyResolver.Register(() => new EntryTemplate(), typeof(IViewFor<Entry>));
 
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));

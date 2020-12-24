@@ -177,10 +177,13 @@ namespace Too_Many_Things.Core.ViewModels
             InterfaceState = InterfaceState.Default;
         }
 
+        /// <summary>
+        /// Soft deletes the selected list.
+        /// </summary>
         public async Task DeleteListAsync()
         {
             // Soft Deleting the checklist:
-            await _checklistService.SoftDeleteChecklist(SelectedList);
+            await _checklistService.SoftDeleteChecklistAsync(SelectedList);
             InterfaceState = InterfaceState.Default;
         }
         public void CancelEdit()

@@ -81,14 +81,39 @@ namespace Too_Many_Things.Core.Services
                     target.Name = newName;
                     await context.SaveChangesAsync();
                 }
-                catch(Exception ex)
+                catch(DbUpdateException ex)
                 {
+                    this.Log().Error(ex, "Exception encountered trying to change name of a checklist");
+                    throw ex;
+                } 
+            }
+        }
+
+        /// <summary>
+        /// Marks a checklist as deleted, also known as soft-deleting.  Entities
+        /// that are soft-deleted are not retrieved when data is loaded from the
+        /// database.
+        /// </summary>
+        /// <param name="list">Checklist to mark as deleted</param>
+        public async Task SoftDeleteChecklistAsync(List list)
+        {
+            using (var context = _context)
+            {
+                var target = await context.Lists.FindAsync(list.ListID);
+                this.Log().Info($"Attempting to soft delete'{target.Name}' at: {DateTime.UtcNow}.");
+
+                try
+                {
+                    target.IsDeleted = true;
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    this.Log().Error(ex, "Exception encountered trying to soft delete a checklist");
                     throw ex;
                 }
-                
             }
         }
         #endregion
-
     }
 }

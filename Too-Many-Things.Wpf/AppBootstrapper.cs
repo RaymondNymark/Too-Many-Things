@@ -46,7 +46,6 @@ namespace Too_Many_Things.Wpf
             dependencyResolver.Register(() => new ListControl(), typeof(IViewFor<ListViewModel>));
             dependencyResolver.Register(() => new EntryControl(), typeof(IViewFor<EntryViewModel>));
 
-            dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
             dependencyResolver.Register(() => new EntryTemplate(), typeof(IViewFor<Entry>));
 
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));

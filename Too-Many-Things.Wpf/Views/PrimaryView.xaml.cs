@@ -28,7 +28,7 @@ namespace Too_Many_Things.Wpf.Views
             this.WhenActivated(disposables =>
             {
                 this.OneWayBind(ViewModel,
-                    vm => vm.ChecklistCache,
+                    vm => vm.BindingCache,
                     v => v.PrimaryListBox.ItemsSource)
                     .DisposeWith(disposables);
 
@@ -152,12 +152,6 @@ namespace Too_Many_Things.Wpf.Views
                     vm => vm.ConfirmDeletionCommand,
                     v => v.ConfirmDeletionButton)
                 .DisposeWith(disposables);
-
-                // TODO : Add selected checklist name.
-                //this.OneWayBind(ViewModel,
-                //    vm => "Change the name of a checklist",
-                //    v => v.ChangeName_text.Content)
-                //.DisposeWith(disposables);
                 #endregion
             });
         }

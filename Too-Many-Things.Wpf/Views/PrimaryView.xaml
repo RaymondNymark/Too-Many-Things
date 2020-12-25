@@ -23,12 +23,6 @@
             </Grid.ColumnDefinitions>
 
             <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <template:ListTemplate ViewModel="{Binding .}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
@@ -44,7 +38,7 @@
             <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
 
             <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
-        </Grid>
+            </Grid>
 
         <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Background="#FFFDFDFD">
             <Grid.RowDefinitions>

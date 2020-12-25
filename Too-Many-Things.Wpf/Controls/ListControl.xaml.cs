@@ -1,6 +1,8 @@
 ﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +25,19 @@ namespace Too_Many_Things.Wpf.Controls
         public ListControl()
         {
             InitializeComponent();
+
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel,
+                    vm => vm.Name,
+                    v => v.MainListName.Text)
+                .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.Entries.Count,
+                    v => v.EntryCount.Text)
+                .DisposeWith(disposables);
+            });
         }
     }
 }

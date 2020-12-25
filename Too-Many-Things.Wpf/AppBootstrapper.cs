@@ -8,6 +8,7 @@ using Too_Many_Things.Core.DataAccess;
 using System;
 using Too_Many_Things.Wpf.Templates;
 using Too_Many_Things.Core.DataAccess.Models;
+using Too_Many_Things.Wpf.Controls;
 
 namespace Too_Many_Things.Wpf
 {
@@ -39,8 +40,11 @@ namespace Too_Many_Things.Wpf
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
             dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
-            dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntryViewModel>));
+            dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntriesViewModel>));
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
+
+            dependencyResolver.Register(() => new ListControl(), typeof(IViewFor<ListViewModel>));
+            dependencyResolver.Register(() => new EntryControl(), typeof(IViewFor<EntryViewModel>));
 
             dependencyResolver.Register(() => new ListTemplate(), typeof(IViewFor<List>));
             dependencyResolver.Register(() => new EntryTemplate(), typeof(IViewFor<Entry>));

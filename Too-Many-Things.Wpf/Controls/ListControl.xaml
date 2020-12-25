@@ -1,0 +1,13 @@
+﻿<rxui:ReactiveUserControl x:Class="Too_Many_Things.Wpf.Controls.ListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:vm="clr-namespace:Too_Many_Things.Core.ViewModels;assembly=Too-Many-Things.Core"
+             x:TypeArguments="vm:ListViewModel"
+             xmlns:rxui="http://reactiveui.net"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d">
+    <StackPanel>
+        <TextBlock x:Name="ListName" Text="{Binding Name}"/>
+    </StackPanel>
+</rxui:ReactiveUserControl>

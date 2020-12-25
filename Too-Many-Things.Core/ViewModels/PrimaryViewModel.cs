@@ -52,7 +52,7 @@ namespace Too_Many_Things.Core.ViewModels
                 (flag) => flag == true);
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
 
-            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntryViewModel(SelectedList, HostScreen, _checklistService)));
+            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntriesViewModel(SelectedList.List, HostScreen, _checklistService)));
 
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameListInput,
@@ -72,13 +72,15 @@ namespace Too_Many_Things.Core.ViewModels
 
         #region Properties
         [Reactive]
+        public List<ListViewModel> BindingCache { get; set; } = new List<ListViewModel>();
+        [Reactive]
         public bool IsConfigured { get; set; }
         [Reactive]
         public string ConfigurationStatus { get; set; }
         [Reactive]
         public ObservableCollection<List> ChecklistCache { get; set; }
         [Reactive]
-        public List SelectedList { get; set; }
+        public ListViewModel SelectedList { get; set; }
         [Reactive]
         public string RenameListInput { get; set; } = string.Empty;
         // Quick hacks
@@ -130,7 +132,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// connection has been configured. Otherwise it asks user to configure
         /// it.
         /// </summary>
-        private void InitializeApp(ChecklistDataService checklistService)
+        private async void InitializeApp(ChecklistDataService checklistService)
         {
             var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
@@ -140,7 +142,9 @@ namespace Too_Many_Things.Core.ViewModels
                 ConfigurationStatus = string.Empty;
 
                 _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
-                ChecklistCache = RetrieveLocalSource();
+
+                await UpdateBindingCache();
+                //BindingCache = RetrieveLocalSource();
 
                 // Flips IsConfigured flag.
                 IsConfigured = true;
@@ -173,7 +177,7 @@ namespace Too_Many_Things.Core.ViewModels
         public async Task RenameListAsync()
         {
             // Ra-naming the checklist.
-            await _checklistService.UpdateChecklistNameAsync(SelectedList, RenameListInput);
+            await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
             InterfaceState = InterfaceState.Default;
         }
 
@@ -183,7 +187,7 @@ namespace Too_Many_Things.Core.ViewModels
         public async Task DeleteListAsync()
         {
             // Soft Deleting the checklist:
-            await _checklistService.SoftDeleteChecklistAsync(SelectedList);
+            await _checklistService.SoftDeleteChecklistAsync(SelectedList.List);
             InterfaceState = InterfaceState.Default;
         }
         public void CancelEdit()
@@ -195,6 +199,38 @@ namespace Too_Many_Things.Core.ViewModels
         {
             return _checklistService.GetLocal();
         }
+
+        private async Task UpdateBindingCache()
+        {
+            var derivedCache = new List<ListViewModel>();
+            var refreshCache = await _checklistService.LoadDataAsync();
+
+            foreach(List list in refreshCache)
+            {
+                derivedCache.Add(new ListViewModel(list, list.ListID, list.Name, list.IsDeleted, list.SortOrder, list.Entries));
+            }
+
+            // TODO : Sort by order.
+            BindingCache = derivedCache;
+        }
+
+
+
+
+
+        //private List<DataViewModel> GetLists()
+        //{
+        //    var list = _checklistService.LoadData();
+
+        //    List<DataViewModel> derivedList = new List<DataViewModel>();
+            
+        //    foreach(List item in list)
+        //    {
+        //        derivedList.Add(new DataViewModel() { Name = item.Name, ID = item.ListID });
+        //    }
+
+        //    return derivedList;
+        //}
         #endregion
     }
 }

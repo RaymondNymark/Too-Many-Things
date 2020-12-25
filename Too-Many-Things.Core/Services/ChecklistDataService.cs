@@ -27,16 +27,20 @@ namespace Too_Many_Things.Core.Services
             _checklistContextFactory = checklistContextFactory ?? Locator.Current.GetService<IChecklistContextFactory>();
         }
 
-        // Kind of a messy and inelegant solution. Wonder if there's a better way to do this.
-        public List<List> LoadData()
+        /// <summary>
+        /// Loads all of the data that is not marked with IsDeleted flag asynchronously.
+        /// </summary>
+        /// <returns>List of the data when awaited</returns>
+        public async Task<List<List>> LoadDataAsync()
         {
-            using (var context = _checklistContextFactory.CreateDbContext())
+            using (var context = _context)
             {
-                var checklists = context.Lists
+                var result = await context.Lists
                     .Include(e => e.Entries)
-                    .ToList();
+                    .Where(m => EF.Property<bool>(m, "IsDeleted") != true)
+                    .ToListAsync();
 
-                return checklists;
+                return result;
             }
         }
         

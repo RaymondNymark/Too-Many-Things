@@ -40,6 +40,22 @@ namespace Too_Many_Things.Core.Services
             }
         }
 
+        /// <summary>
+        /// Loads all of the entries inside a specific checklist that are not marked as deleted.
+        /// </summary>
+        /// <returns>A list of entries that belong to a checklist</returns>
+        public async Task<List<Entry>> LoadEntryDataAsync(List checklist)
+        {
+            using (var context = _context)
+            {
+                var target = await context.Lists.FindAsync(checklist.ListID);
+                await context.Entries.LoadAsync();
+
+                var result = target.Entries.ToList();
+
+                return result;
+            }
+        }
         #region Data-base operations
         /// <summary>
         /// Adds a default checklist named "Unnamed Checklist!" to the database.

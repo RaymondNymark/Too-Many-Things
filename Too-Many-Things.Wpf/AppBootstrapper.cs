@@ -6,7 +6,6 @@ using EntityFrameworkCore.DbContextScope;
 using Too_Many_Things.Core.ViewModels;
 using Too_Many_Things.Core.DataAccess;
 using System;
-using Too_Many_Things.Wpf.Templates;
 using Too_Many_Things.Core.DataAccess.Models;
 using Too_Many_Things.Wpf.Controls;
 
@@ -40,13 +39,11 @@ namespace Too_Many_Things.Wpf
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
             dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
-            dependencyResolver.Register(() => new EntryView(), typeof(IViewFor<EntriesViewModel>));
+            dependencyResolver.Register(() => new SecondaryView(), typeof(IViewFor<SecondaryViewModel>));
             dependencyResolver.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
 
             dependencyResolver.Register(() => new ListControl(), typeof(IViewFor<ListViewModel>));
             dependencyResolver.Register(() => new EntryControl(), typeof(IViewFor<EntryViewModel>));
-
-            dependencyResolver.Register(() => new EntryTemplate(), typeof(IViewFor<Entry>));
 
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 
@@ -56,13 +53,6 @@ namespace Too_Many_Things.Wpf
 
             // Services + Misc
             dependencyResolver.Register(() => new DBConnectionService(), typeof(IDBConnectionService));
-
-            dependencyResolver.Register(() => new DbContextScopeFactory(), typeof(IDbContextScopeFactory));
-            dependencyResolver.Register(() => new AmbientDbContextLocator(), typeof(IAmbientDbContextLocator));
-
-            var dbContextScopeFactory = Locator.Current.GetService<IDbContextScopeFactory>();
-            var ambientDbContextLocator = Locator.Current.GetService<IAmbientDbContextLocator>();
-            dependencyResolver.Register(() => new ChecklistService(dbContextScopeFactory, ambientDbContextLocator), typeof(IChecklistService));
         }
     }
 }

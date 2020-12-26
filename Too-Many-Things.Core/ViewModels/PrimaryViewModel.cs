@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Too_Many_Things.Core.Services;
-using Too_Many_Things.Core.Models;
 using Too_Many_Things.Core.ViewModels;
 using System.Collections.ObjectModel;
 using ReactiveUI;
@@ -53,7 +52,7 @@ namespace Too_Many_Things.Core.ViewModels
                 (flag) => flag == true);
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
 
-            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntriesViewModel(SelectedList.List, HostScreen, _checklistService)));
+            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService)));
 
             #region Edit mode (Mainly re-name and deletion)
             var renameCanExecute = this.WhenAnyValue(
@@ -61,7 +60,7 @@ namespace Too_Many_Things.Core.ViewModels
                 (input) => input.Length > 0);
             // Change button template style so it looks obvious to user that
             // they can click a button. input.Length > 0 enables button.
-            
+
             EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
@@ -122,7 +121,7 @@ namespace Too_Many_Things.Core.ViewModels
                 }
                 this.RaiseAndSetIfChanged(ref _interfaceState, value);
             }
-        } 
+        }
         #endregion
 
         #region Asynchronous Tasks & Methods
@@ -198,17 +197,12 @@ namespace Too_Many_Things.Core.ViewModels
             InterfaceState = InterfaceState.Default;
         }
 
-        private ObservableCollection<List> RetrieveLocalSource()
-        {
-            return _checklistService.GetLocal();
-        }
-
         private async Task UpdateBindingCache()
         {
             var derivedCache = new List<ListViewModel>();
             var refreshCache = await _checklistService.LoadDataAsync();
 
-            foreach(List list in refreshCache)
+            foreach (List list in refreshCache)
             {
                 derivedCache.Add(new ListViewModel(list, list.ListID, list.Name, list.IsDeleted, list.SortOrder, list.Entries));
             }

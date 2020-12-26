@@ -1,12 +1,8 @@
-﻿using DynamicData;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Splat;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess;
 using Too_Many_Things.Core.DataAccess.Models;
@@ -43,19 +39,11 @@ namespace Too_Many_Things.Core.Services
                 return result;
             }
         }
-        
-        public ObservableCollection<List> GetLocal()
-        {
-            using (var context = _checklistContextFactory.CreateDbContext())
-            {
-                context.Lists.Load();
-                context.Entries.Load();
-
-                return context.Lists.Local.ToObservableCollection();
-            }
-        }
 
         #region Data-base operations
+        /// <summary>
+        /// Adds a default checklist named "Unnamed Checklist!" to the database.
+        /// </summary>
         public async Task AddDefaultChecklist()
         {
             using (var context = _context)
@@ -85,11 +73,11 @@ namespace Too_Many_Things.Core.Services
                     target.Name = newName;
                     await context.SaveChangesAsync();
                 }
-                catch(DbUpdateException ex)
+                catch (DbUpdateException ex)
                 {
                     this.Log().Error(ex, "Exception encountered trying to change name of a checklist");
                     throw ex;
-                } 
+                }
             }
         }
 

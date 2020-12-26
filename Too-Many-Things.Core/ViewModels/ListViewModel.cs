@@ -13,8 +13,7 @@ namespace Too_Many_Things.Core.ViewModels
         public int? SortOrder { get; set; }
         public virtual ObservableCollection<Entry> Entries { get; set; }
 
-        // For entry string and adaptive coloring of it. Black if more than 0,
-        // and gray if 0.
+        // For entry string and adaptive coloring of it.
         public string EntryString { get; set; }
         public Brush EntryStringBrush { get; set; } = Brushes.DarkSlateGray;
 

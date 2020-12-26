@@ -16,6 +16,7 @@ using System.Reactive.Linq;
 using Too_Many_Things.Core.DataAccess.Models;
 using ReactiveUI.Fody.Helpers;
 using static Too_Many_Things.Core.Enums.Enums;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -54,19 +55,17 @@ namespace Too_Many_Things.Core.ViewModels
 
             OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new EntriesViewModel(SelectedList.List, HostScreen, _checklistService)));
 
+            #region Edit mode (Mainly re-name and deletion)
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameListInput,
                 (input) => input.Length > 0);
             // Change button template style so it looks obvious to user that
-            // they can click a button. input.Length > 0 <- true
-
-            #region Edit mode (Mainly re-name and deletion)
+            // they can click a button. input.Length > 0 enables button.
+            
             EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
-
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
-            
             #endregion
         }
 
@@ -144,7 +143,6 @@ namespace Too_Many_Things.Core.ViewModels
                 _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
 
                 await UpdateBindingCache();
-                //BindingCache = RetrieveLocalSource();
 
                 // Flips IsConfigured flag.
                 IsConfigured = true;
@@ -188,8 +186,13 @@ namespace Too_Many_Things.Core.ViewModels
         {
             // Soft Deleting the checklist:
             await _checklistService.SoftDeleteChecklistAsync(SelectedList.List);
+            // Sets interface back to default view. 
             InterfaceState = InterfaceState.Default;
         }
+
+        /// <summary>
+        /// Returns the interface state back to default and removes edit ui.
+        /// </summary>
         public void CancelEdit()
         {
             InterfaceState = InterfaceState.Default;
@@ -213,24 +216,6 @@ namespace Too_Many_Things.Core.ViewModels
             // TODO : Sort by order.
             BindingCache = derivedCache;
         }
-
-
-
-
-
-        //private List<DataViewModel> GetLists()
-        //{
-        //    var list = _checklistService.LoadData();
-
-        //    List<DataViewModel> derivedList = new List<DataViewModel>();
-            
-        //    foreach(List item in list)
-        //    {
-        //        derivedList.Add(new DataViewModel() { Name = item.Name, ID = item.ListID });
-        //    }
-
-        //    return derivedList;
-        //}
         #endregion
     }
 }

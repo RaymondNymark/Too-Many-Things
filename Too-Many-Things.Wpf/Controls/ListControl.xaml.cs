@@ -33,9 +33,16 @@ namespace Too_Many_Things.Wpf.Controls
                     v => v.MainListName.Text)
                 .DisposeWith(disposables);
 
+                // Binds EntryString to EntryCount label text.
                 this.OneWayBind(ViewModel,
-                    vm => vm.Entries.Count,
+                    vm => vm.EntryString,
                     v => v.EntryCount.Text)
+                .DisposeWith(disposables);
+
+                // Binds EntryStringBrush to color of EntryCount label.
+                this.OneWayBind(ViewModel,
+                    vm => vm.EntryStringBrush,
+                    v => v.EntryCount.Foreground)
                 .DisposeWith(disposables);
             });
         }

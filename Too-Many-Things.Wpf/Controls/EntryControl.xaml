@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="Name" Text="{Binding Name}" Grid.Column="0"/>
+        <TextBlock x:Name="EntryName" Grid.Column="0"/>
         <CheckBox x:Name="EntryCheckBox" Grid.Column="1"/>
     </Grid>
 </rxui:ReactiveUserControl>

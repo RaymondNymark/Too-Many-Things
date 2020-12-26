@@ -43,15 +43,19 @@ namespace Too_Many_Things.Core.ViewModels
             _selectedList = selectedList;
 
             GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
-            UpdateBindingEntryCacheAsync();
+            Initialize();
         }
 
         #region Methods and Tasks
+        private async void Initialize()
+        {
+            await UpdateBindingEntryCacheAsync();
+        }
 
         /// <summary>
         /// Refreshes BindingEntryCache with current database elements.
         /// </summary>
-        public async Task UpdateBindingEntryCacheAsync()
+        private async Task UpdateBindingEntryCacheAsync()
         {
             var derivedCache = new List<EntryViewModel>();
             var freshCache = await _checklistService.LoadEntryDataAsync(_selectedList);

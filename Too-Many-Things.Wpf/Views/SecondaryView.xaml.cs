@@ -14,28 +14,29 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Too_Many_Things.Core.ViewModels;
 
-namespace Too_Many_Things.Wpf.Controls
+namespace Too_Many_Things.Wpf.Views
 {
     /// <summary>
-    /// Interaction logic for EntryControl.xaml
+    /// Interaction logic for SecondaryView.xaml
     /// </summary>
-    public partial class EntryControl : ReactiveUserControl<EntryViewModel>
+    public partial class SecondaryView : ReactiveUserControl<SecondaryViewModel>
     {
-        public EntryControl()
+        public SecondaryView()
         {
             InitializeComponent();
 
             this.WhenActivated(disposables =>
             {
+                // Binds BindingEntryCache to ItemSource of the view.
                 this.OneWayBind(ViewModel,
-                    vm => vm.Name,
-                    v => v.EntryName.Text)
-                .DisposeWith(disposables);
+                    viewModel => viewModel.BindingEntryCache,
+                    view => view.SecondaryListBox.ItemsSource)
+                    .DisposeWith(disposables);
 
-                this.Bind(ViewModel,
-                    vm => vm.IsChecked,
-                    v => v.EntryCheckBox.IsChecked)
-                .DisposeWith(disposables);
+                this.BindCommand(ViewModel,
+                    viewModel => viewModel.GoBackToPrimaryView,
+                    view => view.GoBackButton)
+                    .DisposeWith(disposables);
             });
         }
     }

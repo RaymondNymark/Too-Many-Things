@@ -22,7 +22,7 @@
 
         <ListBox x:Name="SecondaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" />
 
-        <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text"/>
+        <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text" VerticalAlignment="Center"/>
         <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="←Go_back_btn" Margin="15"/>
         <Button x:Name="EditEntryButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit_entry_btn" Margin="15"/>
 

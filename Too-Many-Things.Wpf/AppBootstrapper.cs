@@ -2,11 +2,9 @@
 using Too_Many_Things.Core.Services;
 using Splat;
 using Too_Many_Things.Wpf.Views;
-using EntityFrameworkCore.DbContextScope;
 using Too_Many_Things.Core.ViewModels;
 using Too_Many_Things.Core.DataAccess;
 using System;
-using Too_Many_Things.Core.DataAccess.Models;
 using Too_Many_Things.Wpf.Controls;
 
 namespace Too_Many_Things.Wpf
@@ -35,7 +33,7 @@ namespace Too_Many_Things.Wpf
             }
         }
 
-        // Registers the dependencies all in one place. 
+        // Registers all of the dependencies in one place!
         private void RegisterComponets(IMutableDependencyResolver dependencyResolver)
         {   // Views + ViewModels
             dependencyResolver.Register(() => new PrimaryView(), typeof(IViewFor<PrimaryViewModel>));
@@ -47,7 +45,7 @@ namespace Too_Many_Things.Wpf
 
             dependencyResolver.Register(() => new MainControllerWindow(), typeof(IViewFor<AppViewModel>));
 
-            //// DbContexto
+            // DbContexts
             dependencyResolver.Register(() => new ChecklistContextFactory(), typeof(IChecklistContextFactory));
             dependencyResolver.Register(() => new ChecklistDataService(), typeof(ChecklistDataService));
 

@@ -197,6 +197,10 @@ namespace Too_Many_Things.Core.ViewModels
             InterfaceState = InterfaceState.Default;
         }
 
+        /// <summary>
+        /// Converts list of Lists into a list of listViewModel and updates the BindingCache property.
+        /// </summary>
+        /// <returns></returns>
         private async Task UpdateBindingCache()
         {
             var derivedCache = new List<ListViewModel>();

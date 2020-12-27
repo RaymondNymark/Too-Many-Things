@@ -37,6 +37,12 @@ namespace Too_Many_Things.Wpf.Views
                     viewModel => viewModel.GoBackToPrimaryView,
                     view => view.GoBackButton)
                     .DisposeWith(disposables);
+
+                // Binds name of checklist to top of UI.
+                this.OneWayBind(ViewModel,
+                    vm => vm.SelectedList.Name,
+                    v => v.ChecklistNameText.Text)
+                .DisposeWith(disposables);
             });
         }
     }

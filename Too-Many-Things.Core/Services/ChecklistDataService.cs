@@ -122,6 +122,40 @@ namespace Too_Many_Things.Core.Services
                 }
             }
         }
+
+        /// <summary>
+        /// Toggles the IsChecked value of an entry to the opposite value.
+        /// </summary>
+        /// <param name="entry">Entry to toggle IsChecked flag on</param>
+        public async Task ToggleIsCheckedAsync(Entry entry)
+        {
+            using (var context = _context)
+            {
+                var target = await context.Entries.FindAsync(entry.EntryID);
+                bool newFlag;
+
+                switch (target.IsChecked)
+                {
+                    case true:
+                        newFlag = false;
+                        break;
+                    case false:
+                        newFlag = true;
+                        break;
+                }
+
+                try
+                {
+                    target.IsChecked = newFlag;
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    this.Log().Error(ex, $"Exception encountered trying mark 'IsChecked' of {entry.Name}");
+                    throw ex;
+                }
+            }
+        }
         #endregion
     }
 }

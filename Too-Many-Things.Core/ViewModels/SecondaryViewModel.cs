@@ -32,15 +32,15 @@ namespace Too_Many_Things.Core.ViewModels
         // List to bind ItemSource to.
         [Reactive]
         public List<EntryViewModel> BindingEntryCache { get; set; } = new List<EntryViewModel>();
-
-        private List _selectedList { get; set; }
+        [Reactive]
+        public List SelectedList { get; set; }
 
         #endregion
         public SecondaryViewModel(List selectedList, IScreen screen = null, ChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
-            _selectedList = selectedList;
+            SelectedList = selectedList;
 
             GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
             Initialize();
@@ -58,11 +58,11 @@ namespace Too_Many_Things.Core.ViewModels
         private async Task UpdateBindingEntryCacheAsync()
         {
             var derivedCache = new List<EntryViewModel>();
-            var freshCache = await _checklistService.LoadEntryDataAsync(_selectedList);
+            var freshCache = await _checklistService.LoadEntryDataAsync(SelectedList);
 
             foreach(Entry entry in freshCache)
             {
-                derivedCache.Add(new EntryViewModel(entry, entry.EntryID, entry.Name, entry.IsChecked, entry.IsDeleted, entry.SortOrder, entry.ListID));
+                derivedCache.Add(new EntryViewModel(entry, entry.EntryID, entry.Name, entry.IsChecked, entry.IsDeleted, entry.SortOrder, entry.ListID, _checklistService));
             }
 
             BindingEntryCache = derivedCache;

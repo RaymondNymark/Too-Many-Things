@@ -36,6 +36,12 @@ namespace Too_Many_Things.Wpf.Controls
                     vm => vm.IsChecked,
                     v => v.EntryCheckBox.IsChecked)
                 .DisposeWith(disposables);
+
+                // Binds CheckboxCommand to Entrycheckbox.
+                this.BindCommand(ViewModel,
+                    vm => vm.CheckboxCommand,
+                    v => v.EntryCheckBox)
+                .DisposeWith(disposables);
             });
         }
     }

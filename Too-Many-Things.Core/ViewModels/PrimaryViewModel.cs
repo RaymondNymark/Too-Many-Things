@@ -158,6 +158,10 @@ namespace Too_Many_Things.Core.ViewModels
             }
         }
 
+        /// <summary>
+        /// This method flips all switches internally to change the InterfaceState by input. 
+        /// </summary>
+        /// <param name="state">Which state to switch to.</param>
         private void EnableEdit(InterfaceState state)
         {
             switch (state)

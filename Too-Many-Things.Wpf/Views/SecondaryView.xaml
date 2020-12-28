@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="400">
     <Grid>
+        <Grid x:Name="SecondaryGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.13*"/>
             <RowDefinition Height="0.9*"/>
@@ -20,9 +21,16 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="SecondaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" />
+            <ListBox x:Name="SecondaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
+                        <MenuItem x:Name="DeleteMenuItem" Header="Delete"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
 
-        <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" FontStyle="Normal"/>
+            <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" FontStyle="Normal"/>
         <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="＜ Go back" Margin="15" FontSize="18" Background="Transparent" BorderThickness="0" FontWeight="Bold" VerticalAlignment="Bottom"/>
         <Button x:Name="EditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit!" Margin="15" FontSize="18" Background="Transparent" BorderThickness="0" FontWeight="Bold" VerticalAlignment="Bottom"/>
         <Button x:Name="EditEntryButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit_entry_btn" Margin="15" Visibility="Hidden"/>
@@ -30,5 +38,44 @@
         <Button x:Name="NewEntryButton" Content="＜add new＞" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Background="Transparent" BorderThickness="0"/>
         <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn" Margin="15"/>
         <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn" Margin="15"/>
+        </Grid>
+
+        <!--Confirmation Screens↓-->
+        
+        <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Background="#FFFDFDFD">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="ChangeName_text" Content="Change the name of an entry" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#FF2C2C2C"/>
+            <TextBox x:Name="ChangeName_box" Grid.Row="1" Margin="20,13,20,13" TextAlignment="Center" TextWrapping="Wrap" FontSize="14"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="CancelRenameButton" Grid.Column="0" Content="Cancel" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+                <Button x:Name="ConfirmRenameButton" Grid.Column="1" Content="Edit" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="DeleteConfirmationGrid" Margin="60,245,60,335" Background="#FFFDFDFD">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="DeletionInfoText" Content="Are you sure you want to delete?" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#FF2C2C2C"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="CancelDeletionButton" Grid.Column="0" Content="Cancel" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+                <Button x:Name="ConfirmDeletionButton" Grid.Column="1" Content="Delete" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+            </Grid>
+        </Grid>
     </Grid>
 </rxui:ReactiveUserControl>

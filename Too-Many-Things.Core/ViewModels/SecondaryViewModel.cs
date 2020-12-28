@@ -13,6 +13,7 @@ using System.Diagnostics;
 using ReactiveUI.Fody.Helpers;
 using Too_Many_Things.Core.DataAccess.Models;
 using System.Threading.Tasks;
+using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -20,7 +21,32 @@ namespace Too_Many_Things.Core.ViewModels
     {
         #region Reactive Commands & Interactions
         public ReactiveCommand<Unit, IRoutableViewModel> GoBackToPrimaryView { get; }
+        public ReactiveCommand<InterfaceState, Unit> EnableEditCommand { get; }
+        public ReactiveCommand<Unit, Unit> ConfirmRenameCommand { get; }
+        public ReactiveCommand<Unit, Unit> ConfirmDeletionCommand { get; }
+        public ReactiveCommand<Unit, Unit> CancelEditCommand { get; }
+
         #endregion
+        public SecondaryViewModel(List selectedList, IScreen screen = null, ChecklistDataService checklistService = null)
+        {
+            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
+            _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
+            SelectedList = selectedList;
+
+            GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
+            Initialize();
+
+            #region Edit mode (Re-name and deletion)
+            var renameCanExecute = this.WhenAnyValue(
+                x => x.RenameEntryInput,
+                (input) => input.Length > 0);
+
+            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
+            ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameEntryAsync(), renameCanExecute);
+            ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteEntryAsync());
+            CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
+            #endregion
+        }
 
         #region Properties
         private ChecklistDataService _checklistService;
@@ -35,18 +61,56 @@ namespace Too_Many_Things.Core.ViewModels
         [Reactive]
         public List SelectedList { get; set; }
 
-        #endregion
-        public SecondaryViewModel(List selectedList, IScreen screen = null, ChecklistDataService checklistService = null)
+        [Reactive]
+        public Entry SelectedEntry { get; set; }
+
+
+        // ---All of the edit mode properties---
+        [Reactive]
+        public string RenameEntryInput { get; set; } = string.Empty;
+        [Reactive]
+        public bool IsRenaming { get; set; } = false;
+        [Reactive]
+        public bool IsDeleting { get; set; } = false;
+        [Reactive]
+        public double GridOppacity { get; set; } = 1;
+
+        // Silly properties that need to be here to give commands parameters..
+        public InterfaceState RenamingState = InterfaceState.Renaming;
+        public InterfaceState DeletingState = InterfaceState.Deleting;
+
+        // Property for this SecondView's interface state.
+        private InterfaceState _interfaceState;
+        public InterfaceState InterfaceState
         {
-            HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
-            SelectedList = selectedList;
-
-            GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
-            Initialize();
+            get => _interfaceState;
+            set
+            {
+                switch (value)
+                {
+                    case InterfaceState.Default:
+                        IsRenaming = false;
+                        IsDeleting = false;
+                        GridOppacity = 1.0;
+                        break;
+                    case InterfaceState.Renaming:
+                        IsRenaming = true;
+                        IsDeleting = false;
+                        RenameEntryInput = "";
+                        GridOppacity = 0.3;
+                        break;
+                    case InterfaceState.Deleting:
+                        IsRenaming = false;
+                        IsDeleting = true;
+                        GridOppacity = 0.3;
+                        break;
+                }
+                this.RaiseAndSetIfChanged(ref _interfaceState, value);
+            }
         }
+        #endregion
 
-        #region Methods and Tasks
+        #region Asynchronous Tasks & Methods
         private async void Initialize()
         {
             await UpdateBindingEntryCacheAsync();
@@ -66,6 +130,43 @@ namespace Too_Many_Things.Core.ViewModels
             }
 
             BindingEntryCache = derivedCache;
+        }
+
+        /// <summary>
+        /// This method flips all switches internally to change the InterfaceState by input. 
+        /// </summary>
+        /// <param name="state">Which state to switch to.</param>
+        private void EnableEdit(InterfaceState state)
+        {
+            switch (state)
+            {
+                case InterfaceState.Renaming:
+                    InterfaceState = InterfaceState.Renaming;
+                    break;
+                case InterfaceState.Deleting:
+                    InterfaceState = InterfaceState.Deleting;
+                    break;
+            }
+        }
+
+        public async Task RenameEntryAsync()
+        {
+            // TODO:
+            InterfaceState = InterfaceState.Default;
+        }
+
+        public async Task DeleteEntryAsync()
+        {
+            // TODO:
+            InterfaceState = InterfaceState.Default;
+        }
+
+        /// <summary>
+        /// Returns the interface state back to default and removes edit ui.
+        /// </summary>
+        public void CancelEdit()
+        {
+            InterfaceState = InterfaceState.Default;
         }
         #endregion
     }

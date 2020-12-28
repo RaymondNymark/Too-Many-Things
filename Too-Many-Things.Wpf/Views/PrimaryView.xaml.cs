@@ -79,7 +79,8 @@ namespace Too_Many_Things.Wpf.Views
                    .Subscribe(x => ViewModel.OpenList.Execute());
                 #endregion
 
-                #region Context-Menu functionality
+                #region Properties for edit and deletion with the contextMenu.
+                // Context menu commands
                 this.BindCommand(ViewModel,
                     vm => vm.EnableEditCommand,
                     v => v.RenameMenuItem,
@@ -92,6 +93,7 @@ namespace Too_Many_Things.Wpf.Views
                     vm => vm.DeletingState)
                     .DisposeWith(disposables);
 
+                // Binds GridOppacity prop to Primary Grid's opacity.
                 this.OneWayBind(ViewModel,
                     vm => vm.GridOppacity,
                     v => v.PrimaryGrid.Opacity)

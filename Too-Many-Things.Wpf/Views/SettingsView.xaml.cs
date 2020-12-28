@@ -11,6 +11,8 @@ namespace Too_Many_Things.Wpf.Views
     public partial class SettingsView : ReactiveWindow<SettingsViewModel>
     {
         // TODO : Add hint / example text to boxes.
+
+        // TODO : Show on startup if connection is already donions.
         public SettingsView()
         {
             InitializeComponent();

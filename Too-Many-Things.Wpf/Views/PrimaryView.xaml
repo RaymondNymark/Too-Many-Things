@@ -10,10 +10,11 @@
              xmlns:local="clr-namespace:Too_Many_Things.Wpf.Views"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="400">
+
     <Grid>
         <Grid x:Name="PrimaryGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.13*"/>
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
@@ -32,7 +33,7 @@
 
             <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>
             <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton" Visibility="Hidden"/>
-            <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" Text="TopViewText_PlaceHolder"/>
+            <TextBlock x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Too Many Things" FontWeight="Bold" FontSize="24"/>
             <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15" Content="⚙️🔧"/>
             <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
 

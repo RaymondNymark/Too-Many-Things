@@ -18,6 +18,8 @@ namespace Too_Many_Things.Wpf.Views
     /// </summary>
     public partial class PrimaryView : ReactiveUserControl<PrimaryViewModel>
     {
+        // TODO : Remove icon on top left, since it looks bad.
+
         public ReactiveCommand<Unit, Unit> OpenSettingsCommand { get; set; }
         public ICommand OpenSettingsICommand { get; set; }
         public PrimaryView()
@@ -55,13 +57,6 @@ namespace Too_Many_Things.Wpf.Views
                 this.WhenAnyValue(View => View.PrimaryListBox.SelectedItem)
                         .BindTo(this, x => x.ViewModel.SelectedList)
                         .DisposeWith(disposables);
-
-                // Binds TopViewText to selectedChecklist, purely for debugging.
-                // Quicker than to write up unit test. TODO : Remove
-                this.OneWayBind(ViewModel,
-                    viewModel => viewModel.SelectedList.Name,
-                    view => view.TopViewText.Text)
-                    .DisposeWith(disposables);
 
                 this.WhenAnyValue(x => x.OpenSettingsCommand)
                     .BindTo(this, view => view.OpenSettingsButton.Command);

@@ -9,7 +9,7 @@ using Too_Many_Things.Core.DataAccess.Models;
 
 namespace Too_Many_Things.Core.Services
 {
-    public partial class ChecklistDataService : IEnableLogger
+    public partial class ChecklistDataService : IEnableLogger, IChecklistDataService
     {
         private IChecklistContextFactory _checklistContextFactory;
         private ChecklistContext _context
@@ -64,7 +64,7 @@ namespace Too_Many_Things.Core.Services
         {
             using (var context = _context)
             {
-                this.Log().Info($"Attempting to add defaultChecklist to the database at: {DateTime.UtcNow}.");
+                this.Log().Info($"Attempting to add defaultChecklist to the database.");
 
                 var defaultChecklist = new List { Name = "Unnamed Checklist!", IsDeleted = false, SortOrder = 0 };
                 await context.AddAsync(defaultChecklist);
@@ -77,12 +77,12 @@ namespace Too_Many_Things.Core.Services
         /// </summary>
         /// <param name="list">List to update</param>
         /// <param name="newName">new name to update to</param>
-        public async Task UpdateChecklistNameAsync(List list, string newName)
+        public async Task UpdateChecklistNameAsync(List checklistToRename, string newName)
         {
             using (var context = _context)
             {
-                var target = await context.Lists.FindAsync(list.ListID);
-                this.Log().Info($"Attempting to change the name of '{target.Name}' to '{newName}' at: {DateTime.UtcNow}.");
+                var target = await context.Lists.FindAsync(checklistToRename.ListID);
+                this.Log().Info($"Attempting to change the name of '{target.Name}' to '{newName}'.");
 
                 try
                 {
@@ -103,12 +103,12 @@ namespace Too_Many_Things.Core.Services
         /// database.
         /// </summary>
         /// <param name="list">Checklist to mark as deleted</param>
-        public async Task SoftDeleteChecklistAsync(List list)
+        public async Task SoftDeleteChecklistAsync(List checklistToSoftDelete)
         {
             using (var context = _context)
             {
-                var target = await context.Lists.FindAsync(list.ListID);
-                this.Log().Info($"Attempting to soft delete'{target.Name}' at: {DateTime.UtcNow}.");
+                var target = await context.Lists.FindAsync(checklistToSoftDelete.ListID);
+                this.Log().Info($"Attempting to soft delete'{target.Name}'.");
 
                 try
                 {
@@ -127,11 +127,11 @@ namespace Too_Many_Things.Core.Services
         /// Toggles the IsChecked value of an entry to the opposite value.
         /// </summary>
         /// <param name="entry">Entry to toggle IsChecked flag on</param>
-        public async Task ToggleIsCheckedAsync(Entry entry)
+        public async Task ToggleIsCheckedAsync(Entry entryToMarkAsChecked)
         {
             using (var context = _context)
             {
-                var target = await context.Entries.FindAsync(entry.EntryID);
+                var target = await context.Entries.FindAsync(entryToMarkAsChecked.EntryID);
                 bool newFlag;
 
                 switch (target.IsChecked)
@@ -151,8 +151,73 @@ namespace Too_Many_Things.Core.Services
                 }
                 catch (DbUpdateException ex)
                 {
-                    this.Log().Error(ex, $"Exception encountered trying mark 'IsChecked' of {entry.Name}");
+                    this.Log().Error(ex, $"Exception encountered trying to mark 'IsChecked' of {entryToMarkAsChecked.Name}");
                     throw ex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes an entry permanently from the database.
+        /// </summary>
+        public async Task DeleteEntryAsync(Entry entryToDelete)
+        {
+            using (var context = _context)
+            {
+                try
+                {
+                    var target = await context.Entries.FindAsync(entryToDelete.EntryID);
+                    this.Log().Info($"Attempting to delete {target.Name} from the database.");
+                    context.Entries.Remove(target);
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    this.Log().Error(ex, $"Exception encountered trying to delete {entryToDelete.Name}.");
+                    throw ex;
+                }
+            }
+        }
+
+        public async Task RenameEntryAsync(Entry entryToRename, string newName)
+        {
+            using (var context = _context)
+            {
+                try
+                {
+                    var target = await context.Entries.FindAsync(entryToRename.EntryID);
+                    this.Log().Info($"Attempting to rename {entryToRename.Name} to {newName}.");
+                    target.Name = newName;
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    this.Log().Error(ex, $"Exception encountered trying to delete {entryToRename.Name}.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a new default entry to a checklist
+        /// </summary>
+        /// <param name="listToAddEntryTo">List to add an entry to</param>
+        public async Task AddNewDefaultEntryToList(List listToAddEntryTo)
+        {
+            using (var context = _context)
+            {
+                try
+                {
+                    var target = await context.Lists.FindAsync(listToAddEntryTo.ListID);
+                    var defaultEntry = new Entry() { Name = "Unnamed Entry!", IsChecked = false, IsDeleted = false, SortOrder = 0 };
+
+                    this.Log().Info($"Attempting to add a new default entry in {listToAddEntryTo.Name}.");
+                    target.Entries.Add(defaultEntry);
+
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    this.Log().Error(ex, $"Exception encountered trying to add default entry to {listToAddEntryTo.Name}");
                 }
             }
         }

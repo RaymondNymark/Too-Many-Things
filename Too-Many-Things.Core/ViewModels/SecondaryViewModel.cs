@@ -27,10 +27,10 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, Unit> CancelEditCommand { get; }
 
         #endregion
-        public SecondaryViewModel(List selectedList, IScreen screen = null, ChecklistDataService checklistService = null)
+        public SecondaryViewModel(List selectedList, IScreen screen = null, IChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
+            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
             SelectedList = selectedList;
 
             GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
@@ -49,7 +49,7 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         #region Properties
-        private ChecklistDataService _checklistService;
+        private IChecklistDataService _checklistService;
         public string UrlPathSegment => "Secondary";
         public IScreen HostScreen { get; }
         // Flag to keep track of if Edit mode is enabled.
@@ -62,8 +62,7 @@ namespace Too_Many_Things.Core.ViewModels
         public List SelectedList { get; set; }
 
         [Reactive]
-        public Entry SelectedEntry { get; set; }
-
+        public EntryViewModel SelectedEntry { get; set; }
 
         // ---All of the edit mode properties---
         [Reactive]
@@ -149,20 +148,28 @@ namespace Too_Many_Things.Core.ViewModels
             }
         }
 
+        /// <summary>
+        /// Renames the Selected Entry to a new name.
+        /// </summary>
         public async Task RenameEntryAsync()
         {
-            // TODO:
-            InterfaceState = InterfaceState.Default;
-        }
-
-        public async Task DeleteEntryAsync()
-        {
-            // TODO:
+            await _checklistService.RenameEntryAsync(SelectedEntry.Entry, RenameEntryInput);
+            await UpdateBindingEntryCacheAsync();
             InterfaceState = InterfaceState.Default;
         }
 
         /// <summary>
-        /// Returns the interface state back to default and removes edit ui.
+        /// Deletes the selected Entry.
+        /// </summary>
+        public async Task DeleteEntryAsync()
+        {
+            await _checklistService.DeleteEntryAsync(SelectedEntry.Entry);
+            await UpdateBindingEntryCacheAsync();
+            InterfaceState = InterfaceState.Default;
+        }
+
+        /// <summary>
+        /// Returns the interface state back to default and removes edit UI.
         /// </summary>
         public void CancelEdit()
         {

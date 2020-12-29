@@ -45,11 +45,9 @@ namespace Too_Many_Things.Wpf.Views
                 .DisposeWith(disposables);
 
                 // Binds selected Entry to SelectedEntryProperty in VM
-                this.OneWayBind(ViewModel,
-                    vm => vm.SelectedEntry,
-                    v => v.SecondaryListBox.SelectedItem)
-                .DisposeWith(disposables);
-
+                this.WhenAnyValue(View => View.SecondaryListBox.SelectedItem)
+                        .BindTo(this, x => x.ViewModel.SelectedEntry)
+                        .DisposeWith(disposables);
 
 
 

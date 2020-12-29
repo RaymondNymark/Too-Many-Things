@@ -19,11 +19,11 @@ namespace Too_Many_Things.Core.ViewModels
         public int SortOrder { get; set; }
         public int ListID { get; set; }
 
-        private ChecklistDataService _checklistDataService;
+        private IChecklistDataService _checklistDataService;
 
         public ReactiveCommand<Unit, Unit> CheckboxCommand { get; }
 
-        public EntryViewModel(Entry entry, int entryID, string name, bool isChecked, bool isDeleted, int sortOrder, int listID, ChecklistDataService checklistDataService)
+        public EntryViewModel(Entry entry, int entryID, string name, bool isChecked, bool isDeleted, int sortOrder, int listID, IChecklistDataService checklistDataService)
         {
             Entry = entry;
             EntryID = entryID;

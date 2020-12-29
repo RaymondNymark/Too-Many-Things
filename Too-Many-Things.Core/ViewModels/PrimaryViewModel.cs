@@ -24,7 +24,7 @@ namespace Too_Many_Things.Core.ViewModels
         public string UrlPathSegment => "Primary";
         public IScreen HostScreen { get; }
 
-        private ChecklistDataService _checklistService;
+        private IChecklistDataService _checklistService;
 
         #region Reactive Commands & Interactions
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
@@ -38,7 +38,7 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<InterfaceState, Unit> EnableEditCommand { get; }
         #endregion
 
-        public PrimaryViewModel(IScreen screen = null, ChecklistDataService checklistService = null)
+        public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             InitializeApp(checklistService);
@@ -130,7 +130,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// connection has been configured. Otherwise it asks user to configure
         /// it.
         /// </summary>
-        private async void InitializeApp(ChecklistDataService checklistService)
+        private async void InitializeApp(IChecklistDataService checklistService)
         {
             var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
@@ -139,7 +139,7 @@ namespace Too_Many_Things.Core.ViewModels
                 // Big guns - Retrieves the service from DI.
                 ConfigurationStatus = string.Empty;
 
-                _checklistService = checklistService ?? Locator.Current.GetService<ChecklistDataService>();
+                _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
 
                 await UpdateBindingCache();
 

@@ -47,7 +47,7 @@ namespace Too_Many_Things.Wpf
 
             // DbContexts
             dependencyResolver.Register(() => new ChecklistContextFactory(), typeof(IChecklistContextFactory));
-            dependencyResolver.Register(() => new ChecklistDataService(), typeof(ChecklistDataService));
+            dependencyResolver.Register(() => new ChecklistDataService(), typeof(IChecklistDataService));
 
             // Services + Misc
             dependencyResolver.Register(() => new DBConnectionService(), typeof(IDBConnectionService));

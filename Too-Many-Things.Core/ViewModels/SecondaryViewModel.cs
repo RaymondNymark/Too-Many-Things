@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using Too_Many_Things.Core.Services;
-using Too_Many_Things.Core.ViewModels;
-using System.Collections.ObjectModel;
 using ReactiveUI;
 using Splat;
-using DynamicData;
-using DynamicData.Binding;
 using System.Reactive;
-using System.Diagnostics;
 using ReactiveUI.Fody.Helpers;
 using Too_Many_Things.Core.DataAccess.Models;
 using System.Threading.Tasks;
@@ -45,7 +39,6 @@ namespace Too_Many_Things.Core.ViewModels
                 x => x.SelectedEntry,
                 (selected) => (EntryViewModel)selected != null);
 
-
             EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state), EnableEditCanExecute);
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameEntryAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteEntryAsync());
@@ -69,7 +62,13 @@ namespace Too_Many_Things.Core.ViewModels
         [Reactive]
         public EntryViewModel SelectedEntry { get; set; }
 
+
         // ---All of the edit mode properties---
+        [Reactive]
+        public string ChangeNameString { get; set; } = "Change the name of an entry";
+        [Reactive]
+        public string DeleteObjectString { get; set; } = "Are you sure you want to delete?";
+
         [Reactive]
         public string RenameEntryInput { get; set; } = string.Empty;
         [Reactive]
@@ -146,9 +145,11 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 case InterfaceState.Renaming:
                     InterfaceState = InterfaceState.Renaming;
+                    ChangeNameString = $"Change the name of {SelectedEntry.Name}";
                     break;
                 case InterfaceState.Deleting:
                     InterfaceState = InterfaceState.Deleting;
+                    DeleteObjectString = $"Are you sure you want to delete {SelectedEntry.Name} ?";
                     break;
             }
         }

@@ -80,6 +80,20 @@ namespace Too_Many_Things.Wpf.Views
                 #endregion
 
                 #region Properties for edit and deletion with the contextMenu.
+                // Binds ViewModel property to label text, so on rename or
+                // deletion it explicitly tells you which entity you're
+                // deleting.
+                this.OneWayBind(ViewModel,
+                    vm => vm.ChangeNameString,
+                    v => v.ChangeName_text.Content)
+                .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.DeleteObjectString,
+                    v => v.DeletionInfoText.Content)
+                .DisposeWith(disposables);
+
+
                 // Context menu commands
                 this.BindCommand(ViewModel,
                     vm => vm.EnableEditCommand,

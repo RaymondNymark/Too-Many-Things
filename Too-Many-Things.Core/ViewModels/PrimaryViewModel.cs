@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Too_Many_Things.Core.Services;
-using Too_Many_Things.Core.ViewModels;
-using System.Collections.ObjectModel;
-using ReactiveUI;
-using Splat;
-using DynamicData;
-using DynamicData.Binding;
-using System.Reactive;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Reactive.Linq;
-using Too_Many_Things.Core.DataAccess.Models;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Splat;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Threading.Tasks;
+using Too_Many_Things.Core.DataAccess.Models;
+using Too_Many_Things.Core.Services;
 using static Too_Many_Things.Core.Enums.Enums;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Too_Many_Things.Core.ViewModels
 {
@@ -93,6 +85,10 @@ namespace Too_Many_Things.Core.ViewModels
         public bool IsDeleting { get; set; } = false;
         [Reactive]
         public double GridOppacity { get; set; } = 1;
+        [Reactive]
+        public string ChangeNameString { get; set; } = "Change the name of an entry";
+        [Reactive]
+        public string DeleteObjectString { get; set; } = "Are you sure you want to delete?";
 
         // Silly properties because of how command params work.
         public InterfaceState RenamingState = InterfaceState.Renaming;
@@ -173,9 +169,11 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 case InterfaceState.Renaming:
                     InterfaceState = InterfaceState.Renaming;
+                    ChangeNameString = $"Change the name of {SelectedList.Name}";
                     break;
                 case InterfaceState.Deleting:
                     InterfaceState = InterfaceState.Deleting;
+                    DeleteObjectString = $"Are you sure you want to delete {SelectedList.Name} ?";
                     break;
             }
         }

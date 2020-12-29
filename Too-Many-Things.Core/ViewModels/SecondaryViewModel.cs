@@ -41,7 +41,12 @@ namespace Too_Many_Things.Core.ViewModels
                 x => x.RenameEntryInput,
                 (input) => input.Length > 0);
 
-            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
+            var EnableEditCanExecute = this.WhenAnyValue(
+                x => x.SelectedEntry,
+                (selected) => (EntryViewModel)selected != null);
+
+
+            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state), EnableEditCanExecute);
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameEntryAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteEntryAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());

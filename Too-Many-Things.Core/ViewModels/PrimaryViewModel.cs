@@ -61,7 +61,12 @@ namespace Too_Many_Things.Core.ViewModels
             // Change button template style so it looks obvious to user that
             // they can click a button. input.Length > 0 enables button.
 
-            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state));
+            var EnableEditCanExecute = this.WhenAnyValue(
+                x => x.SelectedList,
+                (selected) => (ListViewModel)selected != null);
+
+
+            EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state), EnableEditCanExecute);
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());

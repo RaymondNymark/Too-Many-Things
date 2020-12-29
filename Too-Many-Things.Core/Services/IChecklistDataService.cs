@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess.Models;
 
@@ -15,5 +16,6 @@ namespace Too_Many_Things.Core.Services
         Task SoftDeleteChecklistAsync(List checklistToSoftDelete);
         Task ToggleIsCheckedAsync(Entry entryToMarkAsChecked);
         Task UpdateChecklistNameAsync(List checklistToRename, string newName);
+        Task MarkEntryCollectionIsCheckedFlagAsync(ObservableCollection<Entry> collectionOfEntries, bool whatToMarkAs);
     }
 }

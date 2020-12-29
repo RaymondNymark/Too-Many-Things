@@ -2,6 +2,7 @@
 using Splat;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess;
@@ -218,6 +219,33 @@ namespace Too_Many_Things.Core.Services
                 catch (DbUpdateException ex)
                 {
                     this.Log().Error(ex, $"Exception encountered trying to add default entry to {listToAddEntryTo.Name}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Marks every item's IsChecked bool in a collectuon of entries to specified value.   
+        /// </summary>
+        /// <param name="whatToMarkAs">What to marks IsChecked as</param>
+        public async Task MarkEntryCollectionIsCheckedFlagAsync(ObservableCollection<Entry> collectionOfEntries, bool whatToMarkAs)
+        {
+            var newFlag = whatToMarkAs;
+
+            using (var context = _context)
+            {
+                try
+                {
+                    this.Log().Info($"Attempting to set the IsChecked flag of every entity in {collectionOfEntries} to {whatToMarkAs}.");
+                    foreach (Entry entry in collectionOfEntries)
+                    {
+                        entry.IsChecked = newFlag;
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+                catch(DbUpdateException ex)
+                {
+                    this.Log().Error(ex, $"Exception encountered trying to mark IsChecked of {collectionOfEntries} to {whatToMarkAs}. Exception: {ex}.");
                 }
             }
         }

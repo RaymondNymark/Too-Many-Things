@@ -63,6 +63,37 @@ namespace Too_Many_Things.Wpf.Views
                     v => v.DeletionInfoText.Content)
                 .DisposeWith(disposables);
 
+                // Binds newEntryCommand to new entry button.
+                this.BindCommand(ViewModel,
+                    vm => vm.NewDefaultEntryCommand,
+                    v => v.NewEntryButton)
+                .DisposeWith(disposables);
+
+                // Bind Edit and Done Button's to a bool in VM.
+                this.OneWayBind(ViewModel,
+                    vm => vm.EditModeIsDisabled,
+                    v => v.EditButton.Visibility)
+                .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.EditModeIsEnabled,
+                    v => v.FinishEditButton.Visibility)
+                .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.EditModeIsEnabled,
+                    v => v.NewEntryButton.Visibility)
+                .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.TurnEntryEditOnCommand,
+                    v => v.EditButton)
+                .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.TurnEntryEditOffCommand,
+                    v => v.FinishEditButton)
+                .DisposeWith(disposables);
 
                 #region Properties for edit and deletion with the contextMenu.
                 // Context menu commands

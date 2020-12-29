@@ -20,6 +20,10 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, Unit> ConfirmDeletionCommand { get; }
         public ReactiveCommand<Unit, Unit> CancelEditCommand { get; }
 
+        public ReactiveCommand<Unit, Unit> TurnEntryEditOnCommand { get; }
+        public ReactiveCommand<Unit, Unit> TurnEntryEditOffCommand { get; }
+        public ReactiveCommand<Unit, Unit> NewDefaultEntryCommand { get; }
+
         #endregion
         public SecondaryViewModel(List selectedList, IScreen screen = null, IChecklistDataService checklistService = null)
         {
@@ -39,10 +43,23 @@ namespace Too_Many_Things.Core.ViewModels
                 x => x.SelectedEntry,
                 (selected) => (EntryViewModel)selected != null);
 
+
             EnableEditCommand = ReactiveCommand.Create((InterfaceState state) => EnableEdit(state), EnableEditCanExecute);
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameEntryAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteEntryAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
+            NewDefaultEntryCommand = ReactiveCommand.CreateFromTask(() => AddNewDefaultEntryAsync());
+
+            TurnEntryEditOnCommand = ReactiveCommand.Create(() => 
+            {
+                EditModeIsEnabled = true;
+                EditModeIsDisabled = false;
+            });
+            TurnEntryEditOffCommand = ReactiveCommand.Create(() =>
+            {
+                EditModeIsEnabled = false;
+                EditModeIsDisabled = true;
+            });
             #endregion
         }
 
@@ -51,8 +68,11 @@ namespace Too_Many_Things.Core.ViewModels
         public string UrlPathSegment => "Secondary";
         public IScreen HostScreen { get; }
         // Flag to keep track of if Edit mode is enabled.
+        // Silly way to deal with this.
         [Reactive]
         public bool EditModeIsEnabled { get; set; } = false;
+        [Reactive]
+        public bool EditModeIsDisabled { get; set; } = true;
         // List to bind ItemSource to.
         [Reactive]
         public List<EntryViewModel> BindingEntryCache { get; set; } = new List<EntryViewModel>();
@@ -180,6 +200,16 @@ namespace Too_Many_Things.Core.ViewModels
         public void CancelEdit()
         {
             InterfaceState = InterfaceState.Default;
+        }
+
+        /// <summary>
+        /// Adds a new default entry to a list and refreshes it.
+        /// </summary>
+        /// <returns></returns>
+        public async Task AddNewDefaultEntryAsync()
+        {
+            await _checklistService.AddNewDefaultEntryToList(SelectedList);
+            await UpdateBindingEntryCacheAsync();
         }
         #endregion
     }

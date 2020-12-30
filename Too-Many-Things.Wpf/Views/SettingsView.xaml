@@ -11,7 +11,35 @@
     <Grid>
         <TabControl>
             <TabItem x:Name="MainTab" Header="_Main">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="0.3*"/>
+                    </Grid.RowDefinitions>
 
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Theme:"/>
+                        <ComboBox Grid.Row="1" x:Name="ThemeSelectionComboBox" VerticalAlignment="Center" Margin="5,0,237,0" SelectedIndex="0">
+                            <ComboBoxItem>
+                                <TextBlock Text="Light theme"/>
+                            </ComboBoxItem>
+                        </ComboBox>
+                        <Label Grid.Row="2" Content="Language:"/>
+                        <ComboBox Grid.Row="3" x:Name="LanguageSelectionComboBox" VerticalAlignment="Center" Margin="5,0,237,0" SelectedIndex="0">
+                            <ComboBoxItem>
+                                <TextBlock Text="English"/>
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </Grid>
+
+                </Grid>
             </TabItem>
 
             <TabItem x:Name="ConnectionTab" Header="_Connection">
@@ -54,7 +82,6 @@
                         <ComboBox x:Name="AuthenticationInput" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="5" SelectedIndex="0">
                             <ComboBoxItem>
                                 <TextBlock Text="SQL Server Authentication"/>
-                                <!--TODO : Default item-->
                             </ComboBoxItem>
                         </ComboBox>
 

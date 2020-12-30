@@ -224,7 +224,7 @@ namespace Too_Many_Things.Core.Services
         }
 
         /// <summary>
-        /// Marks every item's IsChecked bool in a collectuon of entries to specified value.   
+        /// Marks every item's IsChecked bool in a collection of entries to specified value.   
         /// </summary>
         /// <param name="whatToMarkAs">What to marks IsChecked as</param>
         public async Task MarkEntryCollectionIsCheckedFlagAsync(ObservableCollection<Entry> collectionOfEntries, bool whatToMarkAs)
@@ -238,7 +238,8 @@ namespace Too_Many_Things.Core.Services
                     this.Log().Info($"Attempting to set the IsChecked flag of every entity in {collectionOfEntries} to {whatToMarkAs}.");
                     foreach (Entry entry in collectionOfEntries)
                     {
-                        entry.IsChecked = newFlag;
+                        var target = await context.Entries.FindAsync(entry.EntryID);
+                        target.IsChecked = newFlag;
                     }
 
                     await context.SaveChangesAsync();

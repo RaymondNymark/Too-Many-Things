@@ -95,6 +95,21 @@ namespace Too_Many_Things.Wpf.Views
                     v => v.FinishEditButton)
                 .DisposeWith(disposables);
 
+                // These bind the same command to check and uncheck all buttons.
+                this.BindCommand(ViewModel,
+                    vm => vm.CheckEveryEntry,
+                    v => v.CheckAllButton,
+                    vm => vm.TrueBool)
+                .DisposeWith(disposables);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.CheckEveryEntry,
+                    v => v.UncheckAllButton,
+                    vm => vm.FalseBool)
+                .DisposeWith(disposables);
+
+
+
                 #region Properties for edit and deletion with the contextMenu.
                 // Context menu commands
                 this.BindCommand(ViewModel,

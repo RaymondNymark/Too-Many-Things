@@ -24,6 +24,7 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, Unit> TurnEntryEditOffCommand { get; }
         public ReactiveCommand<Unit, Unit> NewDefaultEntryCommand { get; }
 
+        public ReactiveCommand<bool, Unit> CheckEveryEntry { get; }
         #endregion
         public SecondaryViewModel(List selectedList, IScreen screen = null, IChecklistDataService checklistService = null)
         {
@@ -35,6 +36,7 @@ namespace Too_Many_Things.Core.ViewModels
             Initialize();
 
             #region Edit mode (Re-name and deletion)
+            // Can execute statements.
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameEntryInput,
                 (input) => input.Length > 0);
@@ -61,6 +63,8 @@ namespace Too_Many_Things.Core.ViewModels
                 EditModeIsDisabled = true;
             });
             #endregion
+
+            CheckEveryEntry = ReactiveCommand.CreateFromTask((bool whatToMarkAs) => MarkCurrentCollectionIsChecked(whatToMarkAs));
         }
 
         #region Properties
@@ -101,10 +105,12 @@ namespace Too_Many_Things.Core.ViewModels
         // Silly properties that need to be here to give commands parameters..
         public InterfaceState RenamingState = InterfaceState.Renaming;
         public InterfaceState DeletingState = InterfaceState.Deleting;
+        public bool TrueBool = true;
+        public bool FalseBool = false;
 
         // Property for this SecondView's interface state.
         private InterfaceState _interfaceState;
-        public InterfaceState InterfaceState
+        private InterfaceState InterfaceState
         {
             get => _interfaceState;
             set
@@ -177,7 +183,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// <summary>
         /// Renames the Selected Entry to a new name.
         /// </summary>
-        public async Task RenameEntryAsync()
+        private async Task RenameEntryAsync()
         {
             await _checklistService.RenameEntryAsync(SelectedEntry.Entry, RenameEntryInput);
             await UpdateBindingEntryCacheAsync();
@@ -187,7 +193,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// <summary>
         /// Deletes the selected Entry.
         /// </summary>
-        public async Task DeleteEntryAsync()
+        private async Task DeleteEntryAsync()
         {
             await _checklistService.DeleteEntryAsync(SelectedEntry.Entry);
             await UpdateBindingEntryCacheAsync();
@@ -197,7 +203,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// <summary>
         /// Returns the interface state back to default and removes edit UI.
         /// </summary>
-        public void CancelEdit()
+        private void CancelEdit()
         {
             InterfaceState = InterfaceState.Default;
         }
@@ -206,9 +212,22 @@ namespace Too_Many_Things.Core.ViewModels
         /// Adds a new default entry to a list and refreshes it.
         /// </summary>
         /// <returns></returns>
-        public async Task AddNewDefaultEntryAsync()
+        private async Task AddNewDefaultEntryAsync()
         {
             await _checklistService.AddNewDefaultEntryToList(SelectedList);
+            await UpdateBindingEntryCacheAsync();
+        }
+
+        /// <summary>
+        /// Marks the entire current visible collection as either checked or
+        /// unchecked depending on input parameter.
+        /// </summary>
+        /// <param name="whatToMarkAs">What to mark IsChecked bool to</param>
+        private async Task MarkCurrentCollectionIsChecked(bool whatToMarkAs)
+        {
+            // Can optimize this using a linq statement.
+            var input = SelectedList.Entries;
+            await _checklistService.MarkEntryCollectionIsCheckedFlagAsync(input, whatToMarkAs);
             await UpdateBindingEntryCacheAsync();
         }
         #endregion

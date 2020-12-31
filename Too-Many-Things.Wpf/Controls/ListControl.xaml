@@ -8,13 +8,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="400">
-    <Grid MinHeight="80">
+    <Grid MinHeight="60">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="MainListName" Grid.Row="0"/>
-        <TextBlock x:Name="EntryCount" Grid.Row="1"/>
+        <TextBlock x:Name="MainListName" Grid.Row="0" FontSize="22"/>
+        <TextBlock x:Name="EntryCount" Grid.Row="1" FontSize="12"/>
     </Grid>
 </rxui:ReactiveUserControl>

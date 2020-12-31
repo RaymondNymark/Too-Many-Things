@@ -2,11 +2,10 @@
 using Splat;
 using System.Reflection;
 using System.Windows;
+using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Wpf
 {
-    public enum Theme { Light, Dark};
-
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -36,12 +35,12 @@ namespace Too_Many_Things.Wpf
 
         private void ApplyDarkTheme()
         {
-
+            AddResourceDictionary("Themes\\DarkTheme.xaml");
         }
 
         private void ApplyLightTheme()
         {
-
+            AddResourceDictionary("Themes\\LightTheme.xaml");
         }
 
         private void ApplySharedResources()

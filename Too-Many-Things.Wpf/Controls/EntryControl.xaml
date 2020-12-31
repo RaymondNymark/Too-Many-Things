@@ -8,13 +8,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d">
     <Grid>
-        <Grid x:Name="DefaultView" MinHeight="30">
+        <Grid x:Name="DefaultView" MinHeight="60">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.15*"/>
                 <ColumnDefinition Width="0.9*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock x:Name="EntryName" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <TextBlock x:Name="EntryName" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="19"/>
             <CheckBox x:Name="EntryCheckBox" Grid.Column="0" VerticalAlignment="Center"/>
         </Grid>
         

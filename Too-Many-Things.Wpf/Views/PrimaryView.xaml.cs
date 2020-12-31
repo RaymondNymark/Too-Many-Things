@@ -25,6 +25,7 @@ namespace Too_Many_Things.Wpf.Views
         public PrimaryView()
         {
             InitializeComponent();
+
             OpenSettingsCommand = ReactiveCommand.Create(() => OpenSettingsWindow());
 
             this.WhenActivated(disposables =>

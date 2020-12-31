@@ -25,5 +25,14 @@ namespace Too_Many_Things.Core.Enums
             Renaming,
             Deleting
         }
+
+        /// <summary>
+        /// 0 = Light, 1 = Dark 
+        /// </summary>
+        public enum Theme
+        {
+            Light,
+            Dark
+        }
     }
 }

@@ -1,7 +1,12 @@
 ﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Diagnostics;
+using System.Reactive;
 using System.Reactive.Disposables;
 using Too_Many_Things.Core.DataAccess.Structs;
 using Too_Many_Things.Core.ViewModels;
+using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Wpf.Views
 {
@@ -10,16 +15,30 @@ namespace Too_Many_Things.Wpf.Views
     /// </summary>
     public partial class SettingsView : ReactiveWindow<SettingsViewModel>
     {
-        // TODO : Add hint / example text to boxes.
+        [Reactive]
+        public int SelectedTheme { get; set; }
+        public ReactiveCommand<Unit, Unit> SwitchThemeCommand { get; set; }
 
-        // TODO : Show on startup if connection is already donions.
         public SettingsView()
         {
             InitializeComponent();
             ViewModel = new SettingsViewModel();
 
+            // Only lets you save and continue if theme is chosen.
+            //var switchThemeCanExecute = this.WhenAnyValue(x => x.SelectedTheme,
+            //    (selectedTheme) => selectedTheme > -1);
+            // TODO
+
+            SwitchThemeCommand = ReactiveCommand.Create(() => SwitchTheme(SelectedTheme));
+
             this.WhenActivated(disposables =>
             {
+                this.WhenAnyValue(x => x.ThemeSelectionComboBox.SelectedIndex)
+                    .BindTo(this, view => view.SelectedTheme);
+
+                this.WhenAnyValue(x => x.SwitchThemeCommand)
+                .BindTo(this, view => view.SaveSettingsMainButton.Command);
+
                 // Binds the inputs to ConnectionLogin object in the VM.
                 this.WhenAnyValue(
                 x => x.ServerNameInput.Text,
@@ -49,7 +68,20 @@ namespace Too_Many_Things.Wpf.Views
                     vm => vm.ConnectionStatusBrush,
                     v => v.ConnectionStatusText.Foreground)
                     .DisposeWith(disposables);
+
+
             });
+        }
+
+        /// <summary>
+        /// Switches the theme for the application.
+        /// </summary>
+        /// <param name="selectedTheme">Which theme to switch to. 0 = light, 1 = dark.</param>
+        private void SwitchTheme(int selectedTheme)
+        {
+            var newTheme = (Theme)selectedTheme;
+
+            (App.Current as App).ChangeTheme(newTheme);
         }
     }
 }

@@ -26,9 +26,12 @@
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" Content="Theme:"/>
-                        <ComboBox Grid.Row="1" x:Name="ThemeSelectionComboBox" VerticalAlignment="Center" Margin="5,0,237,0" SelectedIndex="0">
+                        <ComboBox Grid.Row="1" x:Name="ThemeSelectionComboBox" VerticalAlignment="Center" Margin="5,0,237,0">
                             <ComboBoxItem>
                                 <TextBlock Text="Light theme"/>
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                <TextBlock Text="Dark theme"/>
                             </ComboBoxItem>
                         </ComboBox>
                         <Label Grid.Row="2" Content="Language:"/>
@@ -37,6 +40,9 @@
                                 <TextBlock Text="English"/>
                             </ComboBoxItem>
                         </ComboBox>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Button x:Name="SaveSettingsMainButton" Content="Save and continue" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="222,0,0,0" Height="32" Width="150"/>
                     </Grid>
 
                 </Grid>

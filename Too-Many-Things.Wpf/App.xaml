@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:Too_Many_Things.Wpf"
              StartupUri="MainControllerWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

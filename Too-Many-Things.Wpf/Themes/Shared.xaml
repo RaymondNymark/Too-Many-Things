@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <Style TargetType="Label">
+        <Setter Property="Foreground" Value="#DB1162"/>
+    </Style>
+    <Style TargetType="Grid">
+        <!--<Setter Property="Background" Value="#252526"/>-->
+    </Style>
+    <Style TargetType="ListBox">
+        <!--<Setter Property="Background" Value="#252526"/>-->
+        <Setter Property="BorderBrush" Value="#999A9E"/>
+    </Style>
+    <Style TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="#DB1162"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+</ResourceDictionary>

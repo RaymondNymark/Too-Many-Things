@@ -39,10 +39,10 @@ namespace Too_Many_Things.Wpf.Controls
                     v => v.EntryCount.Text)
                 .DisposeWith(disposables);
 
-                // Binds EntryStringBrush to color of EntryCount label.
+                // Binds Opacity from VM to view label.
                 this.OneWayBind(ViewModel,
-                    vm => vm.EntryStringBrush,
-                    v => v.EntryCount.Foreground)
+                    vm => vm.Opacity,
+                    v => v.EntryCount.Opacity)
                 .DisposeWith(disposables);
             });
         }

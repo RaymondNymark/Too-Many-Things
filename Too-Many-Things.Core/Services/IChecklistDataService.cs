@@ -7,7 +7,7 @@ namespace Too_Many_Things.Core.Services
 {
     public interface IChecklistDataService
     {
-        Task AddDefaultChecklist();
+        Task AddDefaultChecklistAsync();
         Task AddNewDefaultEntryToList(List listToAddEntryTo);
         Task DeleteEntryAsync(Entry entryToDelete);
         Task<List<List>> LoadDataAsync();

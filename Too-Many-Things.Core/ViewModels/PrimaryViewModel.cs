@@ -42,7 +42,7 @@ namespace Too_Many_Things.Core.ViewModels
             var connectSaveCanExecute = this.WhenAnyValue(
                 x => x.IsConfigured,
                 (flag) => flag == true);
-            NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => _checklistService.AddDefaultChecklist(), connectSaveCanExecute);
+            NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => NewDefaultChecklist(), connectSaveCanExecute);
 
             OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService)));
 
@@ -183,6 +183,7 @@ namespace Too_Many_Things.Core.ViewModels
             // Ra-naming the checklist.
             await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
             InterfaceState = InterfaceState.Default;
+            await UpdateBindingCache();
         }
 
         /// <summary>
@@ -194,6 +195,7 @@ namespace Too_Many_Things.Core.ViewModels
             await _checklistService.SoftDeleteChecklistAsync(SelectedList.List);
             // Sets interface back to default view. 
             InterfaceState = InterfaceState.Default;
+            await UpdateBindingCache();
         }
 
         /// <summary>
@@ -202,6 +204,15 @@ namespace Too_Many_Things.Core.ViewModels
         public void CancelEdit()
         {
             InterfaceState = InterfaceState.Default;
+        }
+
+        /// <summary>
+        /// Adds a new default checklist to the database and forces a refresh of the content.
+        /// </summary>
+        public async Task NewDefaultChecklist()
+        {
+            await _checklistService.AddDefaultChecklistAsync();
+            await UpdateBindingCache();
         }
 
         /// <summary>

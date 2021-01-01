@@ -61,7 +61,7 @@ namespace Too_Many_Things.Core.Services
         /// <summary>
         /// Adds a default checklist named "Unnamed Checklist!" to the database.
         /// </summary>
-        public async Task AddDefaultChecklist()
+        public async Task AddDefaultChecklistAsync()
         {
             using (var context = _context)
             {

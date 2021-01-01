@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Themes\NewChecklistButton.png" />
+    <None Remove="Themes\Resources\icon4.png" />
+    <None Remove="Themes\Resources\OpenSettings.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +25,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Too-Many-Things.Core\Too-Many-Things.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\Resources\NewChecklistButton.png" />
+    <Resource Include="Themes\Resources\OpenSettings.png" />
   </ItemGroup>
 
   <ItemGroup>

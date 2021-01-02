@@ -36,8 +36,8 @@
             <Button x:Name="FinishEditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Done" Margin="15" FontSize="18" BorderThickness="0" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
 
             <Button x:Name="NewEntryButton" Content="＜add new＞" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Style="{StaticResource ResourceKey=ThemedButton}" FontSize="25" Margin="0,0,0,5" FontStyle="Italic"/>
-            <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
-            <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check all" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck all" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
         </Grid>
 
         <!--Confirmation Screens↓-->

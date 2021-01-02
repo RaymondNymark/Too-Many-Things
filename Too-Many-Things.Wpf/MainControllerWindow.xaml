@@ -8,7 +8,7 @@
         ResizeMode="CanMinimize"
         Title="Too Many Things!" Height="700" Width="400">
 
-    <Grid UseLayoutRounding="True">
+    <Grid UseLayoutRounding="True" Style="{StaticResource ResourceKey=ThemedGrid}">
         <rxui:RoutedViewHost
             x:Name="RoutedViewHost"
             HorizontalContentAlignment="Stretch"

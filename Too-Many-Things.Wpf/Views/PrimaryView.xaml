@@ -8,7 +8,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Too_Many_Things.Wpf.Views"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="400">
 
     <Grid>
@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListBox x:Name="PrimaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Style="{StaticResource ResourceKey=ThemedListBox}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
@@ -30,11 +30,27 @@
                     </ContextMenu>
                 </ListBox.ContextMenu>
             </ListBox>
-            <Button x:Name="NewDefaultListButton" Grid.Row="2" HorizontalAlignment="Right" Margin="15" Content="DT-NewDefaultListButton"/>
+            <Button x:Name="NewDefaultListButton" Grid.Row="2" Width="45" Height="45" HorizontalAlignment="Right" Margin="0, 0, 12, 0" Style="{StaticResource ResourceKey=ThemedButton}">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource NewChecklistImage}"/>
+                </Button.Background>
+                <Button.Content>
+                    <Image Source="{StaticResource NewChecklistImage}"/>
+                </Button.Content>
+            </Button>
             <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton" Visibility="Hidden"/>
-            <Label x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Too Many Things" FontWeight="Bold" FontSize="24"/>
-            <Button x:Name="OpenSettingsButton" Grid.Row="0" HorizontalAlignment="Left" Margin="15,15,0,15" Content="⚙️🔧" Width="67"/>
-            <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫"/>
+            <Label x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Too Many Things" FontWeight="Bold" FontSize="21" Style="{StaticResource ResourceKey=ThemedLabel}"/>
+
+            <Button x:Name="OpenSettingsButton" Grid.Row="2" Width="39" Height="39" HorizontalAlignment="Left" Margin="12, 0, 0, 0" Style="{StaticResource ResourceKey=ThemedButton}">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource OpenSettingsImage}"/>
+                </Button.Background>
+                <Button.Content>
+                    <Image Source="{StaticResource OpenSettingsImage}"/>
+                </Button.Content>
+            </Button>
+            
+            <Button x:Name="RefreshButton" Grid.Row="0" HorizontalAlignment="Right" Margin="15" Content="🔄💫" Visibility="Hidden"/>
 
             <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
         </Grid>

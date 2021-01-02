@@ -21,7 +21,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-            <ListBox x:Name="SecondaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+            <ListBox x:Name="SecondaryListBox" Grid.Row="1" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Style="{StaticResource ResourceKey=ThemedListBox}">
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem x:Name="RenameMenuItem" Header="Rename"/>
@@ -31,13 +31,13 @@
             </ListBox>
 
             <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" FontStyle="Normal"/>
-        <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="＜ Go back" Margin="15" FontSize="18" VerticalAlignment="Bottom"/>
-        <Button x:Name="EditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit!" Margin="15" FontSize="18" Background="Transparent" VerticalAlignment="Bottom"/>
-            <Button x:Name="FinishEditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Done" Margin="15" FontSize="18" BorderThickness="0" VerticalAlignment="Bottom"/>
+            <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="＜ Go back" Margin="15" FontSize="18" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="EditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit!" Margin="15" FontSize="18" Background="Transparent" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="FinishEditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Done" Margin="15" FontSize="18" BorderThickness="0" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
 
-            <Button x:Name="NewEntryButton" Content="＜add new＞" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Background="Transparent" BorderThickness="0"/>
-        <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn" Margin="15"/>
-        <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn" Margin="15"/>
+            <Button x:Name="NewEntryButton" Content="＜add new＞" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" Style="{StaticResource ResourceKey=ThemedButton}" FontSize="25" Margin="0,0,0,5" FontStyle="Italic"/>
+            <Button x:Name="CheckAllButton" Grid.Row="2" HorizontalAlignment="Left" Content="Check_all_btn" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="UncheckAllButton" Grid.Row="2" HorizontalAlignment="Right" Content="Uncheck_all_btn" Margin="15" Style="{StaticResource ResourceKey=ThemedButton}"/>
         </Grid>
 
         <!--Confirmation Screens↓-->

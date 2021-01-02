@@ -15,6 +15,6 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="MainListName" Grid.Row="0" FontSize="22" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
-        <TextBlock x:Name="EntryCount" Grid.Row="1" FontSize="12"/>
+        <TextBlock x:Name="EntryCount" Grid.Row="1" FontSize="12" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
     </Grid>
 </rxui:ReactiveUserControl>

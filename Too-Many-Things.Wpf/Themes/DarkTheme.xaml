@@ -47,6 +47,53 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="CheckBox" x:Key="ThemedCheckbox">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <BulletDecorator Background="Transparent">
+                        <BulletDecorator.Bullet>
+                            <Border x:Name="Border" 
+                                Width="17" 
+                                Height="17" 
+                                CornerRadius="100" 
+                                Background="Transparent"
+                                BorderThickness="1"
+                                BorderBrush="#8E8E93">
+                                <Path 
+                                    Width="10" Height="10" 
+                                    x:Name="CheckMark"
+                                    SnapsToDevicePixels="True" 
+                                    Stroke="White"
+                                    StrokeThickness="2"
+                                    Data="F1 M 0.468732,4.66838L 3.03345,7.95443L 7.28127,0.420569" />
+                            </Border>
+                        </BulletDecorator.Bullet>
+                        <ContentPresenter RecognizesAccessKey="True"/>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter TargetName="CheckMark" Property="Data" Value="M 0 7 L 7 0" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#8E8E93" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#C7C7CC" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#606060" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+    
     <Style TargetType="Border" x:Key="ThemedBorder">
         <Setter Property="BorderBrush" Value="#3A3A3C"/>
         <Setter Property="Grid.RowSpan" Value="3"/>

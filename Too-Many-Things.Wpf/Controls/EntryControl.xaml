@@ -15,7 +15,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock x:Name="EntryName" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="19" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
-            <CheckBox x:Name="EntryCheckBox" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,6,13,0" Background="Transparent">
+            <CheckBox x:Name="EntryCheckBox" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,6,13,0" Style="{StaticResource ResourceKey=ThemedCheckbox}">
                 <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.4" ScaleY="1.4"/>
                 </CheckBox.LayoutTransform>

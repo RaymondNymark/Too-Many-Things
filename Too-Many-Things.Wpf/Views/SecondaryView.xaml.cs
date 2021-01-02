@@ -55,12 +55,12 @@ namespace Too_Many_Things.Wpf.Views
                 // deleting.
                 this.OneWayBind(ViewModel,
                     vm => vm.ChangeNameString,
-                    v => v.ChangeName_text.Content)
+                    v => v.ChangeName_text.Text)
                 .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
                     vm => vm.DeleteObjectString,
-                    v => v.DeletionInfoText.Content)
+                    v => v.DeletionInfoText.Text)
                 .DisposeWith(disposables);
 
                 // Binds newEntryCommand to new entry button.

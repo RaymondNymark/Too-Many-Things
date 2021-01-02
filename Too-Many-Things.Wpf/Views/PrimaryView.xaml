@@ -30,7 +30,7 @@
                     </ContextMenu>
                 </ListBox.ContextMenu>
             </ListBox>
-            <Button x:Name="NewDefaultListButton" Grid.Row="2" Width="45" Height="45" HorizontalAlignment="Right" Margin="0, 0, 12, 0" Style="{StaticResource ResourceKey=ThemedButton}">
+            <Button x:Name="NewDefaultListButton" Grid.Row="2" Width="45" Height="45" HorizontalAlignment="Right" Margin="0, 0, 23, 0" Style="{StaticResource ResourceKey=ThemedButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="{StaticResource NewChecklistImage}"/>
                 </Button.Background>
@@ -41,7 +41,7 @@
             <Button x:Name="OpenChecklistButton" Grid.Row="2" HorizontalAlignment="Left" Margin="15" Content="DT-OpenChecklistButton" Visibility="Hidden"/>
             <Label x:Name="TopViewText" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Too Many Things" FontWeight="Bold" FontSize="21" Style="{StaticResource ResourceKey=ThemedLabel}"/>
 
-            <Button x:Name="OpenSettingsButton" Grid.Row="2" Width="39" Height="39" HorizontalAlignment="Left" Margin="12, 0, 0, 0" Style="{StaticResource ResourceKey=ThemedButton}">
+            <Button x:Name="OpenSettingsButton" Grid.Row="2" Width="39" Height="39" HorizontalAlignment="Left" Margin="23, 0, 0, 0" Style="{StaticResource ResourceKey=ThemedButton}">
                 <Button.Background>
                     <ImageBrush ImageSource="{StaticResource OpenSettingsImage}"/>
                 </Button.Background>
@@ -55,40 +55,44 @@
             <TextBlock x:Name="ConfigurationStatusText" Margin="0,218,0,171" Grid.Row="1" FontSize="22" HorizontalAlignment="Center" IsHitTestVisible="False" TextWrapping="Wrap"/>
         </Grid>
 
-        <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Background="#FFFDFDFD">
+        <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Style="{StaticResource ResourceKey=ThemedGridLight}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="ChangeName_text" Content="Change the name of a checklist" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#FF2C2C2C"/>
-            <TextBox x:Name="ChangeName_box" Grid.Row="1" Margin="20,13,20,13" TextAlignment="Center" TextWrapping="Wrap" FontSize="14"/>
+            <TextBlock x:Name="ChangeName_text" Text="Change the name of a checklist" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
+            <TextBox x:Name="ChangeName_box" Grid.Row="1" Margin="20,13,20,13" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" Style="{StaticResource ResourceKey=ThemedTextBox}"/>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="CancelRenameButton" Grid.Column="0" Content="Cancel" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
-                <Button x:Name="ConfirmRenameButton" Grid.Column="1" Content="Edit" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+                <Button x:Name="CancelRenameButton" Grid.Column="0" Content="Cancel" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedConfirmationButton}"/>
+                <Button x:Name="ConfirmRenameButton" Grid.Column="1" Content="Edit" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedConfirmationButton}"/>
             </Grid>
+            
+            <Border Style="{StaticResource ThemedBorder}"/>
         </Grid>
 
-        <Grid x:Name="DeleteConfirmationGrid" Margin="60,245,60,335" Background="#FFFDFDFD">
+        <Grid x:Name="DeleteConfirmationGrid" Margin="60,225,60,335" Style="{StaticResource ResourceKey=ThemedGridLight}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
-            <Label x:Name="DeletionInfoText" Content="Are you sure you want to delete?" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#FF2C2C2C"/>
+            <TextBlock x:Name="DeletionInfoText" Text="Are you sure you want to Delete a checklist?" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="CancelDeletionButton" Grid.Column="0" Content="Cancel" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
-                <Button x:Name="ConfirmDeletionButton" Grid.Column="1" Content="Delete" Background="#FFFDFDFD" FontSize="14" Foreground="#FF2C2C2C" BorderBrush="#FFE0E0E0"/>
+                <Button x:Name="CancelDeletionButton" Grid.Column="0" Content="Cancel" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedConfirmationButton}"/>
+                <Button x:Name="ConfirmDeletionButton" Grid.Column="1" Content="Delete" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedConfirmationButton}"/>
             </Grid>
+
+            <Border Style="{StaticResource ThemedBorder}"/>
         </Grid>
     </Grid>
 </rxui:ReactiveUserControl>

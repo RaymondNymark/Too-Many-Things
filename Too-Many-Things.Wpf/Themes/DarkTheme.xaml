@@ -22,10 +22,65 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="Button" x:Key="ThemedConfirmationButton">
+        <Setter Property="Background" Value="#101013"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2C2C2E"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.5"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Border" x:Key="ThemedBorder">
+        <Setter Property="BorderBrush" Value="#3A3A3C"/>
+        <Setter Property="Grid.RowSpan" Value="3"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="ThemedTextBox">
+        <Setter Property="Background" Value="#1C1C1E"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#48484A"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="#636366"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="Grid" x:Key="ThemedGrid">
         <Setter Property="Background" Value="#000000"/>
     </Style>
 
+    <Style TargetType="Grid" x:Key="ThemedGridLight">
+        <Setter Property="Background" Value="#101013"/>
+    </Style>
+    
     <Style TargetType="Label" x:Key="ThemedLabel">
         <Setter Property="Foreground" Value="#FF375F"/>
     </Style>
@@ -36,6 +91,10 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="ThemedTextBlock">
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="ThemedBlankLabel">
         <Setter Property="Foreground" Value="#FFFFFF"/>
     </Style>
 

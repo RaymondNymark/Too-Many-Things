@@ -90,7 +90,7 @@
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="White" />
-                            <Setter TargetName="Border" Property="BorderBrush" Value="#F2F2F7" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#8E8E93" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

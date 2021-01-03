@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Too_Many_Things.Core.Services;
 using ReactiveUI;
 using Splat;

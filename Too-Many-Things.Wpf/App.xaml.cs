@@ -1,10 +1,6 @@
-﻿using ReactiveUI;
-using Splat;
-using System;
-using System.Reflection;
-using System.Windows;
-using Props = Too_Many_Things.Wpf.Properties;
+﻿using System.Windows;
 using static Too_Many_Things.Core.Enums.Enums;
+using Props = Too_Many_Things.Wpf.Properties;
 
 namespace Too_Many_Things.Wpf
 {
@@ -57,7 +53,7 @@ namespace Too_Many_Things.Wpf
         {
             AddResourceDictionary("Themes\\Shared.xaml");
         }
-        
+
         private void AddResourceDictionary(string src)
         {
             Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new System.Uri(src, System.UriKind.Relative) });

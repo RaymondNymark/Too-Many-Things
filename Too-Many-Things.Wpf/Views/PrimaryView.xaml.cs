@@ -1,15 +1,11 @@
 ﻿using ReactiveUI;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Too_Many_Things.Core.ViewModels;
-using Too_Many_Things.Core.Services;
-using static Too_Many_Things.Core.Enums.Enums;
 
 namespace Too_Many_Things.Wpf.Views
 {
@@ -18,8 +14,6 @@ namespace Too_Many_Things.Wpf.Views
     /// </summary>
     public partial class PrimaryView : ReactiveUserControl<PrimaryViewModel>
     {
-        // TODO : Remove icon on top left, since it looks bad.
-
         public ReactiveCommand<Unit, Unit> OpenSettingsCommand { get; set; }
         public ICommand OpenSettingsICommand { get; set; }
         public PrimaryView()

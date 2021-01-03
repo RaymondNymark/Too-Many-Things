@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Configuration;
 using Too_Many_Things.Core.DataAccess.Models;
 
 namespace Too_Many_Things.Core.DataAccess
@@ -22,12 +20,11 @@ namespace Too_Many_Things.Core.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Lazy way of configuring DbContext.
             if (!optionsBuilder.IsConfigured)
             {
-                // TODO : Store connection string in a safe place and let user
-                // change it.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TooManyThingsDB;Trusted_Connection=True;");
+                // This should never be ran as the DBContext is not created by
+                // anything without explicitly configuring it, and this it
+                // should always be configured.
             }
         }
     }

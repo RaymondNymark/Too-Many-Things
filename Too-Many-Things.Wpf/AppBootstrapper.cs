@@ -1,11 +1,11 @@
 ﻿using ReactiveUI;
-using Too_Many_Things.Core.Services;
 using Splat;
-using Too_Many_Things.Wpf.Views;
-using Too_Many_Things.Core.ViewModels;
-using Too_Many_Things.Core.DataAccess;
 using System;
+using Too_Many_Things.Core.DataAccess;
+using Too_Many_Things.Core.Services;
+using Too_Many_Things.Core.ViewModels;
 using Too_Many_Things.Wpf.Controls;
+using Too_Many_Things.Wpf.Views;
 
 namespace Too_Many_Things.Wpf
 {

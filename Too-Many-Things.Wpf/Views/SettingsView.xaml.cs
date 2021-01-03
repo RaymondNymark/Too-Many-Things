@@ -1,7 +1,5 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using Too_Many_Things.Core.DataAccess.Structs;

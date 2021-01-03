@@ -1,12 +1,8 @@
 ﻿using ReactiveUI;
 using Splat;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Too_Many_Things.Core.DataAccess.Structs;
@@ -45,15 +41,10 @@ namespace Too_Many_Things.Core.ViewModels
             var connectSaveCanExecute = this.WhenAnyValue(
                 x => x.TestConnectionWasSuccess,
                 (flag) => flag == true);
-            // ↑ TODO : Only stay active if LoginDetails haven't changed. Actually, it doesn't matter
-
 
             // Commands
             TestConnectionCommand = ReactiveCommand.CreateFromTask(PingConnectionStringAsync, testConnectionCanExecute);
             ConnectSaveCommand = ReactiveCommand.CreateFromTask(ConnectAndSaveAsync, connectSaveCanExecute);
-
-            // Debug-only TODO : Remove this.
-            // this.WhenAnyValue(x => x.ConnectionStrings).Subscribe(x => Debug.WriteLine($"{ConnectionStrings.pingConnectionString} and {ConnectionStrings.connectionString}"));
         }
 
         #region Properties
@@ -98,7 +89,7 @@ namespace Too_Many_Things.Core.ViewModels
         {
             ConnectionStrings = DBConnectionService.CreateConnectionString(connectionLogin);
         }
- 
+
         private async Task PingConnectionStringAsync()
         {
             ConnectionStatus = "Attempting to establish a connection...";
@@ -129,7 +120,7 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 success = await _dbConectionService.InitializeDBAsync(ConnectionStrings.connectionString);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

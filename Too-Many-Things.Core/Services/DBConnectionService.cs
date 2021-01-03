@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess;
 using Too_Many_Things.Core.DataAccess.Structs;
@@ -65,8 +64,6 @@ namespace Too_Many_Things.Core.Services
                 }
                 catch (SqlException ex)
                 {
-                    // TODO : Log. Splat logger method is deprecated.
-                    Debug.WriteLine($"Failed to connect. Exception: {ex}");
                     return false;
                 }
             }
@@ -111,13 +108,12 @@ namespace Too_Many_Things.Core.Services
             // doing bad things here.
             using (var context = new ChecklistContext(options))
             {
-                // TODO : Logging + exception catching
                 try
                 {
                     context.Database.Migrate();
                     return true;
                 }
-                catch (Exception ex)
+                catch (SqlException ex)
                 {
                     throw ex;
                 }
@@ -138,8 +134,6 @@ namespace Too_Many_Things.Core.Services
                 }
                 catch (SqlException ex)
                 {
-                    // TODO : Log. Splat logger method is deprecated.
-                    Debug.WriteLine($"Failed to connect. Exception: {ex}");
                     return false;
                 }
             }

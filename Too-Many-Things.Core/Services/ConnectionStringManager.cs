@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 namespace Too_Many_Things.Core.Services
@@ -54,7 +51,7 @@ namespace Too_Many_Things.Core.Services
             if (fileExists)
             {
                 var content = await File.ReadAllTextAsync("ConnectionString.txt");
-                
+
                 if (content.Length > 0)
                 {
                     result = true;

@@ -229,7 +229,6 @@ namespace Too_Many_Things.Core.ViewModels
                 derivedCache.Add(new ListViewModel(list, list.ListID, list.Name, list.IsDeleted, list.SortOrder, list.Entries));
             }
 
-            // TODO : Sort by order.
             BindingCache = derivedCache;
         }
         #endregion

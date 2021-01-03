@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Splat;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -244,7 +243,7 @@ namespace Too_Many_Things.Core.Services
 
                     await context.SaveChangesAsync();
                 }
-                catch(DbUpdateException ex)
+                catch (DbUpdateException ex)
                 {
                     this.Log().Error(ex, $"Exception encountered trying to mark IsChecked of {collectionOfEntries} to {whatToMarkAs}. Exception: {ex}.");
                 }

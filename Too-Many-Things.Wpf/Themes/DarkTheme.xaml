@@ -38,7 +38,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#2C2C2E"/>
+                <Setter Property="Background" Value="#1C1C1E"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -139,6 +139,7 @@
 
     <Style TargetType="TextBlock" x:Key="ThemedTextBlock">
         <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontSize" Value="24"/>
     </Style>
 
     <Style TargetType="Label" x:Key="ThemedBlankLabel">

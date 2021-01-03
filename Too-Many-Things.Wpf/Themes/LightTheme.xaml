@@ -136,6 +136,7 @@
 
     <Style TargetType="TextBlock" x:Key="ThemedTextBlock">
         <Setter Property="Foreground" Value="#000000"/>
+        <Setter Property="FontSize" Value="24"/>
     </Style>
 
     <Style TargetType="Label" x:Key="ThemedBlankLabel">

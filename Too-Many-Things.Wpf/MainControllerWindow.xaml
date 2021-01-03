@@ -10,7 +10,7 @@
         WindowStyle="None"
         >
 
-    <Grid>
+    <Grid Style="{StaticResource ThemedGridLight}">
         <Grid Name="TopBarGrid" Margin="0,0,0,700" Style="{StaticResource ThemedGridLight}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -18,11 +18,14 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
+            <Border Style="{StaticResource ResourceKey=ThemedBorder}" BorderThickness="1" Grid.ColumnSpan="6"/>
+
             <Button
 		Grid.Column="2"
 		Click="OnMinimizeButtonClick"
 		RenderOptions.EdgeMode="Aliased"
-		Style="{StaticResource TitleBarButtonStyle}">
+		Style="{StaticResource TitleBarButtonTheme}">
                 <Path
 			Width="46"
 			Height="26"
@@ -34,7 +37,7 @@
             <Button
 		Grid.Column="3"
 		Click="OnCloseButtonClick"
-		Style="{StaticResource TitleBarCloseButtonStyle}">
+		Style="{StaticResource TitleBarButtonTheme}">
                 <Path
 			Width="46"
 			Height="26"
@@ -44,6 +47,7 @@
 			StrokeThickness="1" />
             </Button>
         </Grid>
+        
 
         <Border Style="{StaticResource ResourceKey=ThemedBorder}">
             <Grid UseLayoutRounding="True" Style="{StaticResource ResourceKey=ThemedGrid}" Margin="0,26,0,0">

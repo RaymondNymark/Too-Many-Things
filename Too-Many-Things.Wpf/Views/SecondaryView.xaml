@@ -48,14 +48,14 @@
 
         <!--Confirmation Screens↓-->
 
-        <Grid x:Name="RenameConfirmationGrid" Margin="60,230,60,286" Style="{StaticResource ResourceKey=ThemedGridLight}">
+        <Grid x:Name="RenameConfirmationGrid" Margin="60,256,60,286" Style="{StaticResource ResourceKey=ThemedGridLight}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="ChangeName_text" Text="Change the name of an entry" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
+            <TextBlock x:Name="ChangeName_text" Text="Change the name of an entry" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}" Margin="4,0,4,0"/>
             <TextBox x:Name="ChangeName_box" Grid.Row="1" Margin="20,13,20,13" TextAlignment="Center" TextWrapping="Wrap" FontSize="14" Style="{StaticResource ResourceKey=ThemedTextBox}"/>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -69,13 +69,13 @@
             <Border Style="{StaticResource ThemedBorder}"/>
         </Grid>
 
-        <Grid x:Name="DeleteConfirmationGrid" Margin="60,225,60,335" Style="{StaticResource ResourceKey=ThemedGridLight}">
+        <Grid x:Name="DeleteConfirmationGrid" Margin="60,251,60,335" Style="{StaticResource ResourceKey=ThemedGridLight}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.3*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock x:Name="DeletionInfoText" Text="Are you sure you want to delete?" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
+            <TextBlock x:Name="DeletionInfoText" Text="Are you sure you want to delete?" TextWrapping="Wrap" TextAlignment="Center" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" Style="{StaticResource ResourceKey=ThemedTextBlock}" Margin="4,0,4,0"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

@@ -6,12 +6,57 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         ResizeMode="CanMinimize"
-        Title="Too Many Things!" Height="700" Width="400">
+        Title="Too Many Things!" Height="726" Width="400"
+        WindowStyle="None"
+        >
 
-    <Grid UseLayoutRounding="True" Style="{StaticResource ResourceKey=ThemedGrid}">
-        <rxui:RoutedViewHost
-            x:Name="RoutedViewHost"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"/>
+    <Grid>
+        <Grid Name="TopBarGrid" Margin="0,0,0,700" Style="{StaticResource ThemedGridLight}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button
+		Grid.Column="2"
+		Click="OnMinimizeButtonClick"
+		RenderOptions.EdgeMode="Aliased"
+		Style="{StaticResource TitleBarButtonStyle}">
+                <Path
+			Width="46"
+			Height="26"
+			Data="M 18,15 H 28"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+            </Button>
+            <Button
+		Grid.Column="3"
+		Click="OnCloseButtonClick"
+		Style="{StaticResource TitleBarCloseButtonStyle}">
+                <Path
+			Width="46"
+			Height="26"
+			Data="M 18,11 27,20 M 18,20 27,11"
+			Stroke="{Binding Path=Foreground,
+							 RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+            </Button>
+        </Grid>
+
+        <Border Style="{StaticResource ResourceKey=ThemedBorder}">
+            <Grid UseLayoutRounding="True" Style="{StaticResource ResourceKey=ThemedGrid}" Margin="0,26,0,0">
+                <rxui:RoutedViewHost
+                x:Name="RoutedViewHost"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"/>
+            </Grid>
+        </Border>
+
+        
     </Grid>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="26" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+    </WindowChrome.WindowChrome>
 </rxui:ReactiveWindow>

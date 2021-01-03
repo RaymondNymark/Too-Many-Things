@@ -23,7 +23,7 @@
     </Style>
 
     <Style TargetType="Button" x:Key="ThemedConfirmationButton">
-        <Setter Property="Background" Value="#E5E5EA"/>
+        <Setter Property="Background" Value="#F2F2F7"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -38,7 +38,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#2C2C2E"/>
+                <Setter Property="Background" Value="#48484A"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
@@ -123,7 +123,7 @@
     </Style>
 
     <Style TargetType="Grid" x:Key="ThemedGridLight">
-        <Setter Property="Background" Value="#E5E5EA"/>
+        <Setter Property="Background" Value="#F2F2F7"/>
     </Style>
 
     <Style TargetType="Label" x:Key="ThemedLabel">
@@ -209,7 +209,7 @@
     </Style>
 
     <Style x:Key="TitleBarButtonTheme" TargetType="Button">
-        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="Foreground" Value="#1C1C1E"/>
         <Setter Property="Padding" Value="0" />
         <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <Setter Property="IsTabStop" Value="False" />
@@ -231,11 +231,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="#2C2C2E" />
-                            <Setter Property="Foreground" Value="White"/>
+                            <Setter TargetName="border" Property="Background" Value="#D1D1D6" />
+                            <Setter Property="Foreground" Value="Black"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="border" Property="Background" Value="#2C2C2E" />
+                            <Setter TargetName="border" Property="Background" Value="#D1D1D6" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

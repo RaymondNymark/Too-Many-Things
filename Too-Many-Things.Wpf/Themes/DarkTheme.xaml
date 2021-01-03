@@ -17,7 +17,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#101013"/>
+                <Setter Property="Background" Value="#1C1C1E"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -121,7 +121,7 @@
     </Style>
     
     <Style TargetType="Grid" x:Key="ThemedGrid">
-        <Setter Property="Background" Value="#000000"/>
+        <Setter Property="Background" Value="#101013"/>
     </Style>
 
     <Style TargetType="Grid" x:Key="ThemedGridLight">
@@ -133,7 +133,7 @@
     </Style>
 
     <Style TargetType="ListBox" x:Key="ThemedListBox">
-        <Setter Property="Background" Value="#101013"/>
+        <Setter Property="Background" Value="Black"/>
         <Setter Property="BorderBrush" Value="#3A3A3C"/>
     </Style>
 
@@ -169,10 +169,10 @@
                                 <Condition Property="Selector.IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Panel.Background" TargetName="Bd" 
-                        Value="#2C2C2E"/>
+                        Value="#1C1C1E"/>
                             <Setter Property="Border.BorderBrush" TargetName="Bd">
                                 <Setter.Value>
-                                    <SolidColorBrush>#2C2C2E</SolidColorBrush>
+                                    <SolidColorBrush>#1C1C1E</SolidColorBrush>
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
@@ -181,16 +181,16 @@
                                 <Condition Property="Selector.IsSelectionActive" Value="True"/>
                                 <Condition Property="Selector.IsSelected" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Panel.Background" TargetName="Bd" Value="#2C2C2E"/>
+                            <Setter Property="Panel.Background" TargetName="Bd" Value="#1C1C1E"/>
                             <Setter Property="Border.BorderBrush" TargetName="Bd">
                                 <Setter.Value>
-                                    <SolidColorBrush>#2C2C2E</SolidColorBrush>
+                                    <SolidColorBrush>#1C1C1E</SolidColorBrush>
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
                         <Trigger Property="UIElement.IsMouseOver" Value="True">
                             <Setter Property="Panel.Background" TargetName="Bd" 
-                       Value="#2C2C2E"/>
+                       Value="#1C1C1E"/>
                             <Setter Property="Border.BorderBrush" TargetName="Bd">
                                 <Setter.Value>
                                     <SolidColorBrush>Black</SolidColorBrush>
@@ -203,6 +203,41 @@
                                     <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
                                 </Setter.Value>
                             </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TitleBarButtonTheme" TargetType="Button">
+        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+					x:Name="border"
+					Background="Transparent"
+					BorderThickness="0"
+					SnapsToDevicePixels="true">
+                        <ContentPresenter
+						x:Name="contentPresenter"
+						Margin="0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Focusable="False"
+						RecognizesAccessKey="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="#2C2C2E" />
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="#2C2C2E" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

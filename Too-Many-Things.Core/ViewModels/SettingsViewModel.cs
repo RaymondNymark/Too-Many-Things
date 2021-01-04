@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Splat;
 using System;
 using System.Reactive;
@@ -48,38 +49,20 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         #region Properties
-        private ConnectionLogin _connectionLogin;
-        private (string pingConnectionString, string connectionString) _connectionStrings;
-        private string _connectionStatus;
-        private Brush _connectionStatusBrush;
 
-        public ConnectionLogin ConnectionLogin
-        {
-            get => _connectionLogin;
-            set => this.RaiseAndSetIfChanged(ref _connectionLogin, value);
-        }
-        public (string pingConnectionString, string connectionString) ConnectionStrings
-        {
-            get => _connectionStrings;
-            set => this.RaiseAndSetIfChanged(ref _connectionStrings, value);
-        }
-
-        public string ConnectionStatus
-        {
-            get => _connectionStatus;
-            set => this.RaiseAndSetIfChanged(ref _connectionStatus, value);
-        }
+        [Reactive]
+        public ConnectionLogin ConnectionLogin { get; set; }
+        [Reactive]
+        public (string pingConnectionString, string connectionString) ConnectionStrings { get; set; }
+        [Reactive]
+        public string ConnectionStatus { get; set; }
+        [Reactive]
+        public Brush ConnectionStatusBrush { get; set; }
 
         public bool TestConnectionWasSuccess
         {
             get => _testConnectionWasSuccess;
             set => this.RaiseAndSetIfChanged(ref _testConnectionWasSuccess, value);
-        }
-
-        public Brush ConnectionStatusBrush
-        {
-            get => _connectionStatusBrush;
-            set => this.RaiseAndSetIfChanged(ref _connectionStatusBrush, value);
         }
         #endregion
 

@@ -31,7 +31,7 @@
             </ListBox>
 
             <TextBlock x:Name="ChecklistNameText" Grid.Row="0" HorizontalAlignment="Center" Text="Checklist_name_text" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" FontStyle="Normal" Style="{StaticResource ResourceKey=ThemedTextBlock}"/>
-            <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="＜ Go back" Margin="15" FontSize="18" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
+            <Button x:Name="GoBackButton" Grid.Row="0" HorizontalAlignment="Left" Content="＜ Back" Margin="1,0,0,15" FontSize="18" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
             <Button x:Name="EditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Edit!" Margin="15" FontSize="18" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
             <Button x:Name="FinishEditButton" Grid.Row="0" HorizontalAlignment="Right" Content="Done" Margin="15" FontSize="18" BorderThickness="0" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ThemedButton}"/>
 

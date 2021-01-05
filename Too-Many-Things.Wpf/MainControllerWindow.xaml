@@ -23,6 +23,7 @@
 
             <Button
 		Grid.Column="2"
+        Margin="0,-2,0,0"
 		Click="OnMinimizeButtonClick"
 		RenderOptions.EdgeMode="Aliased"
 		Style="{StaticResource TitleBarButtonTheme}">
@@ -36,6 +37,7 @@
             </Button>
             <Button
 		Grid.Column="3"
+        Margin="0,-4,0,0"
 		Click="OnCloseButtonClick"
 		Style="{StaticResource TitleBarButtonTheme}">
                 <Path

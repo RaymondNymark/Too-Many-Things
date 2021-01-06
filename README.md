@@ -7,7 +7,7 @@ TMT currently acts as a proof of concept, and it features everything for managin
 ## Features
 **The App**:
 
-![1](https://github.com/RaymondNymark/Too-Many-Things/blob/main/raw-assets/readme/Screenshot1.png "The App")
+![5](https://github.com/RaymondNymark/Too-Many-Things/blob/main/raw-assets/readme/Screenshot5.png "The App")
 - **It Lets you...**
   - Easily keep track of checklists.
   - Open checklists to reveal the entries by double clicking on them.

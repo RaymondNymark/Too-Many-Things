@@ -135,6 +135,7 @@
     <Style TargetType="ListBox" x:Key="ThemedListBox">
         <Setter Property="Background" Value="Black"/>
         <Setter Property="BorderBrush" Value="#3A3A3C"/>
+        <Setter Property="BorderThickness" Value="0,1,0,1"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="ThemedTextBlock">

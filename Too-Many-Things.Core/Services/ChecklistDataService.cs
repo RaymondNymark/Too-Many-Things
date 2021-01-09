@@ -41,6 +41,29 @@ namespace Too_Many_Things.Core.Services
         }
 
         /// <summary>
+        /// Retrieves all of the saved database records which are not marked as
+        /// deleted, and loads them into memory to be manipulated and displayed.
+        /// The loaded data consists of list of listViewModels and all of the
+        /// list's entry data so entry data is instantly accessible.
+        /// </summary>
+        /// <returns>Returns a list of T, where t is listViewModel </returns>
+        public async Task<List<List>> LoadFullListData()
+        {
+            using (var context = _context)
+            {
+                // The .Include implicitly loads entry data.Because lazy loading
+                // is off by default, this wouldn't usually be loaded by a
+                // normal query.
+               var results = await context.Lists
+                    .Include(e => e.Entries) 
+                    .Where(m => EF.Property<bool>(m, "IsDeleted") != true)
+                    .ToListAsync();
+
+                return results;
+            }
+        }
+
+        /// <summary>
         /// Loads all of the entries inside a specific checklist that are not marked as deleted.
         /// </summary>
         /// <returns>A list of entries that belong to a checklist</returns>

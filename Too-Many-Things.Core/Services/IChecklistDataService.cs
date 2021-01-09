@@ -17,5 +17,7 @@ namespace Too_Many_Things.Core.Services
         Task ToggleIsCheckedAsync(Entry entryToMarkAsChecked);
         Task UpdateChecklistNameAsync(List checklistToRename, string newName);
         Task MarkEntryCollectionIsCheckedFlagAsync(ObservableCollection<Entry> collectionOfEntries, bool whatToMarkAs);
+
+        Task<List<List>> LoadFullListData();
     }
 }

@@ -33,6 +33,7 @@ namespace Too_Many_Things.Core.ViewModels
         public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
+
             InitializeApp(checklistService);
 
             // TODO : Cleaner way to automatically refresh when settings is closed or once it's connected?
@@ -78,7 +79,6 @@ namespace Too_Many_Things.Core.ViewModels
         public ListViewModel SelectedList { get; set; }
         [Reactive]
         public string RenameListInput { get; set; } = string.Empty;
-        // Quick hacks
         [Reactive]
         public bool IsRenaming { get; set; } = false;
         [Reactive]
@@ -142,7 +142,7 @@ namespace Too_Many_Things.Core.ViewModels
 
                 _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
 
-                await UpdateBindingCache();
+                await LoadDatabaseDataIntoMemoryAsync();
 
                 // Flips IsConfigured flag.
                 IsConfigured = true;
@@ -178,24 +178,36 @@ namespace Too_Many_Things.Core.ViewModels
             }
         }
 
+        /// <summary>
+        /// Renames a list Asynchronously to a new name by renaming the object
+        /// in memory and tells IChecklistDataService to rename the object in
+        /// database without blocking the ui-thread.
+        /// </summary>
         public async Task RenameListAsync()
         {
-            // Ra-naming the checklist.
-            await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
+            // Retrieves the name the user input into the rename-textbox.
+            var newName = RenameListInput;
+
+            // Ra-naming the checklist in memory, and returns the interface to a default state.
+            SelectedList.Name = RenameListInput;
+            SelectedList.List.Name = RenameListInput;
             InterfaceState = InterfaceState.Default;
-            await UpdateBindingCache();
+
+            // Updates the checklist's name in the database to the new name in the background.
+            await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
         }
 
         /// <summary>
-        /// Soft deletes the selected list.
+        /// Removes the selected checklist object from memory and sends request
+        /// to databaseService class to soft-delete the checklist.
         /// </summary>
         public async Task DeleteListAsync()
         {
-            // Soft Deleting the checklist:
+            //Soft Deleting the checklist:
             await _checklistService.SoftDeleteChecklistAsync(SelectedList.List);
             // Sets interface back to default view. 
             InterfaceState = InterfaceState.Default;
-            await UpdateBindingCache();
+            await LoadDatabaseDataIntoMemoryAsync();
         }
 
         /// <summary>
@@ -212,24 +224,49 @@ namespace Too_Many_Things.Core.ViewModels
         public async Task NewDefaultChecklist()
         {
             await _checklistService.AddDefaultChecklistAsync();
-            await UpdateBindingCache();
+            await LoadDatabaseDataIntoMemoryAsync();
         }
 
         /// <summary>
-        /// Converts list of Lists into a list of listViewModel and updates the BindingCache property.
+        /// Loads all of the database data into memory and converts the list of
+        /// model to ViewModel so it can be manipulated and displayed in the
+        /// application.
         /// </summary>
-        /// <returns></returns>
-        private async Task UpdateBindingCache()
+        private async Task LoadDatabaseDataIntoMemoryAsync()
         {
-            var derivedCache = new List<ListViewModel>();
-            var refreshCache = await _checklistService.LoadDataAsync();
+            var UsingSqlDataBase = true;
 
-            foreach (List list in refreshCache)
+            if (UsingSqlDataBase)
             {
-                derivedCache.Add(new ListViewModel(list, list.ListID, list.Name, list.IsDeleted, list.SortOrder, list.Entries));
+                var retrievedCache = await _checklistService.LoadFullListData();
+                // Converts the database model into a modelViewModel.
+                var convertedCache = ConvertModelToViewModel(retrievedCache);
+
+                // Updates the BindingCache which the application uses to
+                // display and let the user interact data with.
+                BindingCache = convertedCache;
+            }
+            else
+            {
+                // Implement non-database functionality here for 1.1 release.
+            }
+        }
+
+        /// <summary>
+        /// Converts a list of 'Lists' into a list of 'ListViewModels'.
+        /// </summary>
+        /// <param name="">List that shall be converted</param>
+        /// <returns>The converted list</returns>
+        private static List<ListViewModel> ConvertModelToViewModel(List<List> inputList)
+        {
+            var convertedList = new List<ListViewModel>();
+
+            foreach (List list in inputList)
+            {
+                convertedList.Add(new ListViewModel(list));
             }
 
-            BindingCache = derivedCache;
+            return convertedList;
         }
         #endregion
     }

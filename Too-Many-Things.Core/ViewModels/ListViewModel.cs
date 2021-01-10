@@ -38,5 +38,27 @@ namespace Too_Many_Things.Core.ViewModels
                 Opacity = 0.3;
             }
         }
+
+        public ListViewModel(List list)
+        {
+            List = list;
+            ListID = list.ListID;
+            Name = list.Name;
+            IsDeleted = list.IsDeleted;
+            SortOrder = list.SortOrder;
+            Entries = list.Entries;
+
+            // As you cannot edit or add entries when ListViewModel is in view,
+            // it's pointless to have these properties be reactive to changes.
+            EntryString = $"There are {Entries.Count} entries here";
+            if (Entries.Count < 4)
+            {
+                Opacity = 0.65;
+            }
+            if (Entries.Count < 1)
+            {
+                Opacity = 0.3;
+            }
+        }
     }
 }

@@ -68,7 +68,7 @@ namespace Too_Many_Things.Core.ViewModels
 
         #region Properties
         [Reactive]
-        public List<ListViewModel> BindingCache { get; set; } = new List<ListViewModel>();
+        public ObservableCollection<ListViewModel> BindingCache { get; set; } = new ObservableCollection<ListViewModel>();
         [Reactive]
         public bool IsConfigured { get; set; }
         [Reactive]
@@ -257,9 +257,9 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         /// <param name="">List that shall be converted</param>
         /// <returns>The converted list</returns>
-        private static List<ListViewModel> ConvertModelToViewModel(List<List> inputList)
+        private static ObservableCollection<ListViewModel> ConvertModelToViewModel(List<List> inputList)
         {
-            var convertedList = new List<ListViewModel>();
+            var convertedList = new ObservableCollection<ListViewModel>();
 
             foreach (List list in inputList)
             {

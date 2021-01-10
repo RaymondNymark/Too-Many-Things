@@ -43,7 +43,7 @@ namespace Too_Many_Things.Core.ViewModels
             var connectSaveCanExecute = this.WhenAnyValue(
                 x => x.IsConfigured,
                 (flag) => flag == true);
-            NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => NewDefaultChecklist(), connectSaveCanExecute);
+            NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => NewDefaultChecklistAsync(), connectSaveCanExecute);
 
             OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService)));
 
@@ -203,11 +203,15 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         public async Task DeleteListAsync()
         {
-            //Soft Deleting the checklist:
-            await _checklistService.SoftDeleteChecklistAsync(SelectedList.List);
-            // Sets interface back to default view. 
+            var selectedChecklist = SelectedList;
+
+            // Removes the selected checklist from the collection that's loaded
+            // onto memory, and sets the interface back to default view.
+            BindingCache.Remove(selectedChecklist);
             InterfaceState = InterfaceState.Default;
-            await LoadDatabaseDataIntoMemoryAsync();
+
+            // Tells ChecklistService to mark checklist as soft-deleted on background thread.
+            await _checklistService.SoftDeleteChecklistAsync(selectedChecklist.List);
         }
 
         /// <summary>
@@ -219,11 +223,22 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         /// <summary>
-        /// Adds a new default checklist to the database and forces a refresh of the content.
+        /// Adds a new default checklist to the loaded collection, and sends
+        /// request to checklist service to add a new default checklist to the
+        /// database.
         /// </summary>
-        public async Task NewDefaultChecklist()
+        public async Task NewDefaultChecklistAsync()
         {
+            // Adds a new default checklist to the loaded on-memory collection.
+            var defaultChecklist = new ListViewModel((new List { Name = "Unnamed Checklist!", IsDeleted = false, SortOrder = 0 }));
+            BindingCache.Add(defaultChecklist);
+
+            // Tells ChecklistService to add a new default checklist on a background thread.
             await _checklistService.AddDefaultChecklistAsync();
+            // Refreshes the checklist data here to avoid crash. 
+            //TODO : Can
+            // avoid this by changing the method's behavior to return the newly
+            // created checklist instead of returning void.
             await LoadDatabaseDataIntoMemoryAsync();
         }
 

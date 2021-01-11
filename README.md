@@ -28,7 +28,7 @@ TMT currently acts as a proof of concept, and it features everything for managin
        
 **Alternative Themes**:
 
-![4](https://github.com/RaymondNymark/Too-Many-Things/blob/main/raw-assets/readme/Screenshot4.png "Alternative Theme")
+![6](https://github.com/RaymondNymark/Too-Many-Things/blob/main/raw-assets/readme/Screenshot6.png "Alternative Theme")
 
 - **Dark-Mode Theme**:
   - If you prefer applications having a darker look to them.

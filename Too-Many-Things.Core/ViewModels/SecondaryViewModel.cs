@@ -180,13 +180,18 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         /// <summary>
-        /// Renames the Selected Entry to a new name.
+        /// Renames the selected entry asynchronously to a new name by renaming
+        /// the object in memory and telling checklist service to rename the
+        /// entry in the database without blocking UI-thread.
         /// </summary>
         private async Task RenameEntryAsync()
         {
-            await _checklistService.RenameEntryAsync(SelectedEntry.Entry, RenameEntryInput);
-            await UpdateBindingEntryCacheAsync();
+            // Renaming the entry in memory and setting UI back to normal.
+            SelectedEntry.Name = RenameEntryInput;
             InterfaceState = InterfaceState.Default;
+
+            // Telling service to rename it behind.
+            await _checklistService.RenameEntryAsync(SelectedEntry.Entry, RenameEntryInput);
         }
 
         /// <summary>
@@ -224,7 +229,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// <param name="whatToMarkAs">What to mark IsChecked bool to</param>
         private async Task MarkCurrentCollectionIsChecked(bool whatToMarkAs)
         {
-            // Can optimize this using a linq statement.
+            // TODO : Can optimize this using a linq statement.
             var input = SelectedList.Entries;
             await _checklistService.MarkEntryCollectionIsCheckedFlagAsync(input, whatToMarkAs);
             await UpdateBindingEntryCacheAsync();

@@ -24,30 +24,30 @@ namespace Too_Many_Things.Core.ViewModels
         public ReactiveCommand<Unit, IRoutableViewModel> OpenList { get; }
         public ReactiveCommand<Unit, Unit> ConfirmRenameCommand { get; }
         public ReactiveCommand<Unit, Unit> ConfirmDeletionCommand { get; }
-
         public ReactiveCommand<Unit, Unit> CancelEditCommand { get; }
-
         public ReactiveCommand<InterfaceState, Unit> EnableEditCommand { get; }
         #endregion
+
 
         public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-
             InitializeApp(checklistService);
 
-            // TODO : Cleaner way to automatically refresh when settings is closed or once it's connected?
+
+            #region Edit mode (Mainly re-name and deletion) & Commands
             RefreshCommand = ReactiveCommand.Create(() => InitializeApp(null));
 
-            // New Default Checklist command:
             var connectSaveCanExecute = this.WhenAnyValue(
                 x => x.IsConfigured,
                 (flag) => flag == true);
+            // Command for creating a new default checklist.
             NewDefaultChecklistCommand = ReactiveCommand.CreateFromTask(() => NewDefaultChecklistAsync(), connectSaveCanExecute);
 
+            // Command for opening a checklist. The View fires this command off
+            // whenever an item in the list view is double clicked.
             OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService)));
 
-            #region Edit mode (Mainly re-name and deletion)
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameListInput,
                 (input) => input.Length > 0);

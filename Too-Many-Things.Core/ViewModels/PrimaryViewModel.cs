@@ -70,6 +70,8 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         #region Properties
+        private bool _usingSqlDataBase { get; set; }
+
         [Reactive]
         public ObservableCollection<ListViewModel> BindingCache { get; set; } = new ObservableCollection<ListViewModel>();
         [Reactive]
@@ -138,11 +140,10 @@ namespace Too_Many_Things.Core.ViewModels
         {
             var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
-
             // TODO : Re-factor this.
             if (isConfigured)
             {
-                // Big guns - Retrieves the service from DI.
+                //Retrieves the service from DI.
                 ConfigurationStatus = string.Empty;
 
                 _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
@@ -198,8 +199,16 @@ namespace Too_Many_Things.Core.ViewModels
             SelectedList.List.Name = RenameListInput;
             InterfaceState = InterfaceState.Default;
 
-            // Updates the checklist's name in the database to the new name in the background.
-            await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
+            if (_usingSqlDataBase)
+            {
+                // Updates the checklist's name in the database to the new name in the background.
+                await _checklistService.UpdateChecklistNameAsync(SelectedList.List, RenameListInput);
+            }
+            else
+            {
+                // Updates the saved list with collection.
+                await _localDataStorageService.ConvertAndStoreListCollectionAsync(BindingCache);
+            }
         }
 
         /// <summary>
@@ -215,8 +224,16 @@ namespace Too_Many_Things.Core.ViewModels
             BindingCache.Remove(selectedChecklist);
             InterfaceState = InterfaceState.Default;
 
-            // Tells ChecklistService to mark checklist as soft-deleted on background thread.
-            await _checklistService.SoftDeleteChecklistAsync(selectedChecklist.List);
+            if (_usingSqlDataBase)
+            {
+                // Tells ChecklistService to mark checklist as soft-deleted on background thread.
+                await _checklistService.SoftDeleteChecklistAsync(selectedChecklist.List);
+            }
+            else
+            {
+                // Updates the saved list with collection.
+                await _localDataStorageService.ConvertAndStoreListCollectionAsync(BindingCache);
+            }
         }
 
         /// <summary>
@@ -238,13 +255,18 @@ namespace Too_Many_Things.Core.ViewModels
             var defaultChecklist = new ListViewModel((new List { Name = "Unnamed Checklist!", IsDeleted = false, SortOrder = 0 }));
             BindingCache.Add(defaultChecklist);
 
-            // Tells ChecklistService to add a new default checklist on a background thread.
-            await _checklistService.AddDefaultChecklistAsync();
-            // Refreshes the checklist data here to avoid crash. 
-            //TODO : Can
-            // avoid this by changing the method's behavior to return the newly
-            // created checklist instead of returning void.
-            await LoadDataIntoMemoryAsync();
+            if (_usingSqlDataBase)
+            {
+                // Tells ChecklistService to add a new default checklist on a background thread.
+                await _checklistService.AddDefaultChecklistAsync();
+                // Refreshes the checklist data here to avoid crash. 
+                await LoadDataIntoMemoryAsync();
+            }
+            else
+            {
+                // Updates the saved list with collection.
+                await _localDataStorageService.ConvertAndStoreListCollectionAsync(BindingCache);
+            }
         }
 
         /// <summary>
@@ -254,11 +276,11 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         private async Task LoadDataIntoMemoryAsync()
         {
-            var UsingSqlDataBase = true;
+            _usingSqlDataBase = false; // TODO
             ObservableCollection<List> RetrievedCache;
             ObservableCollection<ListViewModel> ConvertedCache;
 
-            if (UsingSqlDataBase)
+            if (_usingSqlDataBase)
             {
                 // Retrieves the Database data and converts it to ObservableCollection.
                 RetrievedCache = new ObservableCollection<List>(await _checklistService.LoadFullListData());

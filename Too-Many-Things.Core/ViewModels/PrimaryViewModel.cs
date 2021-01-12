@@ -48,7 +48,7 @@ namespace Too_Many_Things.Core.ViewModels
 
             // Command for opening a checklist. The View fires this command off
             // whenever an item in the list view is double clicked.
-            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService)));
+            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService, _localDataStorageService)));
 
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameListInput,
@@ -65,13 +65,11 @@ namespace Too_Many_Things.Core.ViewModels
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
-
             #endregion
         }
 
         #region Properties
         private bool _usingSqlDataBase { get; set; }
-
         [Reactive]
         public ObservableCollection<ListViewModel> BindingCache { get; set; } = new ObservableCollection<ListViewModel>();
         [Reactive]

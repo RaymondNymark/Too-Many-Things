@@ -51,6 +51,7 @@ namespace Too_Many_Things.Wpf
 
             // Services + Misc
             dependencyResolver.Register(() => new DBConnectionService(), typeof(IDBConnectionService));
+            dependencyResolver.Register(() => new LocalDataStorageService(), typeof(ILocalDataStorageService));
         }
     }
 }

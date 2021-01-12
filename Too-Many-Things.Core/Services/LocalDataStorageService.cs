@@ -61,7 +61,7 @@ namespace Too_Many_Things.Core.Services
         /// <returns>The stored object</returns>
         public async Task<ObservableCollection<List>> RetrieveStoredObjectAsync()
         {
-            ObservableCollection<List> result;
+            ObservableCollection<List> result = new ObservableCollection<List>();
 
             using (StreamReader file = new StreamReader(_filePath))
             {

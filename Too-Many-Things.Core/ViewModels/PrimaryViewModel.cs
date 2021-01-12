@@ -17,6 +17,7 @@ namespace Too_Many_Things.Core.ViewModels
         public IScreen HostScreen { get; }
 
         private IChecklistDataService _checklistService;
+        private ILocalDataStorageService _localDataStorageService;
 
         #region Reactive Commands & Interactions
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
@@ -29,11 +30,12 @@ namespace Too_Many_Things.Core.ViewModels
         #endregion
 
 
-        public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null)
+        public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null, ILocalDataStorageService localDataStorageService = null)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
-            InitializeApp(checklistService);
+            _localDataStorageService = localDataStorageService ?? Locator.Current.GetService<ILocalDataStorageService>();
 
+            InitializeApp(checklistService);
 
             #region Edit mode (Mainly re-name and deletion) & Commands
             RefreshCommand = ReactiveCommand.Create(() => InitializeApp(null));
@@ -63,6 +65,7 @@ namespace Too_Many_Things.Core.ViewModels
             ConfirmRenameCommand = ReactiveCommand.CreateFromTask(() => RenameListAsync(), renameCanExecute);
             ConfirmDeletionCommand = ReactiveCommand.CreateFromTask(() => DeleteListAsync());
             CancelEditCommand = ReactiveCommand.Create(() => CancelEdit());
+
             #endregion
         }
 
@@ -135,6 +138,8 @@ namespace Too_Many_Things.Core.ViewModels
         {
             var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
+
+            // TODO : Re-factor this.
             if (isConfigured)
             {
                 // Big guns - Retrieves the service from DI.
@@ -142,7 +147,7 @@ namespace Too_Many_Things.Core.ViewModels
 
                 _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
 
-                await LoadDatabaseDataIntoMemoryAsync();
+                await LoadDataIntoMemoryAsync();
 
                 // Flips IsConfigured flag.
                 IsConfigured = true;
@@ -239,7 +244,7 @@ namespace Too_Many_Things.Core.ViewModels
             //TODO : Can
             // avoid this by changing the method's behavior to return the newly
             // created checklist instead of returning void.
-            await LoadDatabaseDataIntoMemoryAsync();
+            await LoadDataIntoMemoryAsync();
         }
 
         /// <summary>
@@ -247,24 +252,28 @@ namespace Too_Many_Things.Core.ViewModels
         /// model to ViewModel so it can be manipulated and displayed in the
         /// application.
         /// </summary>
-        private async Task LoadDatabaseDataIntoMemoryAsync()
+        private async Task LoadDataIntoMemoryAsync()
         {
             var UsingSqlDataBase = true;
+            ObservableCollection<List> RetrievedCache;
+            ObservableCollection<ListViewModel> ConvertedCache;
 
             if (UsingSqlDataBase)
             {
-                var retrievedCache = await _checklistService.LoadFullListData();
-                // Converts the database model into a modelViewModel.
-                var convertedCache = ConvertModelToViewModel(retrievedCache);
-
-                // Updates the BindingCache which the application uses to
-                // display and let the user interact data with.
-                BindingCache = convertedCache;
+                // Retrieves the Database data and converts it to ObservableCollection.
+                RetrievedCache = new ObservableCollection<List>(await _checklistService.LoadFullListData());
             }
             else
             {
-                // Implement non-database functionality here for 1.1 release.
+                // Retrieves the locally stored data from LocalDataStorageService.
+                RetrievedCache = await _localDataStorageService.RetrieveStoredObjectAsync();
             }
+
+            // Converts the model into the modelViewModel.
+            ConvertedCache = ConvertModelToViewModel(RetrievedCache);
+            // Updates the BindingCache which the application uses to
+            // display and let the user interact data with.
+            BindingCache = ConvertedCache;
         }
 
         /// <summary>
@@ -272,7 +281,7 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         /// <param name="">List that shall be converted</param>
         /// <returns>The converted list</returns>
-        private static ObservableCollection<ListViewModel> ConvertModelToViewModel(List<List> inputList)
+        private static ObservableCollection<ListViewModel> ConvertModelToViewModel(ObservableCollection<List> inputList)
         {
             var convertedList = new ObservableCollection<ListViewModel>();
 

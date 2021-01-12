@@ -136,7 +136,8 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         private async void InitializeApp(IChecklistDataService checklistService)
         {
-            var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
+            var isConfigured = true;
+            //var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
             // TODO : Re-factor this.
             if (isConfigured)

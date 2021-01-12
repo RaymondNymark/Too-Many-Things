@@ -37,12 +37,37 @@ namespace Too_Many_Things.Core.ViewModels
             CheckboxCommand = ReactiveCommand.CreateFromTask(() => ToggleIsCheckedAsync());
         }
 
+        public EntryViewModel(Entry entry, int entryID, string name, bool isChecked, bool isDeleted, int sortOrder, int listID)
+        {
+            Entry = entry;
+            EntryID = entryID;
+            Name = name;
+            IsChecked = isChecked;
+            IsDeleted = isDeleted;
+            SortOrder = sortOrder;
+            ListID = listID;
+
+            CheckboxCommand = ReactiveCommand.CreateFromTask(() => ToggleCheckedAsync());
+        }
+
         /// <summary>
         /// Toggles IsChecked flag to opposite of the current entry.
         /// </summary>
         public async Task ToggleIsCheckedAsync()
         {
             await _checklistDataService.ToggleIsCheckedAsync(Entry);
+        }
+
+        public async Task ToggleCheckedAsync()
+        {
+            if (IsChecked)
+            {
+                IsChecked = false;
+            }
+            else
+            {
+                IsChecked = true;
+            }
         }
     }
 }

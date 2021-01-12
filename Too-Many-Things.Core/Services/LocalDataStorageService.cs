@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess.Models;
+using Too_Many_Things.Core.ViewModels;
 
 namespace Too_Many_Things.Core.Services
 {
@@ -37,7 +38,8 @@ namespace Too_Many_Things.Core.Services
             // Check if localChecklistData.json file exists and creates if it doesn't.
             if (!File.Exists(_filePath))
             {
-                File.CreateText(_filePath);
+                var newFile = File.CreateText(_filePath);
+                newFile.Close();
             }
         }
 
@@ -61,15 +63,38 @@ namespace Too_Many_Things.Core.Services
         /// <returns>The stored object</returns>
         public async Task<ObservableCollection<List>> RetrieveStoredObjectAsync()
         {
-            ObservableCollection<List> result = new ObservableCollection<List>();
+            ObservableCollection<List> result;
 
             using (StreamReader file = new StreamReader(_filePath))
             {
                 // De-serializing the data back into an observableCollection.
                 result = JsonConvert.DeserializeObject<ObservableCollection<List>>(await file.ReadToEndAsync());
+
+                if (result == null)
+                {
+                    // Returns empty ObservableCollection rather than null if it's empty.
+                    result = new ObservableCollection<List>();
+                }
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Converts and stores a ListViewModel list into ObservableCollection T where T is List."
+        /// </summary>
+        /// <param name="listToStore">List to convert and save.</param>
+        public async Task ConvertAndStoreListCollectionAsync(ObservableCollection<ListViewModel> listToStore)
+        {
+            // Converts ListViewModel back to ObservableCollection.
+            ObservableCollection<List> collection = new ObservableCollection<List>();
+
+            foreach(var list in listToStore)
+            {
+                collection.Add(list.List);
+            }
+
+            await StoreObject(collection);
         }
     }
 }

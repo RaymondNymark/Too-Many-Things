@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Too_Many_Things.Core.DataAccess.Models;
 using Too_Many_Things.Core.ViewModels;
@@ -48,10 +49,21 @@ namespace Too_Many_Things.Core.Services
         /// be retrieved between sessions.
         /// </summary>
         /// <param name="objectToStore">Object to store</param>
-        public async Task StoreObject(object objectToStore)
+        public async Task StoreObject(ObservableCollection<List> objectToStore)
         {
             using (StreamWriter file = new StreamWriter(_filePath))
             {
+                int count = 0;
+                foreach (List list in objectToStore)
+                {
+                    foreach(Entry entry in list.Entries)
+                    {
+                        // Manually assigning a unique identifier to each object in the collection. 
+                        entry.EntryID = count;
+                        count++;
+                    }
+                }
+
                 // Serializing the object into localChecklistData.json.
                 await file.WriteLineAsync(JsonConvert.SerializeObject(objectToStore, Formatting.Indented, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             }
@@ -88,10 +100,14 @@ namespace Too_Many_Things.Core.Services
         {
             // Converts ListViewModel back to ObservableCollection.
             ObservableCollection<List> collection = new ObservableCollection<List>();
+            int count = 0;
 
             foreach(var list in listToStore)
             {
+                // Manually assigning a unique identifier to each object in the collection. 
+                list.List.ListID = count;
                 collection.Add(list.List);
+                count++;
             }
 
             await StoreObject(collection);

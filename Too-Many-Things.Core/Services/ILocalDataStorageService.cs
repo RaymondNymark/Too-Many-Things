@@ -8,7 +8,7 @@ namespace Too_Many_Things.Core.Services
     public interface ILocalDataStorageService
     {
         Task<ObservableCollection<List>> RetrieveStoredObjectAsync();
-        Task StoreObject(object objectToStore);
+        Task StoreObject(ObservableCollection<List> objectToStore);
 
         Task ConvertAndStoreListCollectionAsync(ObservableCollection<ListViewModel> listToStore);
     }

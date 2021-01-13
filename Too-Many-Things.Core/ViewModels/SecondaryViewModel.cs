@@ -27,15 +27,16 @@ namespace Too_Many_Things.Core.ViewModels
 
         public ReactiveCommand<bool, Unit> CheckEveryEntry { get; }
         #endregion
-        public SecondaryViewModel(List selectedList, IScreen screen = null, IChecklistDataService checklistService = null, ILocalDataStorageService localDataStorageService = null)
+        public SecondaryViewModel(List selectedList, IScreen screen = null, IChecklistDataService checklistService = null, ILocalDataStorageService localDataStorageService = null, bool usingSqlDataBase = false)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
             _localDataStorageService = localDataStorageService ?? Locator.Current.GetService<ILocalDataStorageService>();
+            _usingSqlDataBase = usingSqlDataBase;
 
             SelectedList = selectedList;
 
-            GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, null)));
+            GoBackToPrimaryView = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new PrimaryViewModel(HostScreen, _checklistService, _localDataStorageService, _usingSqlDataBase)));
             Initialize();
 
             #region Edit mode (Re-name and deletion)
@@ -71,7 +72,7 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         #region Properties
-        private bool _usingSqlDataBase = false; // TODO
+        private bool _usingSqlDataBase { get; set; }
         private ObservableCollection<List> BindingCollection;
         private ILocalDataStorageService _localDataStorageService;
         private IChecklistDataService _checklistService;
@@ -311,7 +312,7 @@ namespace Too_Many_Things.Core.ViewModels
             }
             else
             {
-                // edits the name in json. TODO
+                // TODO Bulk updating.
                 var target = BindingCollection.FirstOrDefault(x => x.ListID == SelectedList.ListID);
 
                 // Marks each element in loaded collection.

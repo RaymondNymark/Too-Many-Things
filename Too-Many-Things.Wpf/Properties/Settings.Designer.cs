@@ -34,5 +34,17 @@ namespace Too_Many_Things.Wpf.Properties {
                 this["SavedTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UsingSqlDataBase {
+            get {
+                return ((bool)(this["UsingSqlDataBase"]));
+            }
+            set {
+                this["UsingSqlDataBase"] = value;
+            }
+        }
     }
 }

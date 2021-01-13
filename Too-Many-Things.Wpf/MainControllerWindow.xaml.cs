@@ -22,7 +22,9 @@ namespace Too_Many_Things.Wpf
             AppBootStrapper = new AppBootstrapper();
             AppBootStrapper.ConfigureIOC();
 
-            ViewModel = new AppViewModel();
+            // Retrieves the saved UsingSqlProperty.
+            var usingSqlDatabase = Properties.Settings.Default.UsingSqlDataBase;
+            ViewModel = new AppViewModel(null, usingSqlDatabase);
 
 
             this.WhenActivated(disposables =>

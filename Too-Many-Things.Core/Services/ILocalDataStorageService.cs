@@ -9,7 +9,7 @@ namespace Too_Many_Things.Core.Services
     {
         Task<ObservableCollection<List>> RetrieveStoredObjectAsync();
         Task StoreObject(ObservableCollection<List> objectToStore);
-
         Task ConvertAndStoreListCollectionAsync(ObservableCollection<ListViewModel> listToStore);
+        Task ToggleIsChecked(Entry entry, List parentList);
     }
 }

@@ -112,5 +112,31 @@ namespace Too_Many_Things.Core.Services
 
             await StoreObject(collection);
         }
+
+        /// <summary>
+        /// Toggles a single entry's IsChecked flag.
+        /// </summary>
+        /// <param name="entry">Entry to toggle</param>
+        /// <param name="parentList">Parent list of entry</param>
+        /// <returns></returns>
+        public async Task ToggleIsChecked(Entry entry, List parentList)
+        {
+            // Due to lack of unique identifiers, it's necessary to pass the parentList into here.
+            var savedList = await RetrieveStoredObjectAsync();
+            var target = savedList.FirstOrDefault(x => x.ListID == parentList.ListID);
+            var targetEntry = target.Entries.FirstOrDefault(x => x.EntryID == entry.EntryID);
+
+            if (targetEntry.IsChecked)
+            {
+                targetEntry.IsChecked = false;
+            }
+            else
+            {
+                targetEntry.IsChecked = true;
+            }
+
+            // Saves the newly updated list to the local storage.
+            await StoreObject(savedList);
+        }
     }
 }

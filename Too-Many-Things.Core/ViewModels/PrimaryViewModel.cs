@@ -30,15 +30,17 @@ namespace Too_Many_Things.Core.ViewModels
         #endregion
 
 
-        public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null, ILocalDataStorageService localDataStorageService = null)
+        public PrimaryViewModel(IScreen screen = null, IChecklistDataService checklistService = null, ILocalDataStorageService localDataStorageService = null, bool usingSqlDataBase = false)
         {
             HostScreen = screen ?? Locator.Current.GetService<IScreen>();
             _localDataStorageService = localDataStorageService ?? Locator.Current.GetService<ILocalDataStorageService>();
+            _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
+            _usingSqlDataBase = usingSqlDataBase;
 
-            InitializeApp(checklistService);
+            InitializeApp();
 
             #region Edit mode (Mainly re-name and deletion) & Commands
-            RefreshCommand = ReactiveCommand.Create(() => InitializeApp(null));
+            RefreshCommand = ReactiveCommand.Create(() => InitializeApp());
 
             var connectSaveCanExecute = this.WhenAnyValue(
                 x => x.IsConfigured,
@@ -48,7 +50,7 @@ namespace Too_Many_Things.Core.ViewModels
 
             // Command for opening a checklist. The View fires this command off
             // whenever an item in the list view is double clicked.
-            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService, _localDataStorageService)));
+            OpenList = ReactiveCommand.CreateFromObservable(() => HostScreen.Router.Navigate.Execute(new SecondaryViewModel(SelectedList.List, HostScreen, _checklistService, _localDataStorageService, _usingSqlDataBase)));
 
             var renameCanExecute = this.WhenAnyValue(
                 x => x.RenameListInput,
@@ -134,34 +136,33 @@ namespace Too_Many_Things.Core.ViewModels
         /// connection has been configured. Otherwise it asks user to configure
         /// it.
         /// </summary>
-        private async void InitializeApp(IChecklistDataService checklistService)
+        private async void InitializeApp()
         {
-            var isConfigured = true;
-            //var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
-
-            // TODO : Re-factor this.
-            if (isConfigured)
+            if (_usingSqlDataBase)
             {
-                //Retrieves the service from DI.
-                ConfigurationStatus = string.Empty;
+                // Initializing for using Sql db.
+                var isConfigured = ConnectionStringManager.ConnectionIsConfigured();
 
-                _checklistService = checklistService ?? Locator.Current.GetService<IChecklistDataService>();
-
-                await LoadDataIntoMemoryAsync();
-
-                // Flips IsConfigured flag.
-                IsConfigured = true;
+                if (isConfigured)
+                {
+                    // Clears error string.
+                    ConfigurationStatus = string.Empty;
+                    await LoadDataIntoMemoryAsync();
+                }
+                else
+                {
+                    // Changes configuration Status text to inform user that the
+                    // database hasn't been initialized.
+                    ConfigurationStatus = "A database has not been configured. Please configure one in the settings. :)";
+                }
             }
             else
             {
-                // Small guns
-                // Changes configuration Status text to inform user that the
-                // database hasn't been initialized.
-                ConfigurationStatus = "A database has not been configured. Please configure one in the settings. :)";
-
-                // Unflips flag.
-                IsConfigured = false;
+                // Initializing for offline non SQL mode.
+                await LoadDataIntoMemoryAsync();
             }
+
+            IsConfigured = true;
         }
 
         /// <summary>
@@ -275,7 +276,6 @@ namespace Too_Many_Things.Core.ViewModels
         /// </summary>
         private async Task LoadDataIntoMemoryAsync()
         {
-            _usingSqlDataBase = false; // TODO
             ObservableCollection<List> RetrievedCache;
             ObservableCollection<ListViewModel> ConvertedCache;
 

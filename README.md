@@ -2,7 +2,9 @@
  Too many things (to remember!) is a Checklist manager, as humans can't reasonably remember every single thing.
  The application is a Windows program, built using **.NET Core**, the **ReactiveUI Framework**, and **WPF** for the user-interface.
  
-TMT currently acts as a proof of concept, and it features everything for managing checklists, including adding, removing, editing, and ticking off Checklists + the entries inside. It also features the ability to connect to a Database and storing all of the checklist data on it, in order to have it synchronized between devices. The user only needs to provide a valid SQL login, and the back end will deal with creation and verification of the DB through Entity Framework. 🙂
+TMT currently acts as a proof of concept, and it features everything for managing checklists, including adding, removing, editing, and ticking off Checklists + the entries inside. It also features the ability to connect to a Database and storing all of the checklist data on it, in order to have it synchronized between devices. The user only needs to provide a valid SQL login, and the back end will deal with creation and verification of the DB through Entity Framework.
+
+The user can also use the application without any database connetion as it will by default store everything locally using Json. 🙂
  
 ## Features
 **The App**:

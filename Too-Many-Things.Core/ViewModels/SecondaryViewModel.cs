@@ -146,16 +146,21 @@ namespace Too_Many_Things.Core.ViewModels
         #endregion
 
         #region Asynchronous Tasks & Methods
+        /// <summary>
+        /// Initializes necessary components to make this class work. 
+        /// </summary>
         private async void Initialize()
         {
+            // void return in order to have Async methods in class constructor. T.T
             await LoadDataIntoMemoryAsync();
         }
         
         /// <summary>
-        /// Loads all of the entry data from the database and does things.
-        /// TODO : More descriptive.
+        /// Loads all of the database data related to the selected checklist
+        /// that was opened into memory. Then converts it to a list of
+        /// EntryViewModel so it can be manipulated and displayed in the
+        /// application.
         /// </summary>
-        /// <returns></returns>
         private async Task LoadDataIntoMemoryAsync()
         {
             ObservableCollection<Entry> RetrievedCache;
@@ -163,7 +168,7 @@ namespace Too_Many_Things.Core.ViewModels
 
             if (_usingSqlDataBase)
             {
-                // Retrieves the Database data and converts it to ObservableCollection.
+                // Retrieves the SQL Entry data related to the checklist that was opened and converts it from List T.
                 RetrievedCache = new ObservableCollection<Entry>(await _checklistService.LoadEntryDataAsync(SelectedList));
             }
             else
@@ -213,11 +218,11 @@ namespace Too_Many_Things.Core.ViewModels
             }
             else
             {
-                // edits the name in json. TODO
+                // Renames the selected entry in the full collection to the new name.
                 var target = BindingCollection.FirstOrDefault(x => x.ListID == SelectedList.ListID);
                 target.Entries.FirstOrDefault(x => x.EntryID == SelectedEntry.EntryID).Name = RenameEntryInput;
 
-                // TODO : Better description
+                // Saves the newly updated collection locally.
                 await _localDataStorageService.StoreObject(BindingCollection);
             }
 
@@ -227,25 +232,28 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         /// <summary>
-        /// Deletes the selected Entry. TODO
+        /// Removes the selected entry from memory and tells either db service /
+        /// local storage service to delete it using background thread.
         /// </summary>
         private async Task DeleteEntryAsync()
         {
             if (_usingSqlDataBase)
             {
+                // Requesting the entry be deleted and refreshing the UI once
+                // it's been deleted.
                 await _checklistService.DeleteEntryAsync(SelectedEntry.Entry);
                 await LoadDataIntoMemoryAsync();
             }
             else
             {
-                // removes from local json.
+                // Removes entry from saved collection.
                 var target = BindingCollection.FirstOrDefault(x => x.ListID == SelectedList.ListID);
                 target.Entries.Remove(SelectedEntry.Entry);
 
-                // removes it from the collection
+                // Removes the entry from memory.
                 BindingEntryCache.Remove(SelectedEntry);
 
-                // TODO : Better description
+                // Saves the newly updated collection locally.
                 await _localDataStorageService.StoreObject(BindingCollection);
             }
 
@@ -261,7 +269,8 @@ namespace Too_Many_Things.Core.ViewModels
         }
 
         /// <summary>
-        /// Adds a new default entry to a list and refreshes it.
+        /// Adds a new default entry to the loaded collection, and sends request
+        /// to checklist-service / localStorage-service to do the same.
         /// </summary>
         private async Task AddNewDefaultEntryAsync()
         {
@@ -275,15 +284,13 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 var defaultEntry = new Entry() { Name = "Unnamed Entry!", IsChecked = false, IsDeleted = false, SortOrder = 0 };
                 var defaultEntryViewModel = new EntryViewModel(defaultEntry, defaultEntry.EntryID, defaultEntry.Name, defaultEntry.IsChecked, defaultEntry.IsDeleted, defaultEntry.SortOrder, defaultEntry.ListID, _checklistService);
-                // Adds it to collection
+                
+                // Adds it to loaded collection and retrieved local collection.
                 BindingEntryCache.Add(defaultEntryViewModel);
-
-                // adds to local json.
                 var target = BindingCollection.FirstOrDefault(x => x.ListID == SelectedList.ListID);
                 target.Entries.Add(defaultEntry);
-
-                // TODO : Better description
-                // TODO : TryCatch Handling
+                
+                // Saves the newly updated collection locally.
                 await _localDataStorageService.StoreObject(BindingCollection);
             }
         }
@@ -307,24 +314,30 @@ namespace Too_Many_Things.Core.ViewModels
                 // edits the name in json. TODO
                 var target = BindingCollection.FirstOrDefault(x => x.ListID == SelectedList.ListID);
 
-                // TODO Bulk edit.
+                // Marks each element in loaded collection.
                 foreach(var entry in BindingEntryCache)
                 {
                     entry.IsChecked = whatToMarkAs;
                 }
 
+                // Marks each element in saved collection.
                 foreach(var entry in target.Entries)
                 {
                     entry.IsChecked = whatToMarkAs;
                 }
 
-                // TODO : Better description
+                // Stores the newly updated collection locally.
                 await _localDataStorageService.StoreObject(BindingCollection);
                 // TODO : Fix updating instead of forcing reload.
                 await LoadDataIntoMemoryAsync();
             }
         }
 
+        /// <summary>
+        /// Converts a list of 'Entries' into a list of 'EntryViewModels'
+        /// </summary>
+        /// <param name="inputList">List to convert</param>
+        /// <returns>The converted list</returns>
         private ObservableCollection<EntryViewModel> ConvertModelToViewModel(ObservableCollection<Entry> inputList)
         {
             var convertedList = new ObservableCollection<EntryViewModel>();

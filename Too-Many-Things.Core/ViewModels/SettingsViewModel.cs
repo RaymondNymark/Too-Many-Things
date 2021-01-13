@@ -17,14 +17,16 @@ namespace Too_Many_Things.Core.ViewModels
         private IDBConnectionService _dbConectionService;
         public ReactiveCommand<Unit, Unit> TestConnectionCommand;
         public ReactiveCommand<Unit, Unit> ConnectSaveCommand;
+        public ReactiveCommand<Unit, Unit> ToggleUseSqlDataBaseCommand;
 
         private bool _testConnectionWasSuccess;
 
-        public SettingsViewModel(RoutingState router = null, IDBConnectionService DBConnectionService = null)
+        public SettingsViewModel(bool UsingSqlDataBase, RoutingState router = null, IDBConnectionService DBConnectionService = null)
         {
             Router = router ?? new RoutingState();
             _dbConectionService = DBConnectionService ?? Locator.Current.GetService<IDBConnectionService>();
             _testConnectionWasSuccess = false;
+            UsingSqlDatabase = UsingSqlDataBase;
 
             // Updates connection strings with a 1000ms throttle when anything is entered into settings.
             this.WhenAnyValue(x => x.ConnectionLogin)
@@ -46,6 +48,7 @@ namespace Too_Many_Things.Core.ViewModels
             // Commands
             TestConnectionCommand = ReactiveCommand.CreateFromTask(PingConnectionStringAsync, testConnectionCanExecute);
             ConnectSaveCommand = ReactiveCommand.CreateFromTask(ConnectAndSaveAsync, connectSaveCanExecute);
+            ToggleUseSqlDataBaseCommand = ReactiveCommand.Create(ToggleUseSqlDatabase);
         }
 
         #region Properties
@@ -58,6 +61,9 @@ namespace Too_Many_Things.Core.ViewModels
         public string ConnectionStatus { get; set; }
         [Reactive]
         public Brush ConnectionStatusBrush { get; set; }
+
+        [Reactive]
+        public bool UsingSqlDatabase { get; set; }
 
         public bool TestConnectionWasSuccess
         {
@@ -117,6 +123,18 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 ConnectionStatusBrush = Brushes.Red;
                 ConnectionStatus = "Saving has catastrophically failed.";
+            }
+        }
+
+        private void ToggleUseSqlDatabase()
+        {
+            if (UsingSqlDatabase)
+            {
+                UsingSqlDatabase = false;
+            }
+            else
+            {
+                UsingSqlDatabase = true;
             }
         }
         #endregion

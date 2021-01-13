@@ -16,11 +16,13 @@ namespace Too_Many_Things.Wpf.Views
         [Reactive]
         public int SelectedTheme { get; set; }
         public ReactiveCommand<Unit, Unit> SwitchThemeCommand { get; set; }
+        private bool UsingSqlDataBase { get; set; }
 
         public SettingsView()
         {
             InitializeComponent();
-            ViewModel = new SettingsViewModel();
+            UsingSqlDataBase = Properties.Settings.Default.UsingSqlDataBase;
+            ViewModel = new SettingsViewModel(UsingSqlDataBase);
 
             // Only lets you save and continue if theme is chosen.
             //var switchThemeCanExecute = this.WhenAnyValue(x => x.SelectedTheme,
@@ -67,7 +69,25 @@ namespace Too_Many_Things.Wpf.Views
                     v => v.ConnectionStatusText.Foreground)
                     .DisposeWith(disposables);
 
-
+                // Binds UsingSql VM property to IsEnabled property of the connection grid.
+                this.OneWayBind(ViewModel,
+                    vm => vm.UsingSqlDatabase,
+                    v => v.ConnectionGrid.IsEnabled)
+                .DisposeWith(disposables);
+                this.OneWayBind(ViewModel,
+                    vm => vm.UsingSqlDatabase,
+                    v => v.ConnectionGridButtons.IsEnabled)
+                .DisposeWith(disposables);
+                this.OneWayBind(ViewModel,
+                    vm => vm.UsingSqlDatabase,
+                    v => v.EnableConnectingCheckbox.IsChecked)
+                .DisposeWith(disposables);
+                
+                // Binds ToggleUseSqlDataBaseCommand to the checkbox.
+                this.BindCommand(ViewModel,
+                    vm => vm.ToggleUseSqlDataBaseCommand,
+                    v => v.EnableConnectingCheckbox)
+                .DisposeWith(disposables);
             });
         }
 
@@ -80,6 +100,25 @@ namespace Too_Many_Things.Wpf.Views
             var newTheme = (Theme)selectedTheme;
 
             (App.Current as App).ChangeTheme(newTheme);
+        }
+
+        // Event handler required to interact with Wpf settings.
+        private void EnableConnectingCheckbox_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (UsingSqlDataBase)
+            {
+                UsingSqlDataBase = false;
+                // Updates stored setting to false.
+                Properties.Settings.Default.UsingSqlDataBase = false;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                UsingSqlDataBase = true;
+                // Updates stored setting to true.
+                Properties.Settings.Default.UsingSqlDataBase = true;
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

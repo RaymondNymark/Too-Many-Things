@@ -61,9 +61,9 @@
                     </Grid.RowDefinitions>
 
                     <Label x:Name="EnableConnectingText" Grid.Row="0" Grid.Column="0" Content="      Enable connecting to a database" VerticalAlignment="Center"/>
-                    <CheckBox x:Name="EnableConnectingCheckbox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" IsChecked="True"/>
+                    <CheckBox x:Name="EnableConnectingCheckbox" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" IsChecked="True" Click="EnableConnectingCheckbox_Click"/>
 
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" x:Name="ConnectionGrid">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -101,12 +101,13 @@
                         <CheckBox x:Name="ShowPasswordCheckbox" Grid.Row="5" Grid.Column="1" Margin="5" VerticalAlignment="Top"/>
                         <Label x:Name="ShowPasswordText" Grid.Row="5" Grid.Column="1" Content="      Show Password" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
-
+                    <Grid Grid.Row="2" x:Name="ConnectionGridButtons">
                     <Button x:Name="TestConnectionBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Left" Content=" Test Connection " VerticalAlignment="Bottom"/>
                     <Button x:Name="ConnectAndSaveBtn" Grid.Row="2" Margin="25,0,0,15" HorizontalAlignment="Center" Content=" Connect and Save " VerticalAlignment="Bottom"/>
                     <Button x:Name="CancelConnectionBtn" Grid.Row="2" Margin="0,0,10,15" HorizontalAlignment="Right" Content="       Continue      " VerticalAlignment="Bottom" IsEnabled="False"/>
 
                     <Label x:Name="ConnectionStatusText" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </Grid>
                 </Grid>
 
             </TabItem>

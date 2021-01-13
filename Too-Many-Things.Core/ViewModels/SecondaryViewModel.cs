@@ -284,7 +284,7 @@ namespace Too_Many_Things.Core.ViewModels
             else
             {
                 var defaultEntry = new Entry() { Name = "Unnamed Entry!", IsChecked = false, IsDeleted = false, SortOrder = 0 };
-                var defaultEntryViewModel = new EntryViewModel(defaultEntry, defaultEntry.EntryID, defaultEntry.Name, defaultEntry.IsChecked, defaultEntry.IsDeleted, defaultEntry.SortOrder, defaultEntry.ListID, _checklistService);
+                var defaultEntryViewModel = new EntryViewModel(defaultEntry, defaultEntry.EntryID, defaultEntry.Name, defaultEntry.IsChecked, defaultEntry.IsDeleted, defaultEntry.SortOrder, defaultEntry.ListID, _localDataStorageService, SelectedList);
                 
                 // Adds it to loaded collection and retrieved local collection.
                 BindingEntryCache.Add(defaultEntryViewModel);
@@ -354,7 +354,7 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 foreach (Entry entry in inputList)
                 {
-                    convertedList.Add(new EntryViewModel(entry, entry.EntryID, entry.Name, entry.IsChecked, entry.IsDeleted, entry.SortOrder, entry.ListID));
+                    convertedList.Add(new EntryViewModel(entry, entry.EntryID, entry.Name, entry.IsChecked, entry.IsDeleted, entry.SortOrder, entry.ListID, _localDataStorageService, SelectedList));
                 }
             }
 

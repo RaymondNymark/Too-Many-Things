@@ -18,8 +18,10 @@ namespace Too_Many_Things.Core.ViewModels
         public bool IsDeleted { get; set; }
         public int SortOrder { get; set; }
         public int ListID { get; set; }
+        public List ParentList { get; set; }
 
         private IChecklistDataService _checklistDataService;
+        private ILocalDataStorageService _localDataStorageService;
 
         public ReactiveCommand<Unit, Unit> CheckboxCommand { get; }
 
@@ -37,7 +39,7 @@ namespace Too_Many_Things.Core.ViewModels
             CheckboxCommand = ReactiveCommand.CreateFromTask(() => ToggleIsCheckedAsync());
         }
 
-        public EntryViewModel(Entry entry, int entryID, string name, bool isChecked, bool isDeleted, int sortOrder, int listID)
+        public EntryViewModel(Entry entry, int entryID, string name, bool isChecked, bool isDeleted, int sortOrder, int listID, ILocalDataStorageService localDataStorageService, List parentList)
         {
             Entry = entry;
             EntryID = entryID;
@@ -46,6 +48,8 @@ namespace Too_Many_Things.Core.ViewModels
             IsDeleted = isDeleted;
             SortOrder = sortOrder;
             ListID = listID;
+            ParentList = parentList;
+            _localDataStorageService = localDataStorageService;
 
             CheckboxCommand = ReactiveCommand.CreateFromTask(() => ToggleCheckedAsync());
         }
@@ -68,6 +72,8 @@ namespace Too_Many_Things.Core.ViewModels
             {
                 IsChecked = true;
             }
+
+            await _localDataStorageService.ToggleIsChecked(Entry, ParentList);
         }
     }
 }

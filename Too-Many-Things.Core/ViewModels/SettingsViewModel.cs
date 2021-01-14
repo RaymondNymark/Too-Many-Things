@@ -5,7 +5,6 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using Too_Many_Things.Core.DataAccess.Structs;
 using Too_Many_Things.Core.Services;
 
@@ -59,8 +58,9 @@ namespace Too_Many_Things.Core.ViewModels
         public (string pingConnectionString, string connectionString) ConnectionStrings { get; set; }
         [Reactive]
         public string ConnectionStatus { get; set; }
+
         [Reactive]
-        public Brush ConnectionStatusBrush { get; set; }
+        public string ConnectionStatusHex { get; set; } = "#39FF14";
 
         [Reactive]
         public bool UsingSqlDatabase { get; set; }
@@ -74,36 +74,45 @@ namespace Too_Many_Things.Core.ViewModels
 
 
         #region Asynchronous Tasks & Methods
+        // This method keeps the connection string constantly updated when the input changes.
         private void UpdateConnectionStrings(ConnectionLogin connectionLogin)
         {
             ConnectionStrings = DBConnectionService.CreateConnectionString(connectionLogin);
         }
 
+        /// <summary>
+        /// Pings the stored connection string to see if it's valid.
+        /// </summary>
+        /// <returns></returns>
         private async Task PingConnectionStringAsync()
         {
             ConnectionStatus = "Attempting to establish a connection...";
-            ConnectionStatusBrush = Brushes.Black;
+            ConnectionStatusHex = "#000000"; // Black color
 
             var status = await DBConnectionService.IsServerConnectedAsync(ConnectionStrings.pingConnectionString);
 
             if (status == true)
             {
                 ConnectionStatus = "Successfully connected to the server.";
-                ConnectionStatusBrush = Brushes.Green;
+                ConnectionStatusHex = "#00a637"; // Green Color
                 TestConnectionWasSuccess = true;
             }
             else
             {
                 ConnectionStatus = "Failed to connect. Please try again.";
-                ConnectionStatusBrush = Brushes.Red;
+                ConnectionStatusHex = "#FF0000"; // Red Color
                 TestConnectionWasSuccess = false;
             }
         }
 
+        /// <summary>
+        /// Initializes the database using the saved connection string.  This
+        /// creates the database behind the scenes.
+        /// </summary>
         private async Task ConnectAndSaveAsync()
         {
             var success = false;
-            ConnectionStatusBrush = Brushes.Black;
+            ConnectionStatusHex = "#000000"; // Black color
             ConnectionStatus = "Trying to initialize and save the connection...";
             try
             {
@@ -116,16 +125,19 @@ namespace Too_Many_Things.Core.ViewModels
 
             if (success == true)
             {
-                ConnectionStatusBrush = Brushes.Blue;
+                ConnectionStatusHex = "#0033ff"; // Blue Color
                 ConnectionStatus = "Connection has been initialized and saved!";
             }
             else
             {
-                ConnectionStatusBrush = Brushes.Red;
+                ConnectionStatusHex = "#FF0000"; // Red Color
                 ConnectionStatus = "Saving has catastrophically failed.";
             }
         }
 
+        /// <summary>
+        /// Toggles UsingSqlDatabase flag to opposite.
+        /// </summary>
         private void ToggleUseSqlDatabase()
         {
             if (UsingSqlDatabase)

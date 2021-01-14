@@ -12,7 +12,7 @@ namespace Too_Many_Things.Wpf.Views
     /// Interaction logic for SettingsView.xaml
     /// </summary>
     public partial class SettingsView : ReactiveWindow<SettingsViewModel>
-    {
+    { 
         [Reactive]
         public int SelectedTheme { get; set; }
         public ReactiveCommand<Unit, Unit> SwitchThemeCommand { get; set; }
@@ -65,7 +65,7 @@ namespace Too_Many_Things.Wpf.Views
                     .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
-                    vm => vm.ConnectionStatusBrush,
+                    vm => vm.ConnectionStatusHex,
                     v => v.ConnectionStatusText.Foreground)
                     .DisposeWith(disposables);
 

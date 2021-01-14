@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Media;
 using Too_Many_Things.Core.DataAccess.Models;
 
 namespace Too_Many_Things.Core.ViewModels
